@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'rdf'
 
 module RDF; class Literal

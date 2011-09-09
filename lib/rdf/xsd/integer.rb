@@ -1,3 +1,4 @@
+# coding: utf-8
 module RDF; class Literal
   ##
   # nonPositiveInteger is derived from integer by setting the value of maxInclusive to be 0. This results in
@@ -109,7 +110,7 @@ module RDF; class Literal
   ##
   # nonNegativeInteger is derived from integer by setting the value of minInclusive to be 0. This results in
   # the standard mathematical concept of the non-negative integers. The value space of nonNegativeInteger is the
-  # infinite set {0,1,2,...}. The base type of nonNegativeInteger is integer.
+  # infinite set [0,1,2,...]. The base type of nonNegativeInteger is integer.
   #
   # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#nonNegativeInteger
   class NonNegativeInteger < Integer
@@ -124,7 +125,7 @@ module RDF; class Literal
   ##
   # positiveInteger is derived from nonNegativeInteger by setting the value of minInclusive to be 1. This
   # results in the standard mathematical concept of the positive integer numbers. The value space of
-  # positiveInteger is the infinite set {1,2,...}. The base type of positiveInteger is nonNegativeInteger.
+  # positiveInteger is the infinite set [1,2,...]. The base type of positiveInteger is nonNegativeInteger.
   #
   # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#positiveInteger
   class PositiveInteger < NonNegativeInteger

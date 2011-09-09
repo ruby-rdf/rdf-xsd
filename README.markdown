@@ -25,7 +25,10 @@ Examples
 Full documentation available on [Rubydoc.info][XSD doc]
 
 ### Principle Classes
+* {RDF::Literal::Base64Binary}
+* {RDF::Literal::Duration}
 * {RDF::Literal::Float}
+* {RDF::Literal::HexBinary}
 * {RDF::Literal::NonPositiveInteger}
   * {RDF::Literal::NegativeInteger}
 * {RDF::Literal::Long}
@@ -38,6 +41,11 @@ Full documentation available on [Rubydoc.info][XSD doc]
     * {RDF::Literal::UnsignedInt}
       * {RDF::Literal::UnsignedShort}
         * {RDF::Literal::UnsignedByte}
+* {RDF::Literal::YearMonth}
+* {RDF::Literal::Year}
+* {RDF::Literal::MonthDay}
+* {RDF::Literal::Month}
+* {RDF::Literal::Day}
 
 ## Dependencies
 
