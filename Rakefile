@@ -32,3 +32,4 @@ namespace :doc do
 end
 
 task :default => :spec
+task :specs => :spec
