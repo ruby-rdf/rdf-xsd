@@ -13,7 +13,7 @@
   doap:license       <http://creativecommons.org/licenses/publicdomain/> ;
   doap:shortdesc     "Extended XSD Datatypes for RDF.rb"@en ;
   doap:description   "Adds RDF::Literal subclasses for extended XSD datatypes."@en ;
-  doap:created       "2011-08-29"^^rdf:date;
+  doap:created       "2011-08-29"^^xsd:date;
   doap:programming-language "Ruby" ;
   doap:category      <http://dbpedia.org/resource/Resource_Description_Framework>,
                      <http://dbpedia.org/resource/Ruby_(programming_language)> ;
