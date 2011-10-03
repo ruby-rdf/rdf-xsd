@@ -1,4 +1,5 @@
-require File.join(File.dirname(__FILE__), 'spec_helper')
+$:.unshift "."
+require 'spec_helper'
 
 describe RDF::Literal do
   context "lookup" do

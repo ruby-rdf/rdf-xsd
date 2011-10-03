@@ -9,9 +9,11 @@ This gem adds additional RDF::Literal subclasses for extended [XSD datatypes][]
 * Additional xsd:integer subtypes
 * xsd:float based on xsd:double
 * xsd:duration
+* rdf:XMLLiteral
+* XML Exclusive Canonicalization (Nokogiri & REXML)
+* XML Literal comparisions (EquivalentXml, ActiveSupport or String)
 
-Examples
---------
+## Examples
 
     require 'rdf'
     require 'rdf/xsd'
@@ -46,11 +48,14 @@ Full documentation available on [Rubydoc.info][XSD doc]
 * {RDF::Literal::MonthDay}
 * {RDF::Literal::Month}
 * {RDF::Literal::Day}
+* {RDF::Literal::XML}
 
 ## Dependencies
 
 * [Ruby](http://ruby-lang.org/) (>= 1.8.7) or (>= 1.8.1 with [Backports][])
 * [RDF.rb](http://rubygems.org/gems/rdf) (>= 0.3.4)
+* Soft dependency on [Nokogiri](http://rubygems.org/gems/nokogiri) (>= 1.5.0)
+* Soft dependency on [EquivalentXML](http://rubygems.org/gems/equivalent-xml) (>= 0.2.8)
 
 ## Installation
 
