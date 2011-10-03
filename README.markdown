@@ -56,6 +56,7 @@ Full documentation available on [Rubydoc.info][XSD doc]
 * [RDF.rb](http://rubygems.org/gems/rdf) (>= 0.3.4)
 * Soft dependency on [Nokogiri](http://rubygems.org/gems/nokogiri) (>= 1.5.0)
 * Soft dependency on [EquivalentXML](http://rubygems.org/gems/equivalent-xml) (>= 0.2.8)
+* Soft dependency on [ActiveSupport](http://rubygems.org/gems/activesupport) (>= 2.3.0)
 
 ## Installation
 

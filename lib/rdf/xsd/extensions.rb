@@ -27,9 +27,8 @@ if defined?(::Nokogiri)
       # @option options [#to_s] :language
       #   Language to set on node, unless an xml:lang is already set.
       def c14nxl(options = {})
-        node = self.clone
-        node.instance_variable_set(:@c14nxl, true)
-        node
+        @c14nxl = true
+        self
       end
 
       ##
@@ -38,8 +37,8 @@ if defined?(::Nokogiri)
       # Override standard #to_s implementation to output in c14n representation
       # if the Node or NodeSet is marked as having been canonicalized
       def to_s_with_c14nxl
-        if @c14nxl
-          to_xml(:save_with => ::Nokogiri::XML::Node::SaveOptions::NO_EMPTY_TAGS)
+        if instance_variable_defined?(:@c14nxl)
+          serialize(:save_with => ::Nokogiri::XML::Node::SaveOptions::NO_EMPTY_TAGS)
         else
           to_s_without_c14nxl
         end
@@ -63,7 +62,7 @@ if defined?(::Nokogiri)
           memo[ns.prefix] = ns.href.to_s
           memo
         end
-        element = self.dup
+        element = self.clone
 
         # Add in-scope namespace definitions
         options[:namespaces].each do |prefix, href|
@@ -93,14 +92,8 @@ if defined?(::Nokogiri)
       #   Passed to {Nokogiri::XML::Node#c14nxl}
       def c14nxl(options = {})
         # Create a new NodeSet
-        set = self.class.new(Nokogiri::XML::Document.new)
+        set = self.clone
         set.instance_variable_set(:@c14nxl, true)
-
-        # Unless passed a set of namespaces, figure them out from namespace_scopes
-        #options[:namespaces] ||= first.parent.namespace_scopes.compact.inject({}) do |memo, ns|
-        #  memo[ns.prefix] = ns.href.to_s
-        #  memo
-        #end
 
         self.each {|c| set << c.c14nxl(options)}
         set
@@ -112,8 +105,8 @@ if defined?(::Nokogiri)
       # Override standard #to_s implementation to output in c14n representation
       # if the Node or NodeSet is marked as having been canonicalized
       def to_s_with_c14nxl
-        if @c14nxl
-          to_xml(:save_with => ::Nokogiri::XML::Node::SaveOptions::NO_EMPTY_TAGS)
+        if instance_variable_defined?(:@c14nxl)
+          to_a.map {|c| c.serialize(:save_with => ::Nokogiri::XML::Node::SaveOptions::NO_EMPTY_TAGS)}.join("")
         else
           to_s_without_c14nxl
         end
@@ -160,7 +153,7 @@ class Array
   # Override standard #to_s implementation to output in c14n representation
   # if the Node or NodeSet is marked as having been canonicalized
   def to_s_with_c14nxl
-    if @c14nxl
+    if instance_variable_defined?(:@c14nxl)
       map {|c| c.to_s}.join("")
     else
       to_s_without_c14nxl
@@ -183,7 +176,7 @@ class REXML::Element
   def c14nxl(options = {})
     # Add in-scope namespace definitions, unless supplied
     options[:namespaces] ||= self.namespaces
-    element = self.dup
+    element = options[:inplace] ? self : self.dup
 
     # Add in-scope namespace definitions
     options[:namespaces].each do |prefix, href|
@@ -200,6 +193,11 @@ class REXML::Element
       element.attribute("lang", "http://www.w3.org/XML/1998/namespace").to_s.empty? &&
       element.attribute("lang").to_s.empty?
 
+    # Make sure it formats as open/close tags
+    element.text = "" if element.text == nil && element.children.empty?
+    
+    # Recurse through children to ensure tags are set properly
+    element.children.each {|c| c.c14nxl(:inplace => true, :namespaces => {}) if c.is_a?(REXML::Element)}
     element
   end
 end

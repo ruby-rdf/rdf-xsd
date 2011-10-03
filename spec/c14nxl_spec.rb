@@ -43,6 +43,15 @@ require 'rexml/document'
           }},
           %q(<span property="foaf:firstName" xmlns="http://www.w3.org/1999/xhtml" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">Mark</span> <span property="foaf:surname" xmlns="http://www.w3.org/1999/xhtml" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">Birbeck</span>)
         ],
+        "RDFa 0198 w/xmlns" => [
+          %q(<span xmlns="http://www.w3.org/1999/xhtml" property="foaf:firstName">Mark</span> <span xmlns="http://www.w3.org/1999/xhtml" property="foaf:surname">Birbeck</span>),
+          {:namespaces => {
+            ""    => "http://www.w3.org/1999/xhtml",
+            :foaf => "http://xmlns.com/foaf/0.1/",
+            :rdf  => "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+          }},
+          %q(<span property="foaf:firstName" xmlns="http://www.w3.org/1999/xhtml" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">Mark</span> <span property="foaf:surname" xmlns="http://www.w3.org/1999/xhtml" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">Birbeck</span>)
+        ],
         "xml-canon/rdfcore " => [
           %q(<br />),
           {:namespaces => {}},
@@ -61,8 +70,19 @@ require 'rexml/document'
           }
 
           it "matches expected result" do
-            #puts "subject: #{subject.to_s}"
             subject.should == RDF::Literal::XML.new(result)
+          end
+        end
+      end
+      
+      describe "expands empty tags" do
+        [
+          [%(<br/>), %(<br></br>)],
+          [%(<div><br/></div>), %(<div><br></br></div>)],
+        ].each do |(input, result)|
+          it "expands #{input} to #{result}" do
+            xml = parse(input, :library => impl.downcase.to_sym)
+            RDF::Literal::XML.new(xml.c14nxl({})).to_s.should == result
           end
         end
       end

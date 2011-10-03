@@ -65,7 +65,7 @@ module RDF; class Literal
     end
 
     def to_s
-      @string ||= @object.to_s
+      @string ||= (@object.is_a?(Array) ? @object.map(&:to_s).join("") : @object.to_s)
     end
 
     ##
@@ -124,7 +124,7 @@ module RDF; class Literal
       end
 
       if Hash.respond_to?(:from_xml)
-        Hash.from_xml(value) == Hash.from_xml(other.value)
+        Hash.from_xml("<root>#{self}</root>") == Hash.from_xml("<root>#{other}</root>")
       else
         # Poor mans equivalent
         value == other.value

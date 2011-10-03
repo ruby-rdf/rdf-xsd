@@ -71,7 +71,7 @@ describe RDF::Literal do
 
         context "with a nodeset" do
           subject {
-            @obj = parse_nodeset("<first>foo  bar baz</first><second>things</second>", impl)
+            @obj = parse_nodeset("<first>foo  bar baz</first> and <second>things</second>", impl)
             @new.call(@obj)
           }
           
@@ -80,7 +80,15 @@ describe RDF::Literal do
           end
 
           it "provides a value" do
-            subject.value.should == @obj.to_s
+            subject.value.should == (@obj.is_a?(Array) ? @obj.map(&:to_s).join("") : @obj.to_s)
+          end
+          
+          it "== another (object)" do
+            subject.should == RDF::Literal::XML.new(@obj, :library => @library)
+          end
+          
+          it "== another (value)" do
+            subject.should == subject.dup
           end
         end
       end
