@@ -1,11 +1,11 @@
 # coding: utf-8
 $:.unshift "."
 require 'spec_helper'
-require 'nokogiri' rescue nil
+require 'nokogiri' rescue nil unless RUBY_PLATFORM == "java"
 require 'rexml/document'
 
 %w(Nokogiri REXML).each do |impl|
-  next unless Module.constants.include?(impl.to_sym)
+  next unless Module.constants.map(&:to_s).include?(impl)
   describe impl do
     describe "Exclusive Canonicalization" do
       {
@@ -46,7 +46,6 @@ require 'rexml/document'
         "RDFa 0198 w/xmlns" => [
           %q(<span xmlns="http://www.w3.org/1999/xhtml" property="foaf:firstName">Mark</span> <span xmlns="http://www.w3.org/1999/xhtml" property="foaf:surname">Birbeck</span>),
           {:namespaces => {
-            ""    => "http://www.w3.org/1999/xhtml",
             :foaf => "http://xmlns.com/foaf/0.1/",
             :rdf  => "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
           }},
@@ -66,11 +65,11 @@ require 'rexml/document'
         describe "#{test}: #{input}" do
           subject {
             xml = parse(input, options.merge(:library => impl.downcase.to_sym))
-            RDF::Literal::XML.new(xml.c14nxl(options))
+            RDF::Literal::XML.new(xml.c14nxl(options), :library => impl.downcase.to_sym)
           }
 
           it "matches expected result" do
-            subject.should == RDF::Literal::XML.new(result)
+            subject.should == RDF::Literal::XML.new(result, :library => impl.downcase.to_sym)
           end
         end
       end
@@ -82,7 +81,7 @@ require 'rexml/document'
         ].each do |(input, result)|
           it "expands #{input} to #{result}" do
             xml = parse(input, :library => impl.downcase.to_sym)
-            RDF::Literal::XML.new(xml.c14nxl({})).to_s.should == result
+            RDF::Literal::XML.new(xml.c14nxl({}), :library => impl.downcase.to_sym).to_s.should == result
           end
         end
       end
@@ -92,7 +91,7 @@ require 'rexml/document'
   def parse(input, options)
     namespaces = ["root"]
     (options[:namespaces] || {}).each do |prefix, href|
-      namespaces << (prefix ? %(xmlns:#{prefix}="#{href}") : %(xmlns="#{href}"))
+      namespaces << (prefix.to_s.empty? ? %(xmlns="#{href}") :  %(xmlns:#{prefix}="#{href}"))
     end
     xml = "<#{namespaces.join(' ')}>#{input}</root>"
 

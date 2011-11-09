@@ -1,17 +1,12 @@
 $:.unshift "."
 require 'spec_helper'
+require 'nokogiri' rescue nil unless RUBY_PLATFORM == "java"
+require 'rexml/document'
 
 describe RDF::Literal do
-  require 'nokogiri' rescue nil
-  require 'rexml/document'
-
-  before :each do 
-    @new = Proc.new { |*args| RDF::Literal::XML.new(*args) }
-  end
-
   describe "XML" do
     %w(Nokogiri REXML).each do |impl|
-      next unless Module.constants.include?(impl.to_sym)
+      next unless Module.constants.map(&:to_s).include?(impl)
       context impl do
         before(:all) { @library = impl.downcase.to_sym}
         context "with a node" do
@@ -72,7 +67,7 @@ describe RDF::Literal do
         context "with a nodeset" do
           subject {
             @obj = parse_nodeset("<first>foo  bar baz</first> and <second>things</second>", impl)
-            @new.call(@obj)
+            RDF::Literal::XML.new(@obj, :library => @library)
           }
           
           it "has equivalent object representation" do
