@@ -1,5 +1,6 @@
 # Use Nokogiri when available, and REXML otherwise:
 begin
+  raise LoadError, "not with java" if RUBY_PLATFORM == "java"
   require 'nokogiri'
   begin
     require 'equivalent-xml'
@@ -46,11 +47,15 @@ module RDF; class Literal
         @object = value
       end
 
-      @library = options[:library] ||
-        case
-        when defined?(::Nokogiri) then :nokogiri
-        else                           :rexml
-        end
+      @library = case options[:library]
+      when nil
+        # Use Nokogiri when available, and REXML or Hpricot otherwise:
+        (defined?(::Nokogiri) && RUBY_PLATFORM != 'java') ? :nokogiri : :rexml
+      when :nokogiri, :rexml
+        options[:library]
+      else
+        raise ArgumentError.new("expected :rexml or :nokogiri, but got #{options[:library].inspect}")
+      end
     end
 
     ##
