@@ -139,11 +139,11 @@ module RDF; class Literal
       case other
       when Duration
         return super unless other.valid?
-        self.to_f == something.to_f
+        self.to_f == other.to_f
       when String
-        self.to_s(:xml) == something
+        self.to_s(:xml) == other
       when Numeric
-        self.to_f == something
+        self.to_f == other
       when Literal::DateTime, Literal::Time, Literal::Date
         false
       else
