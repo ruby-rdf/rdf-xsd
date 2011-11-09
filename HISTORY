@@ -1,2 +1,11 @@
+=== 0.3.5
+* Add fuller support for RDF::Literal::XML (XMLLiteral) for both REXML and Nokogiri.
+    * Uses Nokogiri if available, otherwise REXML.
+    * Also, implements #eql? with EquivalentXml if available, otherwise ActiveSupport Hash#from_xml, otherwise string compare.
+    * Includes extensions for Nokogiri and REXML (including Array for NodeSet) for #c14nxl.
+    * Don't use Nokogiri with jruby
+* Fix Duration#==
+* Use Gemfile for running specs, if bundles are installed.
+
 === 0.3.4
 First Release
