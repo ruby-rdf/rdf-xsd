@@ -9,17 +9,18 @@
 
 <> a doap:Project ;
   doap:name          "RDF::XSD" ;
-  doap:homepage      <http://github.com/gkellogg/rdf-xsd> ;
+  doap:homepage      <http://github.com/ruby-rdf/rdf-xsd> ;
   doap:license       <http://creativecommons.org/licenses/publicdomain/> ;
   doap:shortdesc     "Extended XSD Datatypes for RDF.rb"@en ;
   doap:description   "Adds RDF::Literal subclasses for extended XSD datatypes."@en ;
   doap:created       "2011-08-29"^^xsd:date;
   doap:programming-language "Ruby" ;
+  doap:implements    <http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#built-in-datatypes> ;
   doap:category      <http://dbpedia.org/resource/Resource_Description_Framework>,
                      <http://dbpedia.org/resource/Ruby_(programming_language)> ;
   doap:download-page <http://rubygems.org/gems/rdf-xsd> ;
   doap:mailing-list  <http://lists.w3.org/Archives/Public/public-rdf-ruby/> ;
-  doap:bug-database  <http://github.com/gkellogg/rdf-xsd/issues> ;
+  doap:bug-database  <http://github.com/ruby-rdf/rdf-xsd/issues> ;
   doap:blog          <http://greggkellogg.net/> ;
   doap:developer     <http://greggkellogg.net/foaf#me> ;
   doap:maintainer    <http://greggkellogg.net/foaf#me> ;

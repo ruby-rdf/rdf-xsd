@@ -2,7 +2,7 @@
 
 This gem adds additional RDF::Literal subclasses for extended [XSD datatypes][]
 
-* <http://github.com/gkellogg/rdf-xsd>
+* <http://github.com/ruby-rdf/rdf-xsd>
 
 ## Features
 
@@ -71,7 +71,7 @@ To install the latest official release of the `RDF::XSD` gem, do:
 
 ## Author
 
-* [Gregg Kellogg](http://github.com/gkellogg) - <http://kellogg-assoc.com/>
+* [Gregg Kellogg](http://github.com/gkellogg) - <http://greggkellogg.net/>
 
 Contributing
 ------------
