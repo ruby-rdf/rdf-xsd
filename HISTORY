@@ -1,3 +1,6 @@
+=== 0.3.7
+* Add support for HTML Literal (rdf:HTML), based on rdf:XMLLiteral.
+
 === 0.3.5
 * Add fuller support for RDF::Literal::XML (XMLLiteral) for both REXML and Nokogiri.
     * Uses Nokogiri if available, otherwise REXML.
