@@ -136,4 +136,16 @@ module RDF; class Literal
       end
     end
   end # class XML
+  
+  ##
+  # An HTML literal.
+  #
+  # HTML Literals are managed equivalent to XML Literals. Processors
+  # are responsible for coercing the input to an
+  # [DOM DocumentFragment](http://www.w3.org/TR/dom/#interface-documentfragment).
+  #
+  # @see   https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-concepts/index.html#section-html
+  # @since 0.3.7
+  class HTML < XML
+  end
 end; end
