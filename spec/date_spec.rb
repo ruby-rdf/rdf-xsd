@@ -1,6 +1,5 @@
 $:.unshift "."
 require 'spec_helper'
-require 'debugger'
 
 describe RDF::Literal do
   context "lookup" do
