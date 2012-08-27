@@ -11,8 +11,14 @@ module RDF; class Literal
   # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#gYearMonth
   class YearMonth < RDF::Literal::Date
     DATATYPE = XSD.gYearMonth
-    GRAMMAR  = %r(\A-?\d{4,}-\d{2}((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
+    GRAMMAR  = %r(\A(-?\d{4,}-\d{2})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
     FORMAT   = '%Y-%m%Z'.freeze
+    
+    def initialize(value, options = {})
+      @string = options.fetch(:lexical, value.to_s)
+      object = GRAMMAR.match(value.to_s) && ::Date.parse("#{$1}-01#{$2}")
+      super(object, options)
+    end
   end
 
   ##
@@ -23,8 +29,14 @@ module RDF; class Literal
   # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#gYear
   class Year < RDF::Literal::Date
     DATATYPE = XSD.gYear
-    GRAMMAR  = %r(\A-?\d{4,}(?:(?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
+    GRAMMAR  = %r(\A(-?\d{4,})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
     FORMAT   = '%Y%Z'.freeze
+
+    def initialize(value, options = {})
+      @string = options.fetch(:lexical, value.to_s)
+      object = GRAMMAR.match(value.to_s) && ::Date.parse("#{$1}-01-01#{$2}")
+      super(object, options)
+    end
   end
 
   ##
@@ -35,8 +47,14 @@ module RDF; class Literal
   # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#gMonthDay
   class MonthDay < RDF::Literal::Date
     DATATYPE = XSD.gMonthDay
-    GRAMMAR  = %r(\A\d{2}-\d{2}(?:(?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
+    GRAMMAR  = %r(\A(\d{2}-\d{2})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
     FORMAT   = '%m-%d%Z'.freeze
+
+    def initialize(value, options = {})
+      @string = options.fetch(:lexical, value.to_s)
+      object = GRAMMAR.match(value.to_s) && ::Date.parse("0000-#{$1}#{$2}")
+      super(object, options)
+    end
   end
 
   ##
@@ -47,8 +65,14 @@ module RDF; class Literal
   # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#gDay
   class Day < RDF::Literal::Date
     DATATYPE = XSD.gDay
-    GRAMMAR  = %r(\A\d{2}(?:(?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
+    GRAMMAR  = %r(\A(\d{2})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
     FORMAT   = '%d%Z'.freeze
+
+    def initialize(value, options = {})
+      @string = options.fetch(:lexical, value.to_s)
+      object = GRAMMAR.match(value.to_s) && ::Date.parse("0000-01-#{$1}#{$2}")
+      super(object, options)
+    end
   end
 
   ##
@@ -58,7 +82,13 @@ module RDF; class Literal
   # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#gMonth
   class Month < RDF::Literal::Date
     DATATYPE = XSD.gMonth
-    GRAMMAR  = %r(\A\d{2}(?:(?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
+    GRAMMAR  = %r(\A(\d{2})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
     FORMAT   = '%m%Z'.freeze
+
+    def initialize(value, options = {})
+      @string = options.fetch(:lexical, value.to_s)
+      object = GRAMMAR.match(value.to_s) && ::Date.parse("0000-#{$1}-01#{$2}")
+      super(object, options)
+    end
   end
 end; end #RDF::Literal

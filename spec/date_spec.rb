@@ -1,5 +1,6 @@
 $:.unshift "."
 require 'spec_helper'
+require 'debugger'
 
 describe RDF::Literal do
   context "lookup" do
@@ -25,7 +26,7 @@ describe RDF::Literal do
         2010-01-08:00
         2010-01
         20090-12Z
-        9999-99
+        9999-12
         -2010-01Z
       ).each do |value|
         it "validates #{value}" do
@@ -79,11 +80,11 @@ describe RDF::Literal do
 
     describe RDF::Literal::MonthDay do
       %w(
-        20-10Z
-        20-10+08:00
-        20-10-08:00
-        20-10
-        99-99
+        12-31Z
+        12-31+08:00
+        12-31-08:00
+        12-31
+        12-31
       ).each do |value|
         it "validates #{value}" do
           RDF::Literal::MonthDay.new(value).should be_valid
@@ -108,7 +109,7 @@ describe RDF::Literal do
         10+08:00
         10-08:00
         10
-        99
+        31
       ).each do |value|
         it "validates #{value}" do
           RDF::Literal::Day.new(value).should be_valid
@@ -135,7 +136,7 @@ describe RDF::Literal do
         10+08:00
         10-08:00
         10
-        99
+        31
       ).each do |value|
         it "validates #{value}" do
           RDF::Literal::Day.new(value).should be_valid

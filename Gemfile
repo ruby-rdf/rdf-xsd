@@ -2,6 +2,7 @@ source "http://rubygems.org"
 
 gemspec
 
-group :development do
+group :debug do
   gem "wirble"
+  gem "debugger"
 end
