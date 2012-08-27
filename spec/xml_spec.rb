@@ -1,6 +1,11 @@
 $:.unshift "."
 require 'spec_helper'
-require 'nokogiri' rescue nil unless RUBY_PLATFORM == "java"
+unless RUBY_PLATFORM == "java"
+  begin
+    require 'nokogiri'
+  rescue LoadError
+  end
+end
 require 'rexml/document'
 
 describe RDF::Literal do

@@ -1,7 +1,12 @@
 # coding: utf-8
 $:.unshift "."
 require 'spec_helper'
-require 'nokogiri' rescue nil unless RUBY_PLATFORM == "java"
+unless RUBY_PLATFORM == "java"
+  begin
+    require 'nokogiri'
+  rescue LoadError
+  end
+end
 require 'rexml/document'
 
 %w(Nokogiri REXML).each do |impl|
