@@ -1,3 +1,7 @@
+=== 0.3.8
+* fix some Date sub-type validation errors.
+* Added xsd:anyURI (AnyURI).
+
 === 0.3.7
 * Add support for HTML Literal (rdf:HTML), based on rdf:XMLLiteral.
 
