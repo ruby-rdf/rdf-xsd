@@ -20,9 +20,11 @@ This gem adds additional RDF::Literal subclasses for extended [XSD datatypes][]
     require 'rdf/xsd'
 
 ## Dependencies
-* [RDF.rb](http://rubygems.org/gems/rdf) (>= 0.3.1)
-* [Nokogiri](http://rubygems.org/gems/nokogiri) (>= 1.3.3)
-* [Haml](https://rubygems.org/gems/haml) (>= 3.0.0)
+* [Ruby](http://ruby-lang.org/) (>= 1.8.7) or (>= 1.8.1 with [Backports][])
+* [RDF.rb](http://rubygems.org/gems/rdf) (>= 1.0)
+* Soft dependency on [Nokogiri](http://rubygems.org/gems/nokogiri) (>= 1.5.0)
+* Soft dependency on [EquivalentXML](http://rubygems.org/gems/equivalent-xml) (>= 0.2.8)
+* Soft dependency on [ActiveSupport](http://rubygems.org/gems/activesupport) (>= 3.0.0)
 
 ## Documentation
 Full documentation available on [Rubydoc.info][XSD doc]
@@ -50,14 +52,6 @@ Full documentation available on [Rubydoc.info][XSD doc]
 * {RDF::Literal::Month}
 * {RDF::Literal::Day}
 * {RDF::Literal::XML}
-
-## Dependencies
-
-* [Ruby](http://ruby-lang.org/) (>= 1.8.7) or (>= 1.8.1 with [Backports][])
-* [RDF.rb](http://rubygems.org/gems/rdf) (>= 0.3.4)
-* Soft dependency on [Nokogiri](http://rubygems.org/gems/nokogiri) (>= 1.5.0)
-* Soft dependency on [EquivalentXML](http://rubygems.org/gems/equivalent-xml) (>= 0.2.8)
-* Soft dependency on [ActiveSupport](http://rubygems.org/gems/activesupport) (>= 2.3.0)
 
 ## Installation
 
