@@ -11,7 +11,7 @@ require 'rdf'
 # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#built-in-datatypes
 #
 # @author [Gregg Kellogg](http://greggkellogg.net/)
-module RDFa
+module RDF::XSD
   autoload :VERSION,    'rdf/xsd/version'
 end
 
