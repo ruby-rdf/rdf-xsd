@@ -11,8 +11,4 @@ require 'rdf'
 # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#built-in-datatypes
 #
 # @author [Gregg Kellogg](http://greggkellogg.net/)
-module RDF::XSD
-  autoload :VERSION,    'rdf/xsd/version'
-end
-
 Dir.glob(File.join(File.expand_path(File.dirname(__FILE__)), 'xsd', '*.rb')) {|f|  require f}
