@@ -12,7 +12,7 @@ Gem::Specification.new do |gem|
   gem.date                  = File.mtime('VERSION').strftime('%Y-%m-%d')
 
   gem.name                  = %q{rdf-xsd}
-  gem.homepage              = "http://github.com/ruby-rdf/rdf-xsd"
+  gem.homepage              = "http://ruby-rdf/github.com/rdf-xsd"
   gem.license               = 'Public Domain' if gem.respond_to?(:license=)
   gem.summary               = "Extended XSD Datatypes for RDF.rb."
   gem.description           = "Adds RDF::Literal subclasses for extended XSD datatypes."

@@ -28,8 +28,6 @@ describe RDF::Literal do
       mailto:jhacker@example.org
       http://example.org/
       ftp://example.org/
-      
-      foo
     ).each do |value|
       it "validates #{value}" do
         RDF::Literal::AnyURI.new(value).should be_valid
