@@ -1,9 +1,11 @@
 # Extended XSD Datatypes for RDF.rb
-[![Build Status](https://secure.travis-ci.org/ruby-rdf/rdf-xsd.png?branch=master)](http://travis-ci.org/ruby-rdf/rdf-xsd)
 
 This gem adds additional RDF::Literal subclasses for extended [XSD datatypes][]
 
 * <http://github.com/ruby-rdf/rdf-xsd>
+
+[![Gem Version](https://badge.fury.io/rb/rdf-xsd.png)][gem]
+[![Build Status](https://travis-ci.org/ruby-rdf/rdf-xsd.png?branch=master)](http://travis-ci.org/ruby-rdf/rdf-xsd)
 
 ## Features
 
