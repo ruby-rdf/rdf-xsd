@@ -24,9 +24,9 @@ Gem::Specification.new do |gem|
   gem.requirements          = []
 
   gem.add_runtime_dependency      'rdf',             '>= 1.1'
-  gem.add_runtime_dependency      'nokogiri' ,       '>= 1.5.9'  if  RUBY_ENGINE == "ruby"
+  gem.add_runtime_dependency      'nokogiri' ,       '>= 1.5.9'
 
-  gem.add_development_dependency 'equivalent-xml' , '>= 0.3.0'  if  RUBY_ENGINE == "ruby"
+  gem.add_development_dependency 'equivalent-xml' , '>= 0.3.0'
   gem.add_development_dependency 'active_support',  '>= 3.0.0'
   gem.add_development_dependency 'i18n',            '>= 0.6.4'
   gem.add_development_dependency 'rspec',           '>= 2.13.0'
