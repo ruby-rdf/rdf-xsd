@@ -29,8 +29,8 @@ module RDF; class Literal
   # @see   http://www.w3.org/TR/xml-exc-c14n/
   # @since 0.2.1
   class XML < Literal
-    DATATYPE = RDF.XMLLiteral
-    GRAMMAR  = nil
+    DATATYPE = RDF.XMLLiteral unless defined?(:DATATYPE)
+    GRAMMAR  = nil unless defined?(:GRAMMAR)
 
     ##
     # @param  [Object] value
