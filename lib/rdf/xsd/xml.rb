@@ -1,6 +1,6 @@
 # Use Nokogiri when available, and REXML otherwise:
 begin
-  raise LoadError, "not with java" if RUBY_PLATFORM == "java"
+  #raise LoadError, "not with java" if RUBY_PLATFORM == "java"
   require 'nokogiri'
   begin
     require 'equivalent-xml'

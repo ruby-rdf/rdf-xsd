@@ -1,10 +1,8 @@
 $:.unshift "."
 require 'spec_helper'
-unless RUBY_PLATFORM == "java"
-  begin
-    require 'nokogiri'
-  rescue LoadError
-  end
+begin
+  require 'nokogiri'
+rescue LoadError
 end
 require 'rexml/document'
 
