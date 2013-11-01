@@ -60,18 +60,9 @@ module RDF; class Literal
     # Returns `true` if the value adheres to the defined grammar of the
     # datatype.
     #
-    # Note: depends on implementation of Base64.strict_decode64, which may not
-    # be implemented for Ruby 1.8.x.
-    #
     # @return [Boolean]
     def valid?
-      Base64.respond_to?(:strict_decode64) ?
-        Base64.strict_decode64(value.gsub(/\s+/m, '')) :
-        Base64.decode64(value.gsub(/\s+/m, ''))
-      true
-    rescue ArgumentError
-      STDERR.puts($!.inspect + ": #{value.inspect}")
-      false
+      Base64.strict_decode64(value.gsub(/\s+/m, ''))
     end
   end
 end; end #RDF::Literal
