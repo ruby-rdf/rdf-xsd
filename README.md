@@ -70,8 +70,8 @@ To install the latest official release of the `RDF::XSD` gem, do:
 
 * [Gregg Kellogg](http://github.com/gkellogg) - <http://greggkellogg.net/>
 
-Contributing
-------------
+## Contributing
+This repository uses [Git Flow](https://github.com/nvie/gitflow) to mange development and release activity. All submissions _must_ be on a feature branch based on the _develop_ branch to ease staging and integration.
 
 * Do your best to adhere to the existing coding conventions and idioms.
 * Don't use hard tabs, and don't leave trailing whitespace on any line.
@@ -85,8 +85,7 @@ Contributing
   of thumb, additions larger than about 15 lines of code), we need an
   explicit [public domain dedication][PDD] on record from you.
 
-License
--------
+## License
 
 This is free and unencumbered public domain software. For more information,
 see <http://unlicense.org/> or the accompanying {file:UNLICENSE} file.
