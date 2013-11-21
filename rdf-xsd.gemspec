@@ -23,15 +23,24 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version = '>= 1.9.2'
   gem.requirements          = []
 
-  gem.add_runtime_dependency      'rdf',             '>= 1.1'
-  gem.add_runtime_dependency      'nokogiri' ,       '>= 1.5.9'
+  gem.add_runtime_dependency     'rdf',             '>= 1.1'
 
+  gem.add_development_dependency 'nokogiri' ,       '>= 1.5.9'
   gem.add_development_dependency 'equivalent-xml' , '>= 0.3.0'
   gem.add_development_dependency 'active_support',  '>= 3.0.0'
   gem.add_development_dependency 'i18n',            '>= 0.6.4'
   gem.add_development_dependency 'rspec',           '>= 2.13.0'
   gem.add_development_dependency 'rdf-spec',        '>= 1.1'
   gem.add_development_dependency 'yard' ,           '>= 0.8.5'
+
+  # Rubinius has it's own dependencies
+  if RUBY_ENGINE == "rbx" && RUBY_VERSION >= "2.1.0"
+    gem.add_runtime_dependency     "rubysl-base64"
+    gem.add_development_dependency "rubysl-prettyprint"
+    gem.add_development_dependency "rubysl-rexml"
+    gem.add_development_dependency "racc"
+  end
+
   gem.post_install_message  = nil
 end
 
