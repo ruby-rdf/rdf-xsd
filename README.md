@@ -22,9 +22,9 @@ This gem adds additional RDF::Literal subclasses for extended [XSD datatypes][]
     require 'rdf/xsd'
 
 ## Dependencies
-* [Ruby](http://ruby-lang.org/) (>= 1.8.7) or (>= 1.8.1 with [Backports][])
-* [RDF.rb](http://rubygems.org/gems/rdf) (>= 1.0)
-* Soft dependency on [Nokogiri](http://rubygems.org/gems/nokogiri) (>= 1.5.0)
+* [Ruby](http://ruby-lang.org/) (>= 1.9.2)
+* [RDF.rb](http://rubygems.org/gems/rdf) (>= 1.1)
+* Soft dependency on [Nokogiri](http://rubygems.org/gems/nokogiri) (>= 1.5.9)
 * Soft dependency on [EquivalentXML](http://rubygems.org/gems/equivalent-xml) (>= 0.2.8)
 * Soft dependency on [ActiveSupport](http://rubygems.org/gems/activesupport) (>= 3.0.0)
 
@@ -70,8 +70,8 @@ To install the latest official release of the `RDF::XSD` gem, do:
 
 * [Gregg Kellogg](http://github.com/gkellogg) - <http://greggkellogg.net/>
 
-Contributing
-------------
+## Contributing
+This repository uses [Git Flow](https://github.com/nvie/gitflow) to mange development and release activity. All submissions _must_ be on a feature branch based on the _develop_ branch to ease staging and integration.
 
 * Do your best to adhere to the existing coding conventions and idioms.
 * Don't use hard tabs, and don't leave trailing whitespace on any line.
@@ -85,8 +85,7 @@ Contributing
   of thumb, additions larger than about 15 lines of code), we need an
   explicit [public domain dedication][PDD] on record from you.
 
-License
--------
+## License
 
 This is free and unencumbered public domain software. For more information,
 see <http://unlicense.org/> or the accompanying {file:UNLICENSE} file.

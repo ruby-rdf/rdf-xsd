@@ -44,9 +44,6 @@ module RDF; class Literal
     # Returns `true` if the value adheres to the defined grammar of the
     # datatype.
     #
-    # Note: depends on implementation of Base64.strict_decode64, which may not
-    # be implemented for Ruby 1.8.x.
-    #
     # @return [Boolean]
     def valid?
       @object.validate! rescue false
