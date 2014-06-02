@@ -9,7 +9,6 @@ require 'rexml/document'
 
 %w(Nokogiri REXML).each do |impl|
   next unless Module.constants.map(&:to_s).include?(impl)
-  next if impl == "REXML" && RUBY_ENGINE == "rbx"
   describe impl do
     describe "Exclusive Canonicalization" do
       {
