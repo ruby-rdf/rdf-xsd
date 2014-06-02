@@ -70,7 +70,7 @@ require 'rexml/document'
         ],
         "ns from parent" => [
           %(<div xmlns:dc="http://purl.org/dc/terms/"><dc:foo></dc:foo></div>),
-          {:xpath => "//dc:foo"},
+          {:xpath => "//dc:foo", no_jruby: true},
           %(<dc:foo xmlns:dc="http://purl.org/dc/terms/"></dc:foo>)
         ]
       }.each do |test, (input, options, result)|
@@ -80,7 +80,8 @@ require 'rexml/document'
             RDF::Literal::XML.new(xml.c14nxl(options), :library => impl.downcase.to_sym)
           }
 
-          it "matches expected result", :pending => ("JRuby issues" if RUBY_PLATFORM == "java") do
+          it "matches expected result" do
+            skip("JRuby") if options.include?(:no_jruby) && RUBY_PLATFORM == "java"
             subject.should == RDF::Literal::XML.new(result, :library => impl.downcase.to_sym)
           end
         end
