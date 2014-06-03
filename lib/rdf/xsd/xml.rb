@@ -122,6 +122,7 @@ module RDF; class Literal
     # Simple equivalence test for REXML
     def equivalent_rexml(other)
       begin
+        require 'active_support'
         require 'active_support/core_ext'
       rescue LoadError => e
         # string equivalence
