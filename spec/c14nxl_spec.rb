@@ -79,8 +79,7 @@ require 'rexml/document'
             RDF::Literal::XML.new(xml.c14nxl(options), :library => impl.downcase.to_sym)
           }
 
-          it "matches expected result" do
-            skip("JRuby") if options.include?(:no_jruby) && RUBY_PLATFORM == "java"
+          it "matches expected result", skip: ("JRuby issues" if RUBY_PLATFORM == "java") do
             expect(subject).to eq RDF::Literal::XML.new(result, :library => impl.downcase.to_sym)
           end
         end
@@ -91,7 +90,7 @@ require 'rexml/document'
           [%(<br/>), %(<br></br>)],
           [%(<div><br/></div>), %(<div><br></br></div>)],
         ].each do |(input, result)|
-          it "expands #{input} to #{result}", :pending => ("JRuby issues" if RUBY_PLATFORM == "java") do
+          it "expands #{input} to #{result}", skip: ("JRuby issues" if RUBY_PLATFORM == "java") do
             xml = parse(input, :library => impl.downcase.to_sym)
             expect(RDF::Literal::XML.new(xml.c14nxl({}), :library => impl.downcase.to_sym).to_s).to eq result
           end
