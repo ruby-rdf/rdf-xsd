@@ -9,7 +9,7 @@ describe RDF::Literal do
     }.each do |qname, klass|
       it "finds #{klass} for #{qname}" do
         uri = RDF::XSD[qname.split(':').last]
-        RDF::Literal("0", :datatype => uri).class.should == klass
+        expect(RDF::Literal("0", :datatype => uri).class).to eq klass
       end
     end
   end
@@ -21,12 +21,12 @@ describe RDF::Literal do
       3f3c6d78206c657673726F693D6E3122302e20226E656F636964676e223D54552d4622383E3f
     ).each do |value|
       it "validates #{value}" do
-        RDF::Literal::HexBinary.new(value).should be_valid
-        RDF::Literal::HexBinary.new(value).should_not be_invalid
+        expect(RDF::Literal::HexBinary.new(value)).to be_valid
+        expect(RDF::Literal::HexBinary.new(value)).not_to be_invalid
       end
       
       it "canoicalizes #{value} to #{value.downcase}" do
-        RDF::Literal::HexBinary.new(value, :canonicalize => true).value.should == value.downcase
+        expect(RDF::Literal::HexBinary.new(value, :canonicalize => true).value).to eq value.downcase
       end
     end
 
@@ -34,8 +34,8 @@ describe RDF::Literal do
       0FB7Z
     ).each do |value|
       it "invalidates #{value}" do
-        RDF::Literal::YearMonth.new(value).should be_invalid
-        RDF::Literal::YearMonth.new(value).should_not be_valid
+        expect(RDF::Literal::YearMonth.new(value)).to be_invalid
+        expect(RDF::Literal::YearMonth.new(value)).not_to be_valid
       end
     end
   end
@@ -57,8 +57,8 @@ describe RDF::Literal do
       "YW55IGNhcm5hbCBwbGVhcw=="
     ].each do |value|
       it "validates #{value} to #{Base64.decode64(value).inspect}" do
-        RDF::Literal::Base64Binary.new(value).should be_valid
-        RDF::Literal::Base64Binary.new(value).should_not be_invalid
+        expect(RDF::Literal::Base64Binary.new(value)).to be_valid
+        expect(RDF::Literal::Base64Binary.new(value)).not_to be_invalid
       end
     end
 
@@ -66,8 +66,8 @@ describe RDF::Literal do
       0FB7Z
     ).each do |value|
       it "invalidates #{value}" do
-        RDF::Literal::YearMonth.new(value).should be_invalid
-        RDF::Literal::YearMonth.new(value).should_not be_valid
+        expect(RDF::Literal::YearMonth.new(value)).to be_invalid
+        expect(RDF::Literal::YearMonth.new(value)).not_to be_valid
       end
     end
   end

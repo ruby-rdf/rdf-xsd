@@ -19,7 +19,7 @@ describe RDF::Literal::Numeric do
     }.each do |qname, klass|
       it "finds #{klass} for #{qname}" do
         uri = RDF::XSD[qname.split(':').last]
-        RDF::Literal("0", :datatype => uri).class.should == klass
+        expect(RDF::Literal("0", :datatype => uri).class).to eq klass
       end
     end
   end
@@ -108,29 +108,29 @@ describe RDF::Literal::Numeric do
               o_r = RDF::Literal.new(([:nonPositiveInteger, :negativeInteger].include?(right) ? "-1" : "1"), :datatype => RDF::XSD.send(right))
               
               it "returns #{result} for #{l} + #{right}" do
-                (o_l + o_r).datatype.should == RDF::XSD.send(result)
+                expect((o_l + o_r).datatype).to eq RDF::XSD.send(result)
               end
               it "returns #{result} for #{l} - #{right}" do
-                (o_l - o_r).datatype.should == RDF::XSD.send(result)
+                expect((o_l - o_r).datatype).to eq RDF::XSD.send(result)
               end
               it "returns #{result} for #{l} * #{right}" do
-                (o_l * o_r).datatype.should == RDF::XSD.send(result)
+                expect((o_l * o_r).datatype).to eq RDF::XSD.send(result)
               end
               it "returns #{result} for #{l} / #{right}" do
-                (o_l / o_r).datatype.should == RDF::XSD.send(result)
+                expect((o_l / o_r).datatype).to eq RDF::XSD.send(result)
               end
 
               it "returns #{result} for #{right} + #{l}" do
-                (o_r + o_l).datatype.should == RDF::XSD.send(result)
+                expect((o_r + o_l).datatype).to eq RDF::XSD.send(result)
               end
               it "returns #{result} for #{right} - #{l}" do
-                (o_r - o_l).datatype.should == RDF::XSD.send(result)
+                expect((o_r - o_l).datatype).to eq RDF::XSD.send(result)
               end
               it "returns #{result} for #{right} * #{l}" do
-                (o_r * o_l).datatype.should == RDF::XSD.send(result)
+                expect((o_r * o_l).datatype).to eq RDF::XSD.send(result)
               end
               it "returns #{result} for #{right} / #{l}" do
-                (o_r / o_l).datatype.should == RDF::XSD.send(result)
+                expect((o_r / o_l).datatype).to eq RDF::XSD.send(result)
               end
             end
           end
@@ -141,29 +141,29 @@ describe RDF::Literal::Numeric do
           o_r = RDF::Literal.new(([:nonPositiveInteger, :negativeInteger].include?(right) ? "-1" : "1"), :datatype => RDF::XSD.send(right))
           
           it "returns #{result} for #{left} + #{right}" do
-            (o_l + o_r).datatype.should == RDF::XSD.send(result)
+            expect((o_l + o_r).datatype).to eq RDF::XSD.send(result)
           end
           it "returns #{result} for #{left} - #{right}" do
-            (o_l - o_r).datatype.should == RDF::XSD.send(result)
+             expect((o_l - o_r).datatype).to eq RDF::XSD.send(result)
           end
           it "returns #{result} for #{left} * #{right}" do
-            (o_l * o_r).datatype.should == RDF::XSD.send(result)
+            expect((o_l * o_r).datatype).to eq RDF::XSD.send(result)
           end
           it "returns #{result} for #{left} / #{right}" do
-            (o_l / o_r).datatype.should == RDF::XSD.send(result)
+            expect((o_l / o_r).datatype).to eq RDF::XSD.send(result)
           end
 
           it "returns #{result} for #{right} + #{left}" do
-            (o_r + o_l).datatype.should == RDF::XSD.send(result)
+            expect((o_r + o_l).datatype).to eq RDF::XSD.send(result)
           end
           it "returns #{result} for #{right} - #{left}" do
-            (o_r - o_l).datatype.should == RDF::XSD.send(result)
+            expect((o_r - o_l).datatype).to eq RDF::XSD.send(result)
           end
           it "returns #{result} for #{right} * #{left}" do
-            (o_r * o_l).datatype.should == RDF::XSD.send(result)
+            expect((o_r * o_l).datatype).to eq RDF::XSD.send(result)
           end
           it "returns #{result} for #{right} / #{left}" do
-            (o_r / o_l).datatype.should == RDF::XSD.send(result)
+            expect((o_r / o_l).datatype).to eq RDF::XSD.send(result)
           end
         end
       end
@@ -204,14 +204,14 @@ describe RDF::Literal::Numeric do
           if datatypes.map {|s| RDF::XSD[s]}.include?(datatype)
             it "returns valid for #{value}" do
               l = klass.new(value)
-              l.should be_valid
-              l.should_not be_invalid
+              expect(l).to be_valid
+              expect(l).not_to be_invalid
             end
           else
             it "returns invalid for #{value}" do
               l = klass.new(value)
-              l.should be_invalid
-              l.should_not be_valid
+              expect(l).to be_invalid
+              expect(l).not_to be_valid
             end
           end
         end
@@ -228,7 +228,7 @@ describe RDF::Literal::Numeric do
         it "returns true for #{label}" do
           left.extend(RDF::TypeCheck)
           right.extend(RDF::TypeCheck)
-          left.should == right
+          expect(left).to eq right
         end
       end
     end
@@ -240,7 +240,7 @@ describe RDF::Literal::Numeric do
         "numeric 1='1'^xsd:int" => [RDF::Literal(1), RDF::Literal::Int.new("1")],
       }.each do |label, (left, right)|
         it "returns false for #{label}" do
-          left.should_not eql right
+          expect(left).not_to eql right
         end
       end
     end

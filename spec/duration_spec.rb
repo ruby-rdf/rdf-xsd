@@ -4,12 +4,12 @@ require 'spec_helper'
 describe RDF::Literal::Duration do
   describe "initialize" do
     it "creates given a Hash" do
-      RDF::Literal::Duration.new(:seconds => 10, :minutes => 1).to_i.should == 70
+      expect(RDF::Literal::Duration.new(:seconds => 10, :minutes => 1).to_i).to eq 70
     end
   end
 
   it "finds RDF::Literal::Duration for xsd:duration" do
-    RDF::Literal("0", :datatype => RDF::XSD.duration).class.should == RDF::Literal::Duration
+    expect(RDF::Literal("0", :datatype => RDF::XSD.duration).class).to eq RDF::Literal::Duration
   end
 
   describe "#to_f" do
@@ -36,7 +36,7 @@ describe RDF::Literal::Duration do
       "P2Y6M5DT12H35M30S"         => (((2*365+6*30+5)*24)+12)*3600+35*60+30,
     }.each do |s, f|
       it "parses #{s}" do
-        RDF::Literal::Duration.new(s).to_f.should == f
+        expect(RDF::Literal::Duration.new(s).to_f).to eq f
       end
     end
   end
@@ -60,7 +60,7 @@ describe RDF::Literal::Duration do
       "PT1M30.5S"                 => "1 minute and 30.5 seconds",
     }.each do |s, h|
       it "produces #{h}" do
-        RDF::Literal::Duration.new(s).humanize.should == h
+        expect(RDF::Literal::Duration.new(s).humanize).to eq h
       end
     end
   end

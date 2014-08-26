@@ -12,7 +12,7 @@ describe RDF::Literal do
     }.each do |qname, klass|
       it "finds #{klass} for #{qname}" do
         uri = RDF::XSD[qname.split(':').last]
-        RDF::Literal("0", :datatype => uri).class.should == klass
+        expect(RDF::Literal("0", :datatype => uri).class).to eq klass
       end
     end
   end
@@ -29,8 +29,8 @@ describe RDF::Literal do
         -2010-01Z
       ).each do |value|
         it "validates #{value}" do
-          RDF::Literal::YearMonth.new(value).should be_valid
-          RDF::Literal::YearMonth.new(value).should_not be_invalid
+          expect(RDF::Literal::YearMonth.new(value)).to be_valid
+          expect(RDF::Literal::YearMonth.new(value)).not_to be_invalid
         end
       end
 
@@ -42,8 +42,8 @@ describe RDF::Literal do
         0000-12
       ).each do |value|
         it "invalidates #{value}" do
-          RDF::Literal::YearMonth.new(value).should be_invalid
-          RDF::Literal::YearMonth.new(value).should_not be_valid
+          expect(RDF::Literal::YearMonth.new(value)).to be_invalid
+          expect(RDF::Literal::YearMonth.new(value)).not_to be_valid
         end
       end
     end
@@ -59,8 +59,8 @@ describe RDF::Literal do
         -2010Z
       ).each do |value|
         it "validates #{value}" do
-          RDF::Literal::Year.new(value).should be_valid
-          RDF::Literal::Year.new(value).should_not be_invalid
+          expect(RDF::Literal::Year.new(value)).to be_valid
+          expect(RDF::Literal::Year.new(value)).not_to be_invalid
         end
       end
 
@@ -71,8 +71,8 @@ describe RDF::Literal do
         0000
       ).each do |value|
         it "invalidates #{value}" do
-          RDF::Literal::Year.new(value).should be_invalid
-          RDF::Literal::Year.new(value).should_not be_valid
+          expect(RDF::Literal::Year.new(value)).to be_invalid
+          expect(RDF::Literal::Year.new(value)).not_to be_valid
         end
       end
     end
@@ -86,8 +86,8 @@ describe RDF::Literal do
         12-31
       ).each do |value|
         it "validates #{value}" do
-          RDF::Literal::MonthDay.new(value).should be_valid
-          RDF::Literal::MonthDay.new(value).should_not be_invalid
+          expect(RDF::Literal::MonthDay.new(value)).to be_valid
+          expect(RDF::Literal::MonthDay.new(value)).not_to be_invalid
         end
       end
 
@@ -96,8 +96,8 @@ describe RDF::Literal do
         -12-01Z
       ).each do |value|
         it "invalidates #{value}" do
-          RDF::Literal::MonthDay.new(value).should be_invalid
-          RDF::Literal::MonthDay.new(value).should_not be_valid
+          expect(RDF::Literal::MonthDay.new(value)).to be_invalid
+          expect(RDF::Literal::MonthDay.new(value)).not_to be_valid
         end
       end
     end
@@ -111,8 +111,8 @@ describe RDF::Literal do
         31
       ).each do |value|
         it "validates #{value}" do
-          RDF::Literal::Day.new(value).should be_valid
-          RDF::Literal::Day.new(value).should_not be_invalid
+          expect(RDF::Literal::Day.new(value)).to be_valid
+          expect(RDF::Literal::Day.new(value)).not_to be_invalid
         end
       end
 
@@ -123,8 +123,8 @@ describe RDF::Literal do
         01-01Z
       ).each do |value|
         it "invalidates #{value}" do
-          RDF::Literal::Day.new(value).should be_invalid
-          RDF::Literal::Day.new(value).should_not be_valid
+          expect(RDF::Literal::Day.new(value)).to be_invalid
+          expect(RDF::Literal::Day.new(value)).not_to be_valid
         end
       end
     end
@@ -135,11 +135,10 @@ describe RDF::Literal do
         10+08:00
         10-08:00
         10
-        31
       ).each do |value|
         it "validates #{value}" do
-          RDF::Literal::Day.new(value).should be_valid
-          RDF::Literal::Day.new(value).should_not be_invalid
+          expect(RDF::Literal::Month.new(value)).to be_valid
+          expect(RDF::Literal::Month.new(value)).not_to be_invalid
         end
       end
 
@@ -150,8 +149,8 @@ describe RDF::Literal do
         01-01Z
       ).each do |value|
         it "invalidates #{value}" do
-          RDF::Literal::Day.new(value).should be_invalid
-          RDF::Literal::Day.new(value).should_not be_valid
+          expect(RDF::Literal::Month.new(value)).to be_invalid
+          expect(RDF::Literal::Month.new(value)).not_to be_valid
         end
       end
     end

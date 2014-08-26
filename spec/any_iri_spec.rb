@@ -9,7 +9,7 @@ describe RDF::Literal do
     }.each do |qname, klass|
       it "finds #{klass} for #{qname}" do
         uri = RDF::XSD[qname.split(':').last]
-        RDF::Literal("0", :datatype => uri).class.should == klass
+        expect(RDF::Literal("0", :datatype => uri).class).to eq klass
       end
     end
   end
@@ -30,7 +30,7 @@ describe RDF::Literal do
       ftp://example.org/
     ).each do |value|
       it "validates #{value}" do
-        RDF::Literal::AnyURI.new(value).should be_valid
+        expect(RDF::Literal::AnyURI.new(value)).to be_valid
       end
     end
   end

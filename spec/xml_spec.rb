@@ -19,23 +19,23 @@ describe RDF::Literal do
           }
           
           it "has equivalent object representation" do
-            subject.object.should == @obj
+            expect(subject.object).to eq @obj
           end
 
           it "provides a value" do
-            subject.value.should == @obj.to_s
+            expect(subject.value).to eq @obj.to_s
           end
           
           it "provides value for #to_s" do
-            subject.to_s.should == @obj.to_s
+            expect(subject.to_s).to eq @obj.to_s
           end
           
           it "== another (object)" do
-            subject.should == subject.dup
+            expect(subject).to eq subject.dup
           end
           
           it "== another (value)" do
-            subject.should == RDF::Literal::XML.new(@obj.to_s, :library => @library)
+            expect(subject).to eq RDF::Literal::XML.new(@obj.to_s, :library => @library)
           end
         end
 
@@ -47,23 +47,23 @@ describe RDF::Literal do
           }
           
           it "has equivalent object representation" do
-            subject.value.should == @string
+            expect(subject.value).to eq @string
           end
 
           it "provides an object" do
-            subject.object.to_s.should == (impl == "REXML" ? [@obj].to_s : @obj.to_s)
+            expect(subject.object.to_s).to eq (impl == "REXML" ? [@obj].to_s : @obj.to_s)
           end
           
           it "provides value for #to_s" do
-            subject.value.should == @string
+            expect(subject.value).to eq @string
           end
           
           it "== another (object)" do
-            subject.should == RDF::Literal::XML.new(@obj, :library => @library)
+            expect(subject).to eq RDF::Literal::XML.new(@obj, :library => @library)
           end
           
           it "== another (value)" do
-            subject.should == subject.dup
+            expect(subject).to eq subject.dup
           end
         end
 
@@ -74,19 +74,19 @@ describe RDF::Literal do
           }
           
           it "has equivalent object representation" do
-            subject.object.should == @obj
+            expect(subject.object).to eq @obj
           end
 
           it "provides a value" do
-            subject.value.should == (@obj.is_a?(Array) ? @obj.map(&:to_s).join("") : @obj.to_s)
+            expect(subject.value).to eq (@obj.is_a?(Array) ? @obj.map(&:to_s).join("") : @obj.to_s)
           end
           
           it "== another (object)" do
-            subject.should == RDF::Literal::XML.new(@obj, :library => @library)
+            expect(subject).to eq RDF::Literal::XML.new(@obj, :library => @library)
           end
           
           it "== another (value)" do
-            subject.should == subject.dup
+            expect(subject).to eq subject.dup
           end
         end
       end
@@ -106,23 +106,23 @@ describe RDF::Literal do
           }
           
           it "has equivalent object representation" do
-            subject.object.should == @obj
+            expect(subject.object).to eq @obj
           end
 
           it "provides a value" do
-            subject.value.should == @obj.to_s
+            expect(subject.value).to eq @obj.to_s
           end
           
           it "provides value for #to_s" do
-            subject.to_s.should == @obj.to_s
+            expect(subject.to_s).to eq @obj.to_s
           end
           
           it "== another (object)" do
-            subject.should == subject.dup
+            expect(subject).to eq subject.dup
           end
           
           it "== another (value)" do
-            subject.should == RDF::Literal::HTML.new(@obj.to_s, :library => @library)
+            expect(subject).to eq RDF::Literal::HTML.new(@obj.to_s, :library => @library)
           end
         end
 
@@ -134,23 +134,23 @@ describe RDF::Literal do
           }
           
           it "has equivalent object representation" do
-            subject.value.should == @string
+            expect(subject.value).to eq @string
           end
 
           it "provides an object" do
-            subject.object.to_s.should == (impl == "REXML" ? [@obj].to_s : @obj.to_s)
+            expect(subject.object.to_s).to eq (impl == "REXML" ? [@obj].to_s : @obj.to_s)
           end
           
           it "provides value for #to_s" do
-            subject.value.should == @string
+            expect(subject.value).to eq @string
           end
           
           it "== another (object)" do
-            subject.should == RDF::Literal::HTML.new(@obj, :library => @library)
+            expect(subject).to eq RDF::Literal::HTML.new(@obj, :library => @library)
           end
           
           it "== another (value)" do
-            subject.should == subject.dup
+            expect(subject).to eq subject.dup
           end
         end
 
@@ -161,19 +161,19 @@ describe RDF::Literal do
           }
           
           it "has equivalent object representation" do
-            subject.object.should == @obj
+            expect(subject.object).to eq @obj
           end
 
           it "provides a value" do
-            subject.value.should == (@obj.is_a?(Array) ? @obj.map(&:to_s).join("") : @obj.to_s)
+            expect(subject.value).to eq (@obj.is_a?(Array) ? @obj.map(&:to_s).join("") : @obj.to_s)
           end
           
           it "== another (object)" do
-            subject.should == RDF::Literal::HTML.new(@obj, :library => @library)
+            expect(subject).to eq RDF::Literal::HTML.new(@obj, :library => @library)
           end
           
           it "== another (value)" do
-            subject.should == subject.dup
+            expect(subject).to eq subject.dup
           end
         end
       end

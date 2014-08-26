@@ -29,7 +29,8 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'equivalent-xml' , '~> 0.3'
   gem.add_development_dependency 'activesupport',   '~> 4.1'
   gem.add_development_dependency 'i18n',            '~> 0.6'
-  gem.add_development_dependency 'rspec',           '~> 2.14'
+  gem.add_development_dependency 'rspec',           '~> 3.0'
+  gem.add_development_dependency 'rspec-its',       '~> 1.0'
   gem.add_development_dependency 'rdf-spec',        '~> 1.1'
   gem.add_development_dependency 'yard' ,           '~> 0.8'
 
