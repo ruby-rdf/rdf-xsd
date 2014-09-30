@@ -1,10 +1,11 @@
+<<<<<<< Local Changes
 # Use Nokogiri when available, and REXML otherwise:
 begin
   require 'nokogiri'
   begin
     require 'equivalent-xml'
   rescue LoadError => e
-    STDERR.puts "Could not load gem 'equivalent-xml'; XMLLiteral comparison performed using REXML"
+    :rexml # Uses Rexml for equivalent, even with Nokogiri if equivalent-xml is not present.
   end
 rescue LoadError => e
   :rexml
@@ -122,7 +123,6 @@ module RDF; class Literal
     # Simple equivalence test for REXML
     def equivalent_rexml(other)
       begin
-        require 'active_support'
         require 'active_support/core_ext'
       rescue LoadError => e
         # string equivalence
@@ -148,4 +148,5 @@ module RDF; class Literal
   # @since 0.3.7
   class HTML < XML
   end
-end; end
+end; end=======
+>>>>>>> External Changes
