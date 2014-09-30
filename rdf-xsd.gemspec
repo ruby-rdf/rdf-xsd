@@ -34,6 +34,9 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rdf-spec',        '~> 1.1'
   gem.add_development_dependency 'yard' ,           '~> 0.8'
 
-  gem.post_install_message  = nil
+  gem.post_install_message  = %(
+    For best results, use nokogiri and equivalent-xml gems as well.
+    These are not hard requirements to preserve pure-ruby dependencies.
+  )
 end
 
