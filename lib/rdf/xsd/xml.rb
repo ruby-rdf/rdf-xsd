@@ -1,4 +1,3 @@
-<<<<<<< Local Changes
 # Use Nokogiri when available, and REXML otherwise:
 begin
   require 'nokogiri'
@@ -148,5 +147,4 @@ module RDF; class Literal
   # @since 0.3.7
   class HTML < XML
   end
-end; end=======
->>>>>>> External Changes
+end; end
