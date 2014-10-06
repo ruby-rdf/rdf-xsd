@@ -26,7 +26,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency     'rdf',             '~> 1.1'
 
   #gem.add_development_dependency 'nokogiri' ,       '>= 1.6.1' # conditionally done in Gemfile
-  gem.add_development_dependency 'equivalent-xml' , '~> 0.3'
+  #gem.add_development_dependency 'equivalent-xml' , '~> 0.3'
   gem.add_development_dependency 'activesupport',   '~> 4.1'
   gem.add_development_dependency 'i18n',            '~> 0.6'
   gem.add_development_dependency 'rspec',           '~> 3.0'
