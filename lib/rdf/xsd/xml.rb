@@ -4,7 +4,7 @@ begin
   begin
     require 'equivalent-xml'
   rescue LoadError => e
-    STDERR.puts "Could not load gem 'equivalent-xml'; XMLLiteral comparison performed using REXML"
+    :rexml # Uses Rexml for equivalent, even with Nokogiri if equivalent-xml is not present.
   end
 rescue LoadError => e
   :rexml
