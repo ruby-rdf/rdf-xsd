@@ -5,11 +5,27 @@ module RDF; class Literal
   ##
   # A duration literal.
   #
-  # @see   http://www.w3.org/TR/xmlschema-2/#duration
-  # @since 0.2.1
+  # @see   http://www.w3.org/TR/xmlschema11-2/#duration
   class Duration < Literal
     DATATYPE = XSD.duration
-    GRAMMAR  = %r(\A(-?)P(\d+Y)?(\d+M)?(\d+D)?T?(\d+H)?(\d+M)?([\d\.]+S)?\Z).freeze
+    GRAMMAR  = %r(\A
+      (?<si>-)?
+      P(?:(?:(?:(?:(?<yr>\d+)Y)(?:(?<mo>\d+)M)?(?:(?<da>\d+)D)?)
+          |  (?:(?:(?<mo>\d+)M)(?:(?<da>\d+)D)?)
+          |  (?:(?<da>\d+)D)
+          )
+          (?:T(?:(?:(?:(?<hr>\d+)H)(?:(?<mi>\d+)M)?(?<se>\d+(?:\.\d+)?S)?)
+              |  (?:(?:(?<mi>\d+)M)(?:(?<se>\d+(?:\.\d+)?)S)?)
+              |  (?:(?<se>\d+(?:\.\d+)?)S)
+              )
+          )?
+       |(?:T(?:(?:(?:(?<hr>\d+)H)(?:(?<mi>\d+)M)?(?<se>\d+(?:\.\d+)?S)?)
+            |  (?:(?:(?<mi>\d+)M)(?:(?<se>\d+(?:\.\d+)?)S)?)
+            |   (?:(?<se>\d+(?:\.\d+)?)S)
+            )
+        )
+       )
+    \z)x.freeze
 
     ##
     # * Given a Numeric, assumes that it is milliseconds
@@ -33,9 +49,8 @@ module RDF; class Literal
       when Duration, Numeric
         {:se => value.to_f}
       else
-        parse(value.to_s) rescue { }
+        parse(value.to_s)
       end
-      @object[:si] ||= 1
     end
 
     ##
@@ -44,11 +59,11 @@ module RDF; class Literal
     # Also normalizes elements
     #
     # @return [RDF::Literal] `self`
-    # @see    http://www.w3.org/TR/xmlschema-2/#dateTime
+    # @see    http://www.w3.org/TR/xmlschema11-2/#dateTime
     def canonicalize!
       @string = @humanize = nil
       if @object[:se].to_i > 60
-        m_r = (@object[:se].to_i / 60) - 1
+        m_r = (@object[:se].to_f / 60) - 1
         @object[:se] -=  m_r * 60
         @object[:mi] = @object[:mi].to_i + m_r
       end
@@ -72,7 +87,7 @@ module RDF; class Literal
         @object[:mo] -=  y_r * 12
         @object[:yr] = @object[:yr].to_i + y_r
       end
-      @object.to_s  # site-effect
+      @object.to_s  # side-effect
       self
     end
 
@@ -83,7 +98,6 @@ module RDF; class Literal
     # Special case for date and dateTime, for which '0000' is not a valid year
     #
     # @return [Boolean]
-    # @since  0.2.1
     def valid?
       !!(value =~ GRAMMAR)
     end
@@ -94,7 +108,7 @@ module RDF; class Literal
     # @return [String]
     def to_s
       @string ||= begin
-        str = @object[:si] < 0 ? "-P" : "P"
+        str = @object[:si] == '-' ? "-P" : "P"
         str << "%dY" % @object[:yr].to_i if @object[:yr]
         str << "%dM" % @object[:mo].to_i if @object[:mo]
         str << "%dD" % @object[:da].to_i if @object[:da]
@@ -106,7 +120,7 @@ module RDF; class Literal
     end
 
     def plural(v, str)
-      "#{v} #{str}#{v == 1 ? '' : 's'}" if v
+      "#{v} #{str}#{v.to_i == 1 ? '' : 's'}" if v
     end
     
     ##
@@ -126,7 +140,7 @@ module RDF; class Literal
         last = ar.pop
         first = ar.join(" ")
         res = first.empty? ? last : "#{first} and #{last}"
-        @object[:si] < 0 ? "#{res} ago" : res
+        @object[:si] == '-' ? "#{res} ago" : res
       end
     end
 
@@ -159,7 +173,7 @@ module RDF; class Literal
         @object[:hr].to_i * 3600 +
         @object[:mi].to_i * 60 +
         @object[:se].to_f
-      ) * @object[:si]
+      ) * (@object[:si] == '-' ? -1 : 1)
     end
 
     # @return [Integer]
@@ -174,22 +188,55 @@ module RDF; class Literal
     # @param [String] value XSD formatted duration
     # @return [Duration]
     def parse(value)
-      hash = {}
-      if value.to_s.match(GRAMMAR)
-        hash[:si] = $1 == "-" ? -1 : 1
-        hash[:yr] = $2.to_i if $2
-        hash[:mo] = $3.to_i if $3
-        hash[:da] = $4.to_i if $4
-        hash[:hr] = $5.to_i if $5
-        hash[:mi] = $6.to_i if $6
-        hash[:se] = $7.to_f if $7
-      end
-      hash
+      value.to_s.match(GRAMMAR)
     end
     
     def sec_str
-      usec = (@object[:se] * 1000).to_i % 1000
-      usec > 0 ? ("%2.3f" % @object[:se]).sub(/0*\Z/, '') : @object[:se].to_i.to_s
+      sec = @object[:se].to_f
+      ((sec.truncate == sec ? "%d" : "%2.3f") % sec).sub(/(\.[1-9]+)0+$/, '\1')
     end
   end # Duration
+
+  ##
+  # A DayTimeDuration literal.
+  #
+  # dayTimeDuration is a datatype ·derived· from duration by restricting its ·lexical representations· to instances of dayTimeDurationLexicalRep. The ·value space· of dayTimeDuration is therefore that of duration restricted to those whose ·months· property is 0.  This results in a duration datatype which is totally ordered.
+  #
+  # @see   http://www.w3.org/TR/xmlschema11-2/#dayTimeDuration
+  class DayTimeDuration < Literal
+    DATATYPE = XSD.dayTimeDuration
+    GRAMMAR  = %r(\A
+      (?<si>-)?
+      P(?:(?:(?:(?<da>\d+)D)
+          )
+          (?:T(?:(?:(?:(?<hr>\d+)H)(?:(?<mi>\d+)M)?(?<se>\d+(?:\.\d+)?S)?)
+              |  (?:(?:(?<mi>\d+)M)(?:(?<se>\d+(?:\.\d+)?)S)?)
+              |  (?:(?<se>\d+(?:\.\d+)?)S)
+              )
+          )?
+       |(?:T(?:(?:(?:(?<hr>\d+)H)(?:(?<mi>\d+)M)?(?<se>\d+(?:\.\d+)?S)?)
+            |  (?:(?:(?<mi>\d+)M)(?:(?<se>\d+(?:\.\d+)?)S)?)
+            |   (?:(?<se>\d+(?:\.\d+)?)S)
+            )
+        )
+       )
+    \z)x.freeze
+  end # DayTimeDuration
+
+  ##
+  # A YearMonthDuration literal.
+  #
+  # yearMonthDuration is a datatype ·derived· from duration by restricting its ·lexical representations· to instances of yearMonthDurationLexicalRep.  The ·value space· of yearMonthDuration is therefore that of duration restricted to those whose ·seconds· property is 0.  This results in a duration datatype which is totally ordered.
+  #
+  # @see   http://www.w3.org/TR/xmlschema11-2/#yearMonthDuration
+  class YearMonthDuration < Literal
+    DATATYPE = XSD.yearMonthDuration
+    GRAMMAR  = %r(\A
+      (?<si>-)?
+      P(?:(?:(?:(?:(?<yr>\d+)Y)(?:(?<mo>\d+)M)?)
+          |  (?:(?:(?<mo>\d+)M))
+          )
+       )
+    \z)x.freeze
+  end # DayTimeDuration
 end; end # RDF::Literal

@@ -3,6 +3,18 @@ require 'rdf'
 
 module RDF; class Literal
   ##
+  # dateTimeStamp
+  #
+  # The dateTimeStamp datatype is ·derived· from dateTime by giving the value required to its explicitTimezone facet. The result is that all values of dateTimeStamp are required to have explicit time zone offsets and the datatype is totally ordered.
+  #
+  # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#dateTimeStamp
+  class DateTimeStamp < RDF::Literal::DateTime
+    DATATYPE = XSD.dateTimeStamp
+    GRAMMAR  = %r(\A(-?\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?)((?:[\+\-]\d{2}:\d{2})|UTC|GMT|Z)\Z).freeze
+    FORMAT   = '%Y-%m-%dT%H:%M:%SZ'.freeze
+  end
+
+  ##
   # gYearMonth represents a specific gregorian month in a specific gregorian year. The value space of gYearMonth is
   # the set of Gregorian calendar months as defined in § 5.2.1 of [ISO 8601]. Specifically, it is a set of one-month
   # long, non-periodic instances e.g. 1999-10 to represent the whole month of 1999-10, independent of how many days this
