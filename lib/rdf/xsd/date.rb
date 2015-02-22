@@ -59,7 +59,7 @@ module RDF; class Literal
   # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#gMonthDay
   class MonthDay < RDF::Literal::Date
     DATATYPE = XSD.gMonthDay
-    GRAMMAR  = %r(\A(\d{2}-\d{2})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
+    GRAMMAR  = %r(\A--(\d{2}-\d{2})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
     FORMAT   = '%m-%d%Z'.freeze
 
     def initialize(value, options = {})
@@ -77,7 +77,7 @@ module RDF; class Literal
   # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#gDay
   class Day < RDF::Literal::Date
     DATATYPE = XSD.gDay
-    GRAMMAR  = %r(\A(\d{2})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
+    GRAMMAR  = %r(\A---(\d{2})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
     FORMAT   = '%d%Z'.freeze
 
     def initialize(value, options = {})
@@ -94,7 +94,7 @@ module RDF; class Literal
   # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#gMonth
   class Month < RDF::Literal::Date
     DATATYPE = XSD.gMonth
-    GRAMMAR  = %r(\A(\d{2})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
+    GRAMMAR  = %r(\A--(\d{2})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
     FORMAT   = '%m%Z'.freeze
 
     def initialize(value, options = {})

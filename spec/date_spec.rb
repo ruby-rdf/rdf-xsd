@@ -111,11 +111,11 @@ describe RDF::Literal do
 
     describe RDF::Literal::MonthDay do
       %w(
-        12-31Z
-        12-31+08:00
-        12-31-08:00
-        12-31
-        12-31
+        --12-31Z
+        --12-31+08:00
+        --12-31-08:00
+        --12-31
+        --12-31
       ).each do |value|
         it "validates #{value}" do
           expect(described_class.new(value)).to be_valid
@@ -124,7 +124,8 @@ describe RDF::Literal do
       end
 
       %w(
-        200-90Z
+        12-31Z
+        --200-90Z
         -12-01Z
       ).each do |value|
         it "invalidates #{value}" do
@@ -136,11 +137,11 @@ describe RDF::Literal do
 
     describe RDF::Literal::Day do
       %w(
-        10Z
-        10+08:00
-        10-08:00
-        10
-        31
+        ---10Z
+        ---10+08:00
+        ---10-08:00
+        ---10
+        ---31
       ).each do |value|
         it "validates #{value}" do
           expect(described_class.new(value)).to be_valid
@@ -149,6 +150,7 @@ describe RDF::Literal do
       end
 
       %w(
+        10Z
         -01Z
         2010-01-01Z
         2010-01Z
@@ -163,10 +165,10 @@ describe RDF::Literal do
 
     describe RDF::Literal::Month do
       %w(
-        10Z
-        10+08:00
-        10-08:00
-        10
+        --10Z
+        --10+08:00
+        --10-08:00
+        --10
       ).each do |value|
         it "validates #{value}" do
           expect(described_class.new(value)).to be_valid
@@ -175,6 +177,7 @@ describe RDF::Literal do
       end
 
       %w(
+        10Z
         -01Z
         2010-01-01Z
         2010-01Z
