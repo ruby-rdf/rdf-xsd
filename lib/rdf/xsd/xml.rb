@@ -27,7 +27,6 @@ module RDF; class Literal
   # @see   http://www.w3.org/TR/rdf-concepts/#section-XMLLiteral
   # @see   http://www.w3.org/TR/rdfa-core/#s_xml_literals
   # @see   http://www.w3.org/TR/xml-exc-c14n/
-  # @since 0.2.1
   class XML < Literal
     DATATYPE = RDF.XMLLiteral
     GRAMMAR  = nil
@@ -145,7 +144,6 @@ module RDF; class Literal
   # [DOM DocumentFragment](http://www.w3.org/TR/dom/#interface-documentfragment).
   #
   # @see   https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-concepts/index.html#section-html
-  # @since 0.3.7
   class HTML < XML
   end
 end; end

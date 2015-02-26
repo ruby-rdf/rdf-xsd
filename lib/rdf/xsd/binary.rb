@@ -50,7 +50,7 @@ module RDF; class Literal
     # Converts this literal into its canonical lexical representation.
     #
     # @return [RDF::Literal] `self`
-    # @see    http://www.w3.org/TR/xmlschema-2/#dateTime
+    # @see    http://www.w3.org/TR/xmlschema11-2/#dateTime
     def canonicalize!
       @string = ::Base64.encode64(@object)
       self

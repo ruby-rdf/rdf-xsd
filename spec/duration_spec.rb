@@ -4,12 +4,12 @@ require 'spec_helper'
 describe RDF::Literal::Duration do
   describe "initialize" do
     it "creates given a Hash" do
-      expect(RDF::Literal::Duration.new(:seconds => 10, :minutes => 1).to_i).to eq 70
+      expect(described_class.new(:seconds => 10, :minutes => 1).to_i).to eq 70
     end
   end
 
-  it "finds RDF::Literal::Duration for xsd:duration" do
-    expect(RDF::Literal("0", :datatype => RDF::XSD.duration).class).to eq RDF::Literal::Duration
+  it "finds #{described_class} for xsd:duration" do
+    expect(RDF::Literal("0", :datatype => RDF::XSD.duration).class).to eq described_class
   end
 
   describe "#to_f" do
@@ -36,7 +36,7 @@ describe RDF::Literal::Duration do
       "P2Y6M5DT12H35M30S"         => (((2*365+6*30+5)*24)+12)*3600+35*60+30,
     }.each do |s, f|
       it "parses #{s}" do
-        expect(RDF::Literal::Duration.new(s).to_f).to eq f
+        expect(described_class.new(s).to_f).to eq f
       end
     end
   end
@@ -60,7 +60,95 @@ describe RDF::Literal::Duration do
       "PT1M30.5S"                 => "1 minute and 30.5 seconds",
     }.each do |s, h|
       it "produces #{h}" do
-        expect(RDF::Literal::Duration.new(s).humanize).to eq h
+        expect(described_class.new(s).humanize).to eq h
+      end
+    end
+  end
+end
+
+describe RDF::Literal::DayTimeDuration do
+  it "finds #{described_class} for xsd:dayTimeDuration" do
+    expect(RDF::Literal("0", :datatype => RDF::XSD.dayTimeDuration).class).to eq described_class
+  end
+
+  context "validations" do
+    %w(
+      PT130S
+      PT130M
+      PT130H
+      P130D
+      PT2M10S
+      P1DT2S
+      P1DT2H
+      -P60D
+      PT1004199059S
+      PT1M30.5S
+      PT20M
+    ).each do |value|
+      it "validates #{value}" do
+        expect(described_class.new(value)).to be_valid
+        expect(described_class.new(value)).not_to be_invalid
+      end
+    end
+
+    %w(
+      P130M
+      P130Y
+      P0Y20M0D
+      P0Y
+      P20M
+      -P1Y
+      P1Y2M3DT5H20M30.123S
+      -P1111Y11M23DT4H55M16.666S
+      P2Y6M5DT12H35M30S
+    ).each do |value|
+      it "invalidates #{value}" do
+        expect(described_class.new(value)).to be_invalid
+        expect(described_class.new(value)).not_to be_valid
+      end
+    end
+  end
+end
+
+describe RDF::Literal::YearMonthDuration do
+  it "finds #{described_class} for xsd:dayTimeDuration" do
+    expect(RDF::Literal("0", :datatype => RDF::XSD.yearMonthDuration).class).to eq described_class
+  end
+
+  context "validations" do
+    %w(
+      P130M
+      P130Y
+      P0Y
+      P20M
+      -P1Y
+    ).each do |value|
+      it "validates #{value}" do
+        expect(described_class.new(value)).to be_valid
+        expect(described_class.new(value)).not_to be_invalid
+      end
+    end
+
+    %w(
+      P0Y20M0D
+      P1Y2M3DT5H20M30.123S
+      -P1111Y11M23DT4H55M16.666S
+      P2Y6M5DT12H35M30S
+      PT130S
+      PT130M
+      PT130H
+      P130D
+      PT2M10S
+      P1DT2S
+      P1DT2H
+      -P60D
+      PT1004199059S
+      PT1M30.5S
+      PT20M
+    ).each do |value|
+      it "invalidates #{value}" do
+        expect(described_class.new(value)).to be_invalid
+        expect(described_class.new(value)).not_to be_valid
       end
     end
   end

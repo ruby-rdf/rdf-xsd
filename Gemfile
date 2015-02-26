@@ -9,7 +9,7 @@ gem 'equivalent-xml', '~> 0.5'
 
 group :debug do
   gem "wirble"
-  gem 'byebug', platforms: [:mri_20, :mri_21]
+  gem 'byebug', platforms: :mri
 end
 
 platforms :rbx do

@@ -14,7 +14,6 @@ module RDF; class Literal
     # Returns `self` negated.
     #
     # @return [RDF::Literal::Numeric]
-    # @since  0.2.3
     def -@
       if object != 0
         # XXX Raise error?
@@ -41,7 +40,6 @@ module RDF; class Literal
     # Returns `self` negated.
     #
     # @return [RDF::Literal::Numeric]
-    # @since  0.2.3
     def -@
       if object != 0
         # XXX Raise error?

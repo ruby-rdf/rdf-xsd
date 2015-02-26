@@ -23,7 +23,7 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version = '>= 1.9.2'
   gem.requirements          = []
 
-  gem.add_runtime_dependency     'rdf',             '~> 1.1'
+  gem.add_runtime_dependency     'rdf',             '~> 1.1', '>= 1.1.9'
 
   #gem.add_development_dependency 'nokogiri' ,       '>= 1.6.1' # conditionally done in Gemfile
   #gem.add_development_dependency 'equivalent-xml' , '~> 0.3'
