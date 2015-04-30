@@ -2,25 +2,33 @@ $:.unshift "."
 require 'spec_helper'
 
 describe RDF::Literal do
-  context "lookup" do
-    {
-      "xsd:dateTimeStamp" => RDF::Literal::DateTimeStamp,
-      "xsd:gYearMonth"    => RDF::Literal::YearMonth,
-      "xsd:gYear"         => RDF::Literal::Year,
-      "xsd:gMonthDay"     => RDF::Literal::MonthDay,
-      "xsd:gDay"          => RDF::Literal::Day,
-      "xsd:gMonth"        => RDF::Literal::Month,
-    }.each do |qname, klass|
-      it "finds #{klass} for #{qname}" do
-        uri = RDF::XSD[qname.split(':').last]
-        expect(RDF::Literal("0", :datatype => uri).class).to eq klass
-      end
-    end
-  end
-  
+
+  include_examples 'RDF::Literal lookup',
+                   { RDF::XSD.dateTimeStamp => RDF::Literal::DateTimeStamp }
+  include_examples 'RDF::Literal lookup',
+                   { RDF::XSD.gYearMonth => RDF::Literal::YearMonth }
+  include_examples 'RDF::Literal lookup',
+                   { RDF::XSD.gYear => RDF::Literal::Year }
+  include_examples 'RDF::Literal lookup',
+                   { RDF::XSD.gMonthDay => RDF::Literal::MonthDay }
+  include_examples 'RDF::Literal lookup',
+                   { RDF::XSD.gDay => RDF::Literal::Day }
+  include_examples 'RDF::Literal lookup',
+                   { RDF::XSD.gMonth => RDF::Literal::Month }
+
   context "validations" do
     describe RDF::Literal::DateTimeStamp do
-      %w(
+      include_examples 'RDF::Literal with datatype and grammar',
+                       '2010-01-01T00:00:00Z',
+                       described_class::DATATYPE.to_s
+
+      include_examples 'RDF::Literal equality',
+                       '2010-01-01T00:00:00Z',
+                       Date.parse('2010-01-01')
+
+      include_examples 'RDF::Literal lexical values', '2010-01-01T00:00:00Z'
+
+      valid = %w(
         2010-01-01T00:00:00Z
         2010-01-01T00:00:00.0000Z
         2010-01-01T00:00:00+00:00
@@ -29,29 +37,31 @@ describe RDF::Literal do
         -2010-01-01T00:00:00Z
         2014-09-01T12:13:14Z
         2014-09-01T12:13:14-08:00
-      ).each do |value|
-        it "validates #{value}" do
-          expect(described_class.new(value)).to be_valid
-          expect(described_class.new(value)).not_to be_invalid
-        end
-      end
+      )
 
-      %w(
+      invalid = %w(
         2010-01-01T00:00:00
         2014-09-01T12:13:14
         2010-0
         2011-01PDT
         0000-12
-      ).each do |value|
-        it "invalidates #{value}" do
-          expect(described_class.new(value)).to be_invalid
-          expect(described_class.new(value)).not_to be_valid
-        end
-      end
+      )
+
+      include_examples 'RDF::Literal validation', described_class::DATATYPE, valid, invalid
     end
 
     describe RDF::Literal::YearMonth do
-      %w(
+      include_examples 'RDF::Literal with datatype and grammar',
+                       '2010-01+08:00',
+                       described_class::DATATYPE.to_s
+
+      include_examples 'RDF::Literal equality',
+                       '2010-01+08:00',
+                       Date.parse('2010-01-01+08:00')
+
+      include_examples 'RDF::Literal lexical values', '2010-01+08:00'
+
+      valid = %w(
         2010-01Z
         2010-01+08:00
         2010-01-08:00
@@ -59,29 +69,29 @@ describe RDF::Literal do
         20090-12Z
         9999-12
         -2010-01Z
-      ).each do |value|
-        it "validates #{value}" do
-          expect(described_class.new(value)).to be_valid
-          expect(described_class.new(value)).not_to be_invalid
-        end
-      end
+      )
 
-      %w(
+      invalid = %w(
         010-01Z
         2010-1Z
         2010-0
         2011-01PDT
         0000-12
-      ).each do |value|
-        it "invalidates #{value}" do
-          expect(described_class.new(value)).to be_invalid
-          expect(described_class.new(value)).not_to be_valid
-        end
-      end
+      )
+
+      include_examples 'RDF::Literal validation', described_class::DATATYPE, valid, invalid
     end
 
     describe RDF::Literal::Year do
-      %w(
+      include_examples 'RDF::Literal with datatype and grammar',
+                       '2010',
+                       described_class::DATATYPE.to_s
+
+      include_examples 'RDF::Literal equality', '2010', Date.parse('2010-01-01')
+
+      include_examples 'RDF::Literal lexical values', '2010'
+
+      valid = %w(
         2010Z
         2010+08:00
         2010-08:00
@@ -89,106 +99,103 @@ describe RDF::Literal do
         20090Z
         9999
         -2010Z
-      ).each do |value|
-        it "validates #{value}" do
-          expect(described_class.new(value)).to be_valid
-          expect(described_class.new(value)).not_to be_invalid
-        end
-      end
+      )
 
-      %w(
+      invalid = %w(
         010
         010Z
         2011PDT
         0000
-      ).each do |value|
-        it "invalidates #{value}" do
-          expect(described_class.new(value)).to be_invalid
-          expect(described_class.new(value)).not_to be_valid
-        end
-      end
+      )
+
+      include_examples 'RDF::Literal validation', described_class::DATATYPE, valid, invalid
     end
 
     describe RDF::Literal::MonthDay do
-      %w(
+      include_examples 'RDF::Literal with datatype and grammar',
+                       '--12-31Z',
+                       described_class::DATATYPE.to_s
+
+      include_examples 'RDF::Literal equality',
+                       '--12-31Z',
+                       Date.parse('0000-12-31')
+
+      include_examples 'RDF::Literal lexical values', '--12-31Z'
+
+      valid = %w(
         --12-31Z
         --12-31+08:00
         --12-31-08:00
         --12-31
         --12-31
-      ).each do |value|
-        it "validates #{value}" do
-          expect(described_class.new(value)).to be_valid
-          expect(described_class.new(value)).not_to be_invalid
-        end
-      end
+      )
 
-      %w(
+      invalid = %w(
         12-31Z
         --200-90Z
         -12-01Z
-      ).each do |value|
-        it "invalidates #{value}" do
-          expect(described_class.new(value)).to be_invalid
-          expect(described_class.new(value)).not_to be_valid
-        end
-      end
+      )
+
+      include_examples 'RDF::Literal validation', described_class::DATATYPE, valid, invalid
     end
 
     describe RDF::Literal::Day do
-      %w(
+      include_examples 'RDF::Literal with datatype and grammar',
+                       '---10Z',
+                       described_class::DATATYPE.to_s
+
+      include_examples 'RDF::Literal equality',
+                       '---10Z',
+                       Date.parse('0000-01-10')
+
+      include_examples 'RDF::Literal lexical values', '---10Z'
+
+      valid = %w(
         ---10Z
         ---10+08:00
         ---10-08:00
         ---10
         ---31
-      ).each do |value|
-        it "validates #{value}" do
-          expect(described_class.new(value)).to be_valid
-          expect(described_class.new(value)).not_to be_invalid
-        end
-      end
+      )
 
-      %w(
+      invalid = %w(
         10Z
         -01Z
         2010-01-01Z
         2010-01Z
         01-01Z
-      ).each do |value|
-        it "invalidates #{value}" do
-          expect(described_class.new(value)).to be_invalid
-          expect(described_class.new(value)).not_to be_valid
-        end
-      end
+      )
+
+      include_examples 'RDF::Literal validation', described_class::DATATYPE, valid, invalid
     end
 
     describe RDF::Literal::Month do
-      %w(
+      include_examples 'RDF::Literal with datatype and grammar',
+                       '--10Z',
+                       described_class::DATATYPE.to_s
+
+      include_examples 'RDF::Literal equality',
+                       '--10Z',
+                       Date.parse('0000-10-01')
+
+      include_examples 'RDF::Literal lexical values', '--10Z'
+
+      valid = %w(
         --10Z
         --10+08:00
         --10-08:00
         --10
-      ).each do |value|
-        it "validates #{value}" do
-          expect(described_class.new(value)).to be_valid
-          expect(described_class.new(value)).not_to be_invalid
-        end
-      end
+      )
 
-      %w(
+      invalid = %w(
         10Z
         -01Z
         2010-01-01Z
         2010-01Z
         01-01Z
-      ).each do |value|
-        it "invalidates #{value}" do
-          expect(described_class.new(value)).to be_invalid
-          expect(described_class.new(value)).not_to be_valid
-        end
-      end
+      )
+
+      include_examples 'RDF::Literal validation', described_class::DATATYPE, valid, invalid
     end
   end
-
 end

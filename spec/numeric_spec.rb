@@ -17,13 +17,11 @@ describe RDF::Literal::Numeric do
       "xsd:unsignedShort"      => RDF::Literal::UnsignedShort,
       "xsd:unsignedByte"       => RDF::Literal::UnsignedByte,
     }.each do |qname, klass|
-      it "finds #{klass} for #{qname}" do
-        uri = RDF::XSD[qname.split(':').last]
-        expect(RDF::Literal("0", :datatype => uri).class).to eq klass
-      end
+      uri = RDF::XSD[qname.split(':').last]
+      include_examples 'RDF::Literal lookup', { uri => klass }
     end
   end
-  
+
   context "type-promotion" do
     context "for numbers" do
       {
@@ -106,7 +104,7 @@ describe RDF::Literal::Numeric do
             o_l = RDF::Literal.new(([:nonPositiveInteger, :negativeInteger].include?(l) ? "-1" : "1"), :datatype => RDF::XSD.send(l))
             right_result.each do |right, result|
               o_r = RDF::Literal.new(([:nonPositiveInteger, :negativeInteger].include?(right) ? "-1" : "1"), :datatype => RDF::XSD.send(right))
-              
+
               it "returns #{result} for #{l} + #{right}" do
                 expect((o_l + o_r).datatype).to eq RDF::XSD.send(result)
               end
@@ -139,7 +137,7 @@ describe RDF::Literal::Numeric do
         o_l = RDF::Literal.new("1", :datatype => RDF::XSD.send(left))
         right_result.each do |right, result|
           o_r = RDF::Literal.new(([:nonPositiveInteger, :negativeInteger].include?(right) ? "-1" : "1"), :datatype => RDF::XSD.send(right))
-          
+
           it "returns #{result} for #{left} + #{right}" do
             expect((o_l + o_r).datatype).to eq RDF::XSD.send(result)
           end
@@ -188,7 +186,7 @@ describe RDF::Literal::Numeric do
       describe klass do
         datatype = klass.const_get(:DATATYPE)
 
-        {
+        pairs = {
           "0" => %w(nonPositiveInteger nonNegativeInteger long int short byte unsignedLong unsignedInt unsignedShort unsignedByte),
           "-1" => %w(nonPositiveInteger negativeInteger long int short byte),
           "1" => %w(nonNegativeInteger positiveInteger long int short byte unsignedLong unsignedInt unsignedShort unsignedByte),
@@ -200,21 +198,20 @@ describe RDF::Literal::Numeric do
           "-32768" => %w(nonPositiveInteger negativeInteger long int short),
           "127" => %w(nonNegativeInteger positiveInteger long unsignedLong int unsignedInt short byte unsignedShort unsignedByte),
           "-128" => %w(nonPositiveInteger negativeInteger long int short byte),
-        }.each do |value, datatypes|
-          if datatypes.map {|s| RDF::XSD[s]}.include?(datatype)
-            it "returns valid for #{value}" do
-              l = klass.new(value)
-              expect(l).to be_valid
-              expect(l).not_to be_invalid
-            end
-          else
-            it "returns invalid for #{value}" do
-              l = klass.new(value)
-              expect(l).to be_invalid
-              expect(l).not_to be_valid
-            end
-          end
+        }
+
+        valid = pairs.select do |value, datatypes|
+          datatypes.map { |s| RDF::XSD[s] }.include?(datatype)
         end
+
+        invalid = pairs.reject do |value, datatypes|
+          datatypes.map { |s| RDF::XSD[s] }.include?(datatype)
+        end
+
+        include_examples 'RDF::Literal validation',
+                         datatype,
+                         valid.keys,
+                         invalid.keys
       end
     end
   end
@@ -232,7 +229,7 @@ describe RDF::Literal::Numeric do
         end
       end
     end
-    
+
     # Term equivalence
     context "not #eql?" do
       {

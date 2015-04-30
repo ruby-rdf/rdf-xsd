@@ -67,12 +67,15 @@ describe RDF::Literal::Duration do
 end
 
 describe RDF::Literal::DayTimeDuration do
-  it "finds #{described_class} for xsd:dayTimeDuration" do
-    expect(RDF::Literal("0", :datatype => RDF::XSD.dayTimeDuration).class).to eq described_class
-  end
+  include_examples 'RDF::Literal',
+                   'PT130S',
+                   described_class::DATATYPE.to_s
+
+  include_examples 'RDF::Literal lookup',
+                   { described_class::DATATYPE => described_class }
 
   context "validations" do
-    %w(
+    valid = %w(
       PT130S
       PT130M
       PT130H
@@ -84,14 +87,9 @@ describe RDF::Literal::DayTimeDuration do
       PT1004199059S
       PT1M30.5S
       PT20M
-    ).each do |value|
-      it "validates #{value}" do
-        expect(described_class.new(value)).to be_valid
-        expect(described_class.new(value)).not_to be_invalid
-      end
-    end
+    )
 
-    %w(
+    invalid = %w(
       P130M
       P130Y
       P0Y20M0D
@@ -101,35 +99,31 @@ describe RDF::Literal::DayTimeDuration do
       P1Y2M3DT5H20M30.123S
       -P1111Y11M23DT4H55M16.666S
       P2Y6M5DT12H35M30S
-    ).each do |value|
-      it "invalidates #{value}" do
-        expect(described_class.new(value)).to be_invalid
-        expect(described_class.new(value)).not_to be_valid
-      end
-    end
+    )
+
+    include_examples 'RDF::Literal validation', described_class::DATATYPE, valid, invalid
   end
 end
 
 describe RDF::Literal::YearMonthDuration do
-  it "finds #{described_class} for xsd:dayTimeDuration" do
-    expect(RDF::Literal("0", :datatype => RDF::XSD.yearMonthDuration).class).to eq described_class
-  end
+
+  include_examples 'RDF::Literal',
+                   'P130M',
+                   described_class::DATATYPE.to_s
+
+  include_examples 'RDF::Literal lookup',
+                   { described_class::DATATYPE => described_class }
 
   context "validations" do
-    %w(
+    valid = %w(
       P130M
       P130Y
       P0Y
       P20M
       -P1Y
-    ).each do |value|
-      it "validates #{value}" do
-        expect(described_class.new(value)).to be_valid
-        expect(described_class.new(value)).not_to be_invalid
-      end
-    end
+    )
 
-    %w(
+    invalid = %w(
       P0Y20M0D
       P1Y2M3DT5H20M30.123S
       -P1111Y11M23DT4H55M16.666S
@@ -145,11 +139,8 @@ describe RDF::Literal::YearMonthDuration do
       PT1004199059S
       PT1M30.5S
       PT20M
-    ).each do |value|
-      it "invalidates #{value}" do
-        expect(described_class.new(value)).to be_invalid
-        expect(described_class.new(value)).not_to be_valid
-      end
-    end
+    )
+
+    include_examples 'RDF::Literal validation', described_class::DATATYPE, valid, invalid
   end
 end
