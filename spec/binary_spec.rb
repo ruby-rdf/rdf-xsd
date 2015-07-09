@@ -23,7 +23,7 @@ describe RDF::Literal do
     3f3c6d78206c657673726F693D6E3122302e20226E656F636964676e223D54552d4622383E3f
     )
 
-    invalid_values = %w(jruby rbx).include?(RUBY_ENGINE) ? [] : %w(0FB7Z)
+    invalid_values = %w(0FB7Z)
 
     include_examples 'RDF::Literal validation', RDF::XSD.hexBinary, valid_values, invalid_values
 
@@ -68,9 +68,7 @@ describe RDF::Literal do
                     "YW55IGNhcm5hbCBwbGVhc3U=",
                     "YW55IGNhcm5hbCBwbGVhcw=="]
 
-    base64_invalid = %w(
-      0FB7Z
-    )
+    base64_invalid = %w(jruby rbx).include?(RUBY_ENGINE) ? [] : %w(0FB7Z)
 
     include_examples 'RDF::Literal validation', RDF::XSD.base64Binary, base64_valid, base64_invalid
   end
