@@ -34,6 +34,14 @@ module RDF; class Literal
       self
     end
 
+    ##
+    # Returns the encoded value as a string.
+    #
+    # @return [String]
+    def to_s
+      @string.to_s
+    end
+
   private
     def bin_to_hex(value)
       value.unpack('H*').first.upcase
