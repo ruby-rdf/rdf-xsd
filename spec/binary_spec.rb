@@ -8,9 +8,14 @@ describe RDF::Literal do
                    { RDF::XSD.base64Binary => RDF::Literal::Base64Binary }
 
   describe RDF::Literal::HexBinary do
-    it_behaves_like 'RDF::Literal',
-                    '0FB7',
+    it_behaves_like 'RDF::Literal with datatype and grammar',
+                    '3f3c6d78206c657673726F693D6E3122302e20226E656F636964676e223D54552d4622383E3f',
                     described_class::DATATYPE.to_s
+    it_behaves_like 'RDF::Literal equality',
+                    '3f3c6d78206c657673726F693D6E3122302e20226E656F636964676e223D54552d4622383E3f',
+                    %(?<mx levsroi=n1"0. "neocidgn"=TU-F"8>?)
+    it_behaves_like 'RDF::Literal lexical values',
+                    '3f3c6d78206c657673726F693D6E3122302e20226E656F636964676e223D54552d4622383E3f'
 
     valid_values = %w(
     0FB7
@@ -21,6 +26,20 @@ describe RDF::Literal do
     invalid_values = %w(0FB7Z)
 
     include_examples 'RDF::Literal validation', RDF::XSD.hexBinary, valid_values, invalid_values
+
+    context "from binary" do
+      it %(encodes ?<mx levsroi=n1"0. "neocidgn"=TU-F"8>?) do
+        expect(described_class.new(nil, object: %(?<mx levsroi=n1"0. "neocidgn"=TU-F"8>?)).value).to eql "3F3C6D78206C657673726F693D6E3122302E20226E656F636964676E223D54552D4622383E3F"
+      end
+    end
+
+    context "canonicalization" do
+      valid_values.each do |value|
+        it "#{value} to #{value.upcase}" do
+          expect(described_class.new(value, canonicalize: true).value).to eq value.upcase
+        end
+      end
+    end
   end
 
   describe RDF::Literal::Base64Binary do
@@ -49,18 +68,10 @@ describe RDF::Literal do
                     "YW55IGNhcm5hbCBwbGVhc3U=",
                     "YW55IGNhcm5hbCBwbGVhcw=="]
 
-    base64_invalid = [] # why do the tests below call RDF::Literal::YearMonth?
-    # they fail when running against RDF::Literal::Base64Binary
+    base64_invalid = %w(
+      0FB7Z
+    )
 
     include_examples 'RDF::Literal validation', RDF::XSD.base64Binary, base64_valid, base64_invalid
-
-    %w(
-      0FB7Z
-    ).each do |value|
-      it "invalidates #{value}" do
-        expect(RDF::Literal::YearMonth.new(value)).to be_invalid
-        expect(RDF::Literal::YearMonth.new(value)).not_to be_valid
-      end
-    end
   end
 end
