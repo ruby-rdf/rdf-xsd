@@ -17,12 +17,38 @@ module RDF; class Literal
     GRAMMAR = %r(\A[0-9a-fA-F]+\Z)
 
     ##
+    # @param  [String] value The encoded form of the literal
+    # @option options [String] :object (nil) decoded value
+    def initialize(value, options = {})
+      super
+      @object = options.fetch(:object, hex_to_bin(value.to_s))
+      @string ||= bin_to_hex(@object)
+    end
+
+    ##
     # Converts this literal into its canonical lexical representation.
     #
     # @return [RDF::Literal] `self`
     def canonicalize!
-      @string = @object.downcase
+      @string = bin_to_hex(@object)
       self
+    end
+
+    ##
+    # Returns the encoded value as a string.
+    #
+    # @return [String]
+    def to_s
+      @string.to_s
+    end
+
+  private
+    def bin_to_hex(value)
+      value.unpack('H*').first.upcase
+    end
+
+    def hex_to_bin(value)
+      value.scan(/../).map { |x| x.hex }.pack('c*').force_encoding("BINARY")
     end
   end
   
@@ -50,7 +76,7 @@ module RDF; class Literal
     # Converts this literal into its canonical lexical representation.
     #
     # @return [RDF::Literal] `self`
-    # @see    http://www.w3.org/TR/xmlschema11-2/#dateTime
+    # @see    http://www.w3.org/TR/xmlschema-2/#dateTime
     def canonicalize!
       @string = ::Base64.encode64(@object)
       self
@@ -63,6 +89,8 @@ module RDF; class Literal
     # @return [Boolean]
     def valid?
       Base64.strict_decode64(value.gsub(/\s+/m, ''))
+    rescue ArgumentError
+      false
     end
   end
 end; end #RDF::Literal
