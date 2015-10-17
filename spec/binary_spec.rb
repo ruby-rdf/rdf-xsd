@@ -54,6 +54,11 @@ describe RDF::Literal do
     it_behaves_like 'RDF::Literal lexical values',
                     "U2VuZCByZWluZm9yY2VtZW50cw==\n"
 
+    it_behaves_like 'RDF::Literal canonicalization',
+                    described_class::DATATYPE.to_s, [
+                      ["U2VuZCByZWluZm9yY2VtZW50cw==\n", "U2VuZCByZWluZm9yY2VtZW50cw==\n"]
+                    ]
+
     base64_valid = ["U2VuZCByZWluZm9yY2VtZW50cw==\n",
                     "VGhpcyBpcyBsaW5lIG9uZQpUaGlzIGlzIGxpbmUgdHdvClRoaXMgaXMgbGluZSB0aHJlZQpBbmQgc28gb24uLi4K",
                     "Tm93IGlzIHRoZSB0aW1lIGZvciBhbGwgZ29vZCBjb2RlcnMKdG8gbGVhcm4g",

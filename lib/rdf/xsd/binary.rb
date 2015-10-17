@@ -71,7 +71,15 @@ module RDF; class Literal
       @object = value.is_a?(String) ? ::Base64.decode64(value) : value
       canonicalize! unless value.is_a?(String)
     end
-    
+
+    ##
+    # Returns the value as a string.
+    #
+    # @return [String]
+    def to_s
+      @string || @object.to_s
+    end
+
     ##
     # Converts this literal into its canonical lexical representation.
     #
@@ -88,7 +96,7 @@ module RDF; class Literal
     #
     # @return [Boolean]
     def valid?
-      Base64.strict_decode64(value.gsub(/\s+/m, ''))
+      !!Base64.strict_decode64(value.gsub(/\s+/m, ''))
     rescue ArgumentError
       false
     end
