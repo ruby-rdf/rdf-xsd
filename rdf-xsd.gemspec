@@ -37,6 +37,6 @@ Gem::Specification.new do |gem|
   gem.post_install_message  = %(
     For best results, use nokogiri and equivalent-xml gems as well.
     These are not hard requirements to preserve pure-ruby dependencies.
-  )
+  ).gsub(/^  /m, '')
 end
 
