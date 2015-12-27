@@ -220,7 +220,6 @@ describe RDF::Literal::Numeric do
     context "#==" do
       {
         "numeric 1='1'^xsd:int" => [RDF::Literal(1), RDF::Literal::Int.new("1")],
-        "numeric 1='1'^xsd:int" => [RDF::Literal(1), RDF::Literal::Int.new("1")],
       }.each do |label, (left, right)|
         it "returns true for #{label}" do
           left.extend(RDF::TypeCheck)
