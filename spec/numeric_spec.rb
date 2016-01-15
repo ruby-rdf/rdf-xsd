@@ -103,6 +103,9 @@ describe RDF::Literal::Numeric do
           (right_result.keys - [:integer, :decimal, :float, :double]).each do |l|
             o_l = RDF::Literal.new(([:nonPositiveInteger, :negativeInteger].include?(l) ? "-1" : "1"), :datatype => RDF::XSD.send(l))
             right_result.each do |right, result|
+
+              # Integer types promote to decimal for division
+              div_result = result == :integer ? :decimal : result
               o_r = RDF::Literal.new(([:nonPositiveInteger, :negativeInteger].include?(right) ? "-1" : "1"), :datatype => RDF::XSD.send(right))
 
               it "returns #{result} for #{l} + #{right}" do
@@ -114,8 +117,8 @@ describe RDF::Literal::Numeric do
               it "returns #{result} for #{l} * #{right}" do
                 expect((o_l * o_r).datatype).to eq RDF::XSD.send(result)
               end
-              it "returns #{result} for #{l} / #{right}" do
-                expect((o_l / o_r).datatype).to eq RDF::XSD.send(result)
+              it "returns #{div_result} for #{l} / #{right}" do
+                expect((o_l / o_r).datatype).to eq RDF::XSD.send(div_result)
               end
 
               it "returns #{result} for #{right} + #{l}" do
@@ -127,8 +130,8 @@ describe RDF::Literal::Numeric do
               it "returns #{result} for #{right} * #{l}" do
                 expect((o_r * o_l).datatype).to eq RDF::XSD.send(result)
               end
-              it "returns #{result} for #{right} / #{l}" do
-                expect((o_r / o_l).datatype).to eq RDF::XSD.send(result)
+              it "returns #{div_result} for #{right} / #{l}" do
+                expect((o_r / o_l).datatype).to eq RDF::XSD.send(div_result)
               end
             end
           end
@@ -136,6 +139,7 @@ describe RDF::Literal::Numeric do
 
         o_l = RDF::Literal.new("1", :datatype => RDF::XSD.send(left))
         right_result.each do |right, result|
+          div_result = [left, right].include?(:integer) && result == :integer ? :decimal : result
           o_r = RDF::Literal.new(([:nonPositiveInteger, :negativeInteger].include?(right) ? "-1" : "1"), :datatype => RDF::XSD.send(right))
 
           it "returns #{result} for #{left} + #{right}" do
@@ -147,8 +151,8 @@ describe RDF::Literal::Numeric do
           it "returns #{result} for #{left} * #{right}" do
             expect((o_l * o_r).datatype).to eq RDF::XSD.send(result)
           end
-          it "returns #{result} for #{left} / #{right}" do
-            expect((o_l / o_r).datatype).to eq RDF::XSD.send(result)
+          it "returns #{div_result} for #{left} / #{right}" do
+            expect((o_l / o_r).datatype).to eq RDF::XSD.send(div_result)
           end
 
           it "returns #{result} for #{right} + #{left}" do
@@ -160,8 +164,8 @@ describe RDF::Literal::Numeric do
           it "returns #{result} for #{right} * #{left}" do
             expect((o_r * o_l).datatype).to eq RDF::XSD.send(result)
           end
-          it "returns #{result} for #{right} / #{left}" do
-            expect((o_r / o_l).datatype).to eq RDF::XSD.send(result)
+          it "returns #{div_result} for #{right} / #{left}" do
+            expect((o_r / o_l).datatype).to eq RDF::XSD.send(div_result)
           end
         end
       end
