@@ -20,10 +20,10 @@ Gem::Specification.new do |gem|
   gem.require_paths         = %w(lib)
   gem.has_rdoc              = false
 
-  gem.required_ruby_version = '>= 2.0.0'
+  gem.required_ruby_version = '>= 2.0'
   gem.requirements          = []
 
-  gem.add_runtime_dependency     'rdf',             '~> 1.99'
+  gem.add_runtime_dependency     'rdf',             '>= 1.99', '< 3'
 
   #gem.add_development_dependency 'nokogiri' ,       '>= 1.6.1' # conditionally done in Gemfile
   #gem.add_development_dependency 'equivalent-xml' , '~> 0.3'
@@ -31,7 +31,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'i18n',            '~> 0.6'
   gem.add_development_dependency 'rspec',           '~> 3.0'
   gem.add_development_dependency 'rspec-its',       '~> 1.0'
-  gem.add_development_dependency 'rdf-spec',        '~> 1.99'
+  gem.add_development_dependency 'rdf-spec',        '>= 1.99', '< 3'
   gem.add_development_dependency 'yard' ,           '~> 0.8'
 
   gem.post_install_message  = %(
