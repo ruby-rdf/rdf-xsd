@@ -52,14 +52,6 @@ require 'rexml/document'
             :foaf => "http://xmlns.com/foaf/0.1/",
             :rdf  => "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
           }},
-          %q(<span property="foaf:firstName" xmlns="http://www.w3.org/1999/xhtml">Mark</span> <span property="foaf:surname" xmlns="http://www.w3.org/1999/xhtml" xmlns:foaf="http://xmlns.com/foaf/0.1/">Birbeck</span>)
-        ],
-        "RDFa 0198 w/xmlns" => [
-          %q(<span xmlns="http://www.w3.org/1999/xhtml" property="foaf:firstName">Mark</span> <span xmlns="http://www.w3.org/1999/xhtml" property="foaf:surname">Birbeck</span>),
-          {:namespaces => {
-            :foaf => "http://xmlns.com/foaf/0.1/",
-            :rdf  => "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-          }},
           %q(<span property="foaf:firstName" xmlns="http://www.w3.org/1999/xhtml" xmlns:foaf="http://xmlns.com/foaf/0.1/">Mark</span> <span property="foaf:surname" xmlns="http://www.w3.org/1999/xhtml" xmlns:foaf="http://xmlns.com/foaf/0.1/">Birbeck</span>)
         ],
         "xml-canon/rdfcore " => [
