@@ -7,7 +7,7 @@ Gem::Specification.new do |gem|
 
   gem.name                  = %q{rdf-xsd}
   gem.homepage              = "http://ruby-rdf.github.com/rdf-xsd"
-  gem.license               = 'Public Domain' if gem.respond_to?(:license=)
+  gem.license               = 'Unlicense'
   gem.summary               = "Extended XSD Datatypes for RDF.rb."
   gem.description           = "Adds RDF::Literal subclasses for extended XSD datatypes."
   gem.rubyforge_project     = 'rdf-xsd'
@@ -29,8 +29,8 @@ Gem::Specification.new do |gem|
   #gem.add_development_dependency 'equivalent-xml' , '~> 0.3'
   gem.add_development_dependency 'activesupport',   '~> 4.1'
   gem.add_development_dependency 'i18n',            '~> 0.6'
-  gem.add_development_dependency 'rspec',           '~> 3.0'
-  gem.add_development_dependency 'rspec-its',       '~> 1.0'
+  gem.add_development_dependency 'rspec',           '~> 3.4'
+  gem.add_development_dependency 'rspec-its',       '~> 1.2'
   gem.add_development_dependency 'rdf-spec',        '>= 2.0.0.beta', '< 3'
   gem.add_development_dependency 'yard' ,           '~> 0.8'
 
