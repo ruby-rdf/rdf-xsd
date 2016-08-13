@@ -6,10 +6,13 @@ env:
 rvm:
   - 2.2.5
   - 2.3.1
-  - jruby-9.1.2.0
+  - jruby
   - rbx
 gemfile:
   - Gemfile
   - Gemfile-pure
 cache: bundler
 sudo: false
+matrix:
+  allow_failures:
+    - rvm: jruby
