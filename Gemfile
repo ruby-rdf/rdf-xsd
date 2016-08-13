@@ -9,7 +9,6 @@ gem "nokogiri", '~> 1.6'
 gem 'equivalent-xml', '~> 0.5'
 
 group :debug do
-  gem "wirble"
   gem 'byebug', platforms: :mri
 end
 
