@@ -19,8 +19,8 @@ module RDF; class Literal
     ##
     # @param  [String] value The encoded form of the literal
     # @option options [String] :object (nil) decoded value
-    def initialize(value, options = {})
-      super
+    def initialize(value, datatype: nil, lexical: nil, **options)
+      super(value, datatype: datatype, lexical: lexical)
       @object = options.fetch(:object, hex_to_bin(value.to_s))
       @string ||= bin_to_hex(@object)
     end
@@ -66,8 +66,8 @@ module RDF; class Literal
     #   If given a string, it will decode it as an object value.
     #   Otherwise, it will take the value as the object and encode to retrieve a value
     # @option options [String] :lexical (nil)
-    def initialize(value, options = {})
-      super
+    def initialize(value, datatype: nil, lexical: nil, **options)
+      super(value, datatype: datatype, lexical: lexical)
       @object = value.is_a?(String) ? ::Base64.decode64(value) : value
       canonicalize! unless value.is_a?(String)
     end

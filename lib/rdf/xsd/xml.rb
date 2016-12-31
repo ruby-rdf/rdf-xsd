@@ -33,12 +33,12 @@ module RDF; class Literal
 
     ##
     # @param  [Object] value
-    # @option options [String] :lexical (nil)
+    # @param [String] lexical (nil)
     # @option options [:nokogiri, :rexml] :library
     #   Library to use, defaults to :nokogiri if available, :rexml otherwise
-    def initialize(value, options = {})
-      @datatype = options[:datatype] || DATATYPE
-      @string   = options[:lexical] if options.has_key?(:lexical)
+    def initialize(value, datatype: nil, lexical: nil, **options)
+      @datatype = datatype || DATATYPE
+      @string   = lexical if lexical
       if value.is_a?(String)
         @string ||= value
       else
