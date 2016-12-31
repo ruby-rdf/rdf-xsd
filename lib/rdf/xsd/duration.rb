@@ -33,7 +33,7 @@ module RDF; class Literal
     # * Hash form is used for internal representation
     # @param  [Duration, Hash, Numeric, #to_s] value
     # @option options [String] :lexical (nil)
-    def initialize(value, options = {})
+    def initialize(value, datatype: nil, lexical: nil, **options)
       super
       @object   = case value
       when Hash

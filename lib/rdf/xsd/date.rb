@@ -26,10 +26,10 @@ module RDF; class Literal
     GRAMMAR  = %r(\A(-?\d{4,}-\d{2})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
     FORMAT   = '%Y-%m%Z'.freeze
     
-    def initialize(value, options = {})
-      @string = options.fetch(:lexical, value.to_s)
+    def initialize(value, datatype: nil, lexical: nil, **options)
+      @string = lexical || value.to_s
       object = GRAMMAR.match(value.to_s) && ::Date.parse("#{$1}-01#{$2}")
-      super(object, options)
+      super(object, lexical: @string)
     end
   end
 
@@ -44,10 +44,10 @@ module RDF; class Literal
     GRAMMAR  = %r(\A(-?\d{4,})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
     FORMAT   = '%Y%Z'.freeze
 
-    def initialize(value, options = {})
-      @string = options.fetch(:lexical, value.to_s)
+    def initialize(value, datatype: nil, lexical: nil, **options)
+      @string = lexical || value.to_s
       object = GRAMMAR.match(value.to_s) && ::Date.parse("#{$1}-01-01#{$2}")
-      super(object, options)
+      super(object, lexical: @string)
     end
   end
 
@@ -62,10 +62,10 @@ module RDF; class Literal
     GRAMMAR  = %r(\A--(\d{2}-\d{2})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
     FORMAT   = '%m-%d%Z'.freeze
 
-    def initialize(value, options = {})
-      @string = options.fetch(:lexical, value.to_s)
+    def initialize(value, datatype: nil, lexical: nil, **options)
+      @string = lexical || value.to_s
       object = GRAMMAR.match(value.to_s) && ::Date.parse("0000-#{$1}#{$2}")
-      super(object, options)
+      super(object, lexical: @string)
     end
   end
 
@@ -80,10 +80,10 @@ module RDF; class Literal
     GRAMMAR  = %r(\A---(\d{2})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
     FORMAT   = '%d%Z'.freeze
 
-    def initialize(value, options = {})
-      @string = options.fetch(:lexical, value.to_s)
+    def initialize(value, datatype: nil, lexical: nil, **options)
+      @string = lexical || value.to_s
       object = GRAMMAR.match(value.to_s) && ::Date.parse("0000-01-#{$1}#{$2}")
-      super(object, options)
+      super(object, lexical: @string)
     end
   end
 
@@ -97,10 +97,10 @@ module RDF; class Literal
     GRAMMAR  = %r(\A--(\d{2})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
     FORMAT   = '%m%Z'.freeze
 
-    def initialize(value, options = {})
-      @string = options.fetch(:lexical, value.to_s)
+    def initialize(value, datatype: nil, lexical: nil, **options)
+      @string = lexical || value.to_s
       object = GRAMMAR.match(value.to_s) && ::Date.parse("0000-#{$1}-01#{$2}")
-      super(object, options)
+      super(object, lexical: @string)
     end
   end
 end; end #RDF::Literal

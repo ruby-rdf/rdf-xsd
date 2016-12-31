@@ -24,9 +24,9 @@ module RDF; class Literal
     # @param  [String, Object] value
     #   If given a string, it will decode it as an object value.
     #   Otherwise, it will take the value as the object and encode to retrieve a value
-    # @option options [String] :lexical (nil)
-    def initialize(value, options = {})
-      super
+    # @param [String] lexical (nil)
+    def initialize(value, datatype: nil, lexical: nil, **options)
+      super(value, datatype: datatype, lexical: lexical)
       @object = RDF::URI(value)
       canonicalize! unless value.is_a?(String)
     end
