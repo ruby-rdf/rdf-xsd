@@ -92,7 +92,8 @@ if defined?(::Nokogiri)
       #   Passed to {Nokogiri::XML::Node#c14nxl}
       def c14nxl(options = {})
         # Create a new NodeSet
-        set = self.clone
+        set = self.dup
+        set.pop while !set.empty?
         set.instance_variable_set(:@c14nxl, true)
 
         self.each {|c| set << c.c14nxl(options)}
