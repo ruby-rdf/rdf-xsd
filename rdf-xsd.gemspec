@@ -10,7 +10,6 @@ Gem::Specification.new do |gem|
   gem.license               = 'Unlicense'
   gem.summary               = "Extended XSD Datatypes for RDF.rb."
   gem.description           = "Adds RDF::Literal subclasses for extended XSD datatypes."
-  gem.rubyforge_project     = 'rdf-xsd'
 
   gem.authors               = %w(Gregg Kellogg)
   gem.email                 = 'public-rdf-ruby@w3.org'
