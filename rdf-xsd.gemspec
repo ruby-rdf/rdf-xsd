@@ -22,15 +22,17 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version = '>= 2.2.2'
   gem.requirements          = []
 
-  gem.add_runtime_dependency     'rdf',             '~> 2.1'
+  #gem.add_runtime_dependency     'rdf',             '~> 3.0'
+  gem.add_runtime_dependency     'rdf',             '>= 2.2', '< 4.0'
 
   #gem.add_development_dependency 'nokogiri' ,       '>= 1.6.1' # conditionally done in Gemfile
   #gem.add_development_dependency 'equivalent-xml' , '~> 0.3'
   gem.add_development_dependency 'activesupport',   '~> 5.0'
-  gem.add_development_dependency 'i18n',            '~> 0.6'
-  gem.add_development_dependency 'rspec',           '~> 3.4'
+  gem.add_development_dependency 'i18n',            '~> 0.9'
+  gem.add_development_dependency 'rspec',           '~> 3.7'
   gem.add_development_dependency 'rspec-its',       '~> 1.2'
-  gem.add_development_dependency 'rdf-spec',        '~> 2.0'
+  #gem.add_development_dependency 'rdf-spec',        '~> 3.0'
+  gem.add_development_dependency 'rdf-spec',        '>= 2.2', '< 4.0'
   gem.add_development_dependency 'yard' ,           '~> 0.8'
 
   gem.post_install_message  = %(
