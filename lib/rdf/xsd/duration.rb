@@ -7,7 +7,7 @@ module RDF; class Literal
   #
   # @see   http://www.w3.org/TR/xmlschema11-2/#duration
   class Duration < Literal
-    DATATYPE = XSD.duration
+    DATATYPE = RDF::XSD.duration
     GRAMMAR  = %r(\A
       (?<si>-)?
       P(?:(?:(?:(?:(?<yr>\d+)Y)(?:(?<mo>\d+)M)?(?:(?<da>\d+)D)?)
@@ -204,7 +204,7 @@ module RDF; class Literal
   #
   # @see   http://www.w3.org/TR/xmlschema11-2/#dayTimeDuration
   class DayTimeDuration < Literal
-    DATATYPE = XSD.dayTimeDuration
+    DATATYPE = RDF::XSD.dayTimeDuration
     GRAMMAR  = %r(\A
       (?<si>-)?
       P(?:(?:(?:(?<da>\d+)D)
@@ -230,7 +230,7 @@ module RDF; class Literal
   #
   # @see   http://www.w3.org/TR/xmlschema11-2/#yearMonthDuration
   class YearMonthDuration < Literal
-    DATATYPE = XSD.yearMonthDuration
+    DATATYPE = RDF::XSD.yearMonthDuration
     GRAMMAR  = %r(\A
       (?<si>-)?
       P(?:(?:(?:(?:(?<yr>\d+)Y)(?:(?<mo>\d+)M)?)

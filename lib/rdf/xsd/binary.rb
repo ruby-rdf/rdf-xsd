@@ -13,7 +13,7 @@ module RDF; class Literal
   #
   # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#hexBinary
   class HexBinary < RDF::Literal
-    DATATYPE = XSD.hexBinary
+    DATATYPE = RDF::XSD.hexBinary
     GRAMMAR = %r(\A[0-9a-fA-F]+\Z)
 
     ##
@@ -59,7 +59,7 @@ module RDF; class Literal
   #
   # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#hexBinary
   class Base64Binary < RDF::Literal
-    DATATYPE = XSD.base64Binary
+    DATATYPE = RDF::XSD.base64Binary
 
     ##
     # @param  [String, Object] value

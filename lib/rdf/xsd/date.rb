@@ -9,7 +9,7 @@ module RDF; class Literal
   #
   # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#dateTimeStamp
   class DateTimeStamp < RDF::Literal::DateTime
-    DATATYPE = XSD.dateTimeStamp
+    DATATYPE = RDF::XSD.dateTimeStamp
     GRAMMAR  = %r(\A(-?\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?)((?:[\+\-]\d{2}:\d{2})|UTC|GMT|Z)\Z).freeze
     FORMAT   = '%Y-%m-%dT%H:%M:%SZ'.freeze
   end
@@ -22,7 +22,7 @@ module RDF; class Literal
   #
   # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#gYearMonth
   class YearMonth < RDF::Literal::Date
-    DATATYPE = XSD.gYearMonth
+    DATATYPE = RDF::XSD.gYearMonth
     GRAMMAR  = %r(\A(-?\d{4,}-\d{2})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
     FORMAT   = '%Y-%m%Z'.freeze
     
@@ -40,7 +40,7 @@ module RDF; class Literal
   #
   # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#gYear
   class Year < RDF::Literal::Date
-    DATATYPE = XSD.gYear
+    DATATYPE = RDF::XSD.gYear
     GRAMMAR  = %r(\A(-?\d{4,})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
     FORMAT   = '%Y%Z'.freeze
 
@@ -58,7 +58,7 @@ module RDF; class Literal
   #
   # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#gMonthDay
   class MonthDay < RDF::Literal::Date
-    DATATYPE = XSD.gMonthDay
+    DATATYPE = RDF::XSD.gMonthDay
     GRAMMAR  = %r(\A--(\d{2}-\d{2})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
     FORMAT   = '%m-%d%Z'.freeze
 
@@ -76,7 +76,7 @@ module RDF; class Literal
   #
   # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#gDay
   class Day < RDF::Literal::Date
-    DATATYPE = XSD.gDay
+    DATATYPE = RDF::XSD.gDay
     GRAMMAR  = %r(\A---(\d{2})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
     FORMAT   = '%d%Z'.freeze
 
@@ -93,7 +93,7 @@ module RDF; class Literal
   #
   # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#gMonth
   class Month < RDF::Literal::Date
-    DATATYPE = XSD.gMonth
+    DATATYPE = RDF::XSD.gMonth
     GRAMMAR  = %r(\A--(\d{2})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
     FORMAT   = '%m%Z'.freeze
 
