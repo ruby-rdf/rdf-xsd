@@ -18,7 +18,7 @@ module RDF; class Literal
   # @see http://www.ietf.org/rfc/rfc2396.txt
   # @see http://www.ietf.org/rfc/rfc2732.txt
   class AnyURI < RDF::Literal
-    DATATYPE = XSD.anyURI
+    DATATYPE = RDF::XSD.anyURI
 
     ##
     # @param  [String, Object] value
