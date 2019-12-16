@@ -4,12 +4,12 @@ require 'spec_helper'
 describe RDF::Literal::Duration do
   describe "initialize" do
     it "creates given a Hash" do
-      expect(described_class.new(:seconds => 10, :minutes => 1).to_i).to eq 70
+      expect(described_class.new({seconds: 10, minutes: 1}, **{}).to_i).to eq 70
     end
   end
 
   it "finds #{described_class} for xsd:duration" do
-    expect(RDF::Literal("0", :datatype => RDF::XSD.duration).class).to eq described_class
+    expect(RDF::Literal("0", datatype: RDF::XSD.duration).class).to eq described_class
   end
 
   describe "#to_f" do
