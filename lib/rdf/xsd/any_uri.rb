@@ -5,7 +5,7 @@ module RDF; class Literal
   ##
   # More specific sub-types of double
   # Derived types
-  # @see http://www.w3.org/TR/xpath-functions/#datatypes
+  # @see https://www.w3.org/TR/xpath-functions/#datatypes
   
   ##
   # anyURI represents a Uniform Resource Identifier Reference (URI).
@@ -14,9 +14,9 @@ module RDF; class Literal
   # This type should be used to specify the intention that the value fulfills
   # the role of a URI as defined by [RFC 2396], as amended by [RFC 2732].
   #
-  # @see http://www.w3.org/TR/xmlschema11-2/#anyURI
-  # @see http://www.ietf.org/rfc/rfc2396.txt
-  # @see http://www.ietf.org/rfc/rfc2732.txt
+  # @see https://www.w3.org/TR/xmlschema11-2/#anyURI
+  # @see https://www.ietf.org/rfc/rfc2396.txt
+  # @see https://www.ietf.org/rfc/rfc2732.txt
   class AnyURI < RDF::Literal
     DATATYPE = RDF::XSD.anyURI
 

@@ -15,7 +15,7 @@ if defined?(::Nokogiri)
     # or NoteSet in the context of its containing document, and second to
     # serialize to a lexical representation.
     #
-    # @see # @see   http://www.w3.org/TR/xml-exc-c14n/
+    # @see # @see   https://www.w3.org/TR/xml-exc-c14n/
     class Node
       ##
       # Canonicalize the Node. Return a new instance of this node
@@ -89,7 +89,7 @@ if defined?(::Nokogiri)
       # as being canonical with all child nodes canonicalized.
       #
       # @param [Hash{Symbol => Object}] options
-      #   Passed to {Nokogiri::XML::Node#c14nxl}
+      #   Passed to `Nokogiri::XML::Node#c14nxl`
       def c14nxl(options = {})
         # Create a new NodeSet
         set = self.dup
@@ -173,7 +173,7 @@ class REXML::Element
   # Apply namespaces either passed as an option, or that are in scope.
   #
   # @param [Hash{Symbol => Object}] options
-  #   From {Nokogiri::XML::Node#c14nxl}
+  #   From `Nokogiri::XML::Node#c14nxl`
   def c14nxl(options = {})
     # Add in-scope namespace definitions, unless supplied
     options[:namespaces] ||= self.namespaces

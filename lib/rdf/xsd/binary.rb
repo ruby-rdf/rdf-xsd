@@ -5,13 +5,13 @@ module RDF; class Literal
   ##
   # More specific sub-types of double
   # Derived types
-  # @see http://www.w3.org/TR/xpath-functions/#datatypes
+  # @see https://www.w3.org/TR/xpath-functions/#datatypes
   
   ##
   # hexBinary represents arbitrary hex-encoded binary data. The value space of hexBinary is the set of finite-length
   # sequences of binary octets.
   #
-  # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#hexBinary
+  # @see https://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#hexBinary
   class HexBinary < RDF::Literal
     DATATYPE = RDF::XSD.hexBinary
     GRAMMAR = %r(\A[0-9a-fA-F]+\Z)
@@ -57,7 +57,7 @@ module RDF; class Literal
   # finite-length sequences of binary octets. For base64Binary data the entire binary stream is encoded using the Base64
   # Alphabet in [RFC 2045].
   #
-  # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#hexBinary
+  # @see https://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#hexBinary
   class Base64Binary < RDF::Literal
     DATATYPE = RDF::XSD.base64Binary
 
@@ -84,7 +84,7 @@ module RDF; class Literal
     # Converts this literal into its canonical lexical representation.
     #
     # @return [RDF::Literal] `self`
-    # @see    http://www.w3.org/TR/xmlschema-2/#dateTime
+    # @see    https://www.w3.org/TR/xmlschema-2/#dateTime
     def canonicalize!
       @string = ::Base64.encode64(@object)
       self
