@@ -5,7 +5,7 @@ module RDF; class Literal
   ##
   # A duration literal.
   #
-  # @see   http://www.w3.org/TR/xmlschema11-2/#duration
+  # @see   https://www.w3.org/TR/xmlschema11-2/#duration
   class Duration < Literal
     DATATYPE = RDF::XSD.duration
     GRAMMAR  = %r(\A
@@ -59,7 +59,7 @@ module RDF; class Literal
     # Also normalizes elements
     #
     # @return [RDF::Literal] `self`
-    # @see    http://www.w3.org/TR/xmlschema11-2/#dateTime
+    # @see    https://www.w3.org/TR/xmlschema11-2/#dateTime
     def canonicalize!
       @string = @humanize = nil
       if @object[:se].to_i > 60
@@ -202,7 +202,7 @@ module RDF; class Literal
   #
   # dayTimeDuration is a datatype ·derived· from duration by restricting its ·lexical representations· to instances of dayTimeDurationLexicalRep. The ·value space· of dayTimeDuration is therefore that of duration restricted to those whose ·months· property is 0.  This results in a duration datatype which is totally ordered.
   #
-  # @see   http://www.w3.org/TR/xmlschema11-2/#dayTimeDuration
+  # @see   https://www.w3.org/TR/xmlschema11-2/#dayTimeDuration
   class DayTimeDuration < Literal
     DATATYPE = RDF::XSD.dayTimeDuration
     GRAMMAR  = %r(\A
@@ -228,7 +228,7 @@ module RDF; class Literal
   #
   # yearMonthDuration is a datatype ·derived· from duration by restricting its ·lexical representations· to instances of yearMonthDurationLexicalRep.  The ·value space· of yearMonthDuration is therefore that of duration restricted to those whose ·seconds· property is 0.  This results in a duration datatype which is totally ordered.
   #
-  # @see   http://www.w3.org/TR/xmlschema11-2/#yearMonthDuration
+  # @see   https://www.w3.org/TR/xmlschema11-2/#yearMonthDuration
   class YearMonthDuration < Literal
     DATATYPE = RDF::XSD.yearMonthDuration
     GRAMMAR  = %r(\A

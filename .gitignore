@@ -3,3 +3,4 @@
 /doc/
 /.rbx/
 Gemfile.lock
+coverage

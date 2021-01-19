@@ -3,9 +3,9 @@ module RDF; class Literal
   ##
   # nonPositiveInteger is derived from integer by setting the value of maxInclusive to be 0. This results in
   # the standard mathematical concept of the non-positive integers. The value space of nonPositiveInteger is the
-  # infinite set {...,-2,-1,0}. The base type of nonPositiveInteger is integer.
+  # infinite set `{...,-2,-1,0}`. The base type of nonPositiveInteger is integer.
   #
-  # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#nonPositiveInteger
+  # @see https://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#nonPositiveInteger
   class NonPositiveInteger < Integer
     DATATYPE = RDF::XSD.nonPositiveInteger
     GRAMMAR  = /^(?:[\+\-]?0)|(?:-\d+)$/.freeze
@@ -29,9 +29,9 @@ module RDF; class Literal
   ##
   # negativeInteger is derived from nonPositiveInteger by setting the value of maxInclusive to be -1. This
   # results in the standard mathematical concept of the negative integers. The value space of negativeInteger is
-  # the infinite set {...,-2,-1}. The base type of negativeInteger is nonPositiveInteger.
+  # the infinite set `{...,-2,-1}`. The base type of negativeInteger is nonPositiveInteger.
   #
-  # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#negativeInteger
+  # @see https://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#negativeInteger
   class NegativeInteger < NonPositiveInteger
     GRAMMAR  = /^\-\d+$/.freeze
     DATATYPE = RDF::XSD.negativeInteger
@@ -57,7 +57,7 @@ module RDF; class Literal
   # and minInclusive to be -9223372036854775808.
   #
   # The base type of long is integer.
-  # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#long
+  # @see https://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#long
   class Long < Integer
     DATATYPE = RDF::XSD.long
     
@@ -70,7 +70,7 @@ module RDF; class Literal
   # int is derived from long by setting the value of maxInclusive to be 2147483647 and minInclusive to be
   # -2147483648. The base type of int is long.
   #
-  # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#int
+  # @see https://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#int
   class Int < Long
     DATATYPE = RDF::XSD.int
     
@@ -83,7 +83,7 @@ module RDF; class Literal
   # short is derived from int by setting the value of maxInclusive to be 32767 and minInclusive to be
   # -32768. The base type of short is int.
   #
-  # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#short
+  # @see https://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#short
   class Short < Int
     DATATYPE = RDF::XSD.short
     
@@ -96,7 +96,7 @@ module RDF; class Literal
   # byte is derived from short by setting the value of maxInclusive to be 127 and minInclusive to be -128.
   # The base type of byte is short.
   #
-  # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#byte
+  # @see https://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#byte
   class Byte < Short
     DATATYPE = RDF::XSD.byte
     
@@ -110,7 +110,7 @@ module RDF; class Literal
   # the standard mathematical concept of the non-negative integers. The value space of nonNegativeInteger is the
   # infinite set [0,1,2,...]. The base type of nonNegativeInteger is integer.
   #
-  # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#nonNegativeInteger
+  # @see https://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#nonNegativeInteger
   class NonNegativeInteger < Integer
     GRAMMAR  = /^(?:(?:[\+\-]?0)|(?:\+?\d+))$/.freeze
     DATATYPE = RDF::XSD.nonNegativeInteger
@@ -125,7 +125,7 @@ module RDF; class Literal
   # results in the standard mathematical concept of the positive integer numbers. The value space of
   # positiveInteger is the infinite set [1,2,...]. The base type of positiveInteger is nonNegativeInteger.
   #
-  # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#positiveInteger
+  # @see https://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#positiveInteger
   class PositiveInteger < NonNegativeInteger
     GRAMMAR  = /^\+?\d+$/.freeze
     DATATYPE = RDF::XSD.positiveInteger
@@ -139,7 +139,7 @@ module RDF; class Literal
   # unsignedLong is derived from nonNegativeInteger by setting the value of maxInclusive to be
   # 18446744073709551615. The base type of unsignedLong is nonNegativeInteger.
   #
-  # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#unsignedLong
+  # @see https://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#unsignedLong
   class UnsignedLong < NonNegativeInteger
     GRAMMAR  = /^\d+$/.freeze
     DATATYPE = RDF::XSD.unsignedLong
@@ -153,7 +153,7 @@ module RDF; class Literal
   # unsignedInt is derived from unsignedLong by setting the value of maxInclusive to be 4294967295. The base
   # type of unsignedInt is unsignedLong.
   #
-  # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#unsignedInt
+  # @see https://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#unsignedInt
   class UnsignedInt < UnsignedLong
     DATATYPE = RDF::XSD.unsignedInt
     
@@ -166,7 +166,7 @@ module RDF; class Literal
   # unsignedShort is derived from unsignedInt by setting the value of maxInclusive to be 65535. The base
   # type of unsignedShort is unsignedInt.
   #
-  # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#unsignedShort
+  # @see https://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#unsignedShort
   class UnsignedShort < UnsignedInt
     DATATYPE = RDF::XSD.unsignedShort
     
@@ -179,7 +179,7 @@ module RDF; class Literal
   # unsignedByte is derived from unsignedShort by setting the value of maxInclusive to be 255. The base
   # type of unsignedByte is unsignedShort.
   #
-  # @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#unsignedByte
+  # @see https://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#unsignedByte
   class UnsignedByte < UnsignedShort
     DATATYPE = RDF::XSD.unsignedByte
     

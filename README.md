@@ -2,10 +2,10 @@
 
 This gem adds additional RDF::Literal subclasses for extended [XSD datatypes][]
 
-* <http://github.com/ruby-rdf/rdf-xsd>
-
-[![Gem Version](https://badge.fury.io/rb/rdf-xsd.png)](http://badge.fury.io/rb/rdf-xsd)
-[![Build Status](https://travis-ci.org/ruby-rdf/rdf-xsd.png?branch=master)](http://travis-ci.org/ruby-rdf/rdf-xsd)
+[![Gem Version](https://badge.fury.io/rb/rdf-xsd.png)](https://badge.fury.io/rb/rdf-xsd)
+[![Build Status](https://github.com/ruby-rdf/rdf-xsd/workflows/CI/badge.svg?branch=develop)](https://github.com/ruby-rdf/rdf-xsd/actions?query=workflow%3ACI)
+[![Coverage Status](https://coveralls.io/repos/ruby-rdf/rdf-xsd/badge.svg)](https://coveralls.io/github/ruby-rdf/rdf-xsd?branch=develop)
+[![Gitter chat](https://badges.gitter.im/ruby-rdf/rdf.png)](https://gitter.im/ruby-rdf/rdf)
 
 ## Features
 
@@ -22,11 +22,11 @@ This gem adds additional RDF::Literal subclasses for extended [XSD datatypes][]
     require 'rdf/xsd'
 
 ## Dependencies
-* [Ruby](http://ruby-lang.org/) (>= 2.4)
-* [RDF.rb](http://rubygems.org/gems/rdf) (~> 3.1)
-* Soft dependency on [Nokogiri](http://rubygems.org/gems/nokogiri) (>= 1.10)
-* Soft dependency on [EquivalentXML](http://rubygems.org/gems/equivalent-xml) (>= 0.6.0)
-* Soft dependency on [ActiveSupport](http://rubygems.org/gems/activesupport) (>= 3.0.0)
+* [Ruby](https://ruby-lang.org/) (>= 2.4)
+* [RDF.rb](https://rubygems.org/gems/rdf) (~> 3.1)
+* Soft dependency on [Nokogiri](https://rubygems.org/gems/nokogiri) (>= 1.10)
+* Soft dependency on [EquivalentXML](https://rubygems.org/gems/equivalent-xml) (>= 0.6.0)
+* Soft dependency on [ActiveSupport](https://rubygems.org/gems/activesupport) (>= 3.0.0)
 
 ## Documentation
 Full documentation available on [Rubydoc.info][XSD doc]
@@ -57,18 +57,18 @@ Full documentation available on [Rubydoc.info][XSD doc]
 
 ## Installation
 
-The recommended installation method is via [RubyGems](http://rubygems.org/).
+The recommended installation method is via [RubyGems](https://rubygems.org/).
 To install the latest official release of the `RDF::XSD` gem, do:
 
     % [sudo] gem install rdf-xsd
 
 ## Mailing List
 
-* <http://lists.w3.org/Archives/Public/public-rdf-ruby/>
+* <https://lists.w3.org/Archives/Public/public-rdf-ruby/>
 
 ## Author
 
-* [Gregg Kellogg](http://github.com/gkellogg) - <http://greggkellogg.net/>
+* [Gregg Kellogg](https://github.com/gkellogg) - <https://greggkellogg.net/>
 
 ## Contributing
 This repository uses [Git Flow](https://github.com/nvie/gitflow) to mange development and release activity. All submissions _must_ be on a feature branch based on the _develop_ branch to ease staging and integration.
@@ -83,19 +83,21 @@ This repository uses [Git Flow](https://github.com/nvie/gitflow) to mange develo
   list in the the `README`. Alphabetical order applies.
 * Do note that in order for us to merge any non-trivial changes (as a rule
   of thumb, additions larger than about 15 lines of code), we need an
-  explicit [public domain dedication][PDD] on record from you.
+  explicit [public domain dedication][PDD] on record from you,
+  which you will be asked to agree to on the first commit to a repo within the organization.
+  Note that the agreement applies to all repos in the [Ruby RDF](https://github.com/ruby-rdf/) organization.
 
 ## License
 
 This is free and unencumbered public domain software. For more information,
-see <http://unlicense.org/> or the accompanying {file:UNLICENSE} file.
+see <https://unlicense.org/> or the accompanying {file:UNLICENSE} file.
 
-Portions of tests are derived from [W3C DAWG tests](http://www.w3.org/2001/sw/DataAccess/tests/) and have [other licensing terms](http://www.w3.org/2001/sw/DataAccess/tests/data-r2/LICENSE).
+Portions of tests are derived from [W3C DAWG tests](https://www.w3.org/2001/sw/DataAccess/tests/) and have [other licensing terms](https://www.w3.org/2001/sw/DataAccess/tests/data-r2/LICENSE).
 
-[Ruby]:       http://ruby-lang.org/
-[RDF]:        http://www.w3.org/RDF/
-[YARD]:       http://yardoc.org/
-[YARD-GS]:    http://rubydoc.info/docs/yard/file/docs/GettingStarted.md
-[PDD]:        http://lists.w3.org/Archives/Public/public-rdf-ruby/2010May/0013.html
-[Backports]:  http://rubygems.org/gems/backports
-[XSD Datatypes]: http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#built-in-datatypes
+[Ruby]:       https://ruby-lang.org/
+[RDF]:        https://www.w3.org/RDF/
+[YARD]:       https://yardoc.org/
+[YARD-GS]:    https://rubydoc.info/docs/yard/file/docs/GettingStarted.md
+[PDD]:              https://unlicense.org/#unlicensing-contributions
+[Backports]:  https://rubygems.org/gems/backports
+[XSD Datatypes]: https://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#built-in-datatypes

@@ -20,13 +20,13 @@ module RDF; class Literal
   # original document, canonicalization cannot be performed directly within this
   # class.
   #
-  # This gem includes Exclusive Canonical XML extensions {Nokogiri::XML::Node#c14nxl},
-  # {Nokogiri::XML::NodeSet#c14nxl}, {REXML::Element#c14nxl} and {Array#c14nxl} (necessary
+  # This gem includes Exclusive Canonical XML extensions `Nokogiri::XML::Node#c14nxl`,
+  # `Nokogiri::XML::NodeSet#c14nxl`, `REXML::Element#c14nxl` and `Array#c14nxl` (necessary
   # for REXML node children, which is the REXML implementation of a NodeSet)
   #
-  # @see   http://www.w3.org/TR/rdf-concepts/#section-XMLLiteral
-  # @see   http://www.w3.org/TR/rdfa-core/#s_xml_literals
-  # @see   http://www.w3.org/TR/xml-exc-c14n/
+  # @see   https://www.w3.org/TR/rdf-concepts/#section-XMLLiteral
+  # @see   https://www.w3.org/TR/rdfa-core/#s_xml_literals
+  # @see   https://www.w3.org/TR/xml-exc-c14n/
   class XML < Literal
     DATATYPE = RDF.XMLLiteral
     GRAMMAR  = nil
@@ -77,7 +77,7 @@ module RDF; class Literal
     # @param [Object] other
     # @return [Boolean] `true` or `false`
     #
-    # @see http://www.w3.org/TR/rdf-concepts/#section-XMLLiteral
+    # @see https://www.w3.org/TR/rdf-concepts/#section-XMLLiteral
     def eql?(other)
       if other.is_a?(Literal::XML)
         case @library
@@ -141,7 +141,7 @@ module RDF; class Literal
   #
   # HTML Literals are managed equivalent to XML Literals. Processors
   # are responsible for coercing the input to an
-  # [DOM DocumentFragment](http://www.w3.org/TR/dom/#interface-documentfragment).
+  # [DOM DocumentFragment](https://www.w3.org/TR/dom/#interface-documentfragment).
   #
   # @see   https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-concepts/index.html#section-html
   class HTML < XML

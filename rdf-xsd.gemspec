@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.date                  = File.mtime('VERSION').strftime('%Y-%m-%d')
 
   gem.name                  = %q{rdf-xsd}
-  gem.homepage              = "http://ruby-rdf.github.com/rdf-xsd"
+  gem.homepage              = "https://github.com/ruby-rdf/rdf-xsd"
   gem.license               = 'Unlicense'
   gem.summary               = "Extended XSD Datatypes for RDF.rb."
   gem.description           = "Adds RDF::Literal subclasses for extended XSD datatypes."
@@ -22,14 +22,15 @@ Gem::Specification.new do |gem|
   gem.requirements          = []
 
   gem.add_runtime_dependency     'rdf',             '~> 3.1'
+  gem.add_runtime_dependency     'rexml',           '~> 3.2'
 
   #gem.add_development_dependency 'nokogiri' ,       '>= 1.10' # conditionally done in Gemfile
   #gem.add_development_dependency 'equivalent-xml' , '~> 0.6'
-  gem.add_development_dependency 'activesupport',   '~> 5.0'
-  gem.add_development_dependency 'rspec',           '~> 3.9'
+  gem.add_development_dependency 'activesupport',   '~> 5.2'
+  gem.add_development_dependency 'rspec',           '~> 3.10'
   gem.add_development_dependency 'rspec-its',       '~> 1.3'
   gem.add_development_dependency 'rdf-spec',        '~> 3.1'
-  gem.add_development_dependency 'yard' ,           '~> 0.9.20'
+  gem.add_development_dependency 'yard' ,           '~> 0.9'
 
   gem.post_install_message  = %(
     For best results, use nokogiri and equivalent-xml gems as well.

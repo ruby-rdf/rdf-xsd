@@ -5,6 +5,20 @@ require "bundler/setup"
 require 'rspec'
 require 'rdf/spec'
 require 'rdf/spec/literal'
+
+begin
+  require 'simplecov'
+  require 'coveralls'
+  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+    SimpleCov::Formatter::HTMLFormatter,
+    Coveralls::SimpleCov::Formatter
+  ])
+  SimpleCov.start do
+    add_filter "/spec/"
+  end
+rescue LoadError
+end
+
 require 'rdf/xsd'
 
 ::RSpec.configure do |c|
