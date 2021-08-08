@@ -20,13 +20,12 @@ jobs:
       fail-fast: false
       matrix:
         ruby:
-          - 2.4
           - 2.5
           - 2.6
           - 2.7
           - 3.0
           - ruby-head
-          - jruby # No Nokogumbo on JRuby
+          - jruby
         gemfile:
           - Gemfile
           - Gemfile-pure
@@ -40,5 +39,9 @@ jobs:
       - name: Install dependencies
         run: bundle install --jobs 4 --retry 3
       - name: Run tests
-        run: bundle exec rspec spec
- 
+        run: bundle exec rspec spec || $ALLOW_FAILURES
+      - name: Coveralls GitHub Action
+        uses: coverallsapp/github-action@v1.1.2
+        if: "matrix.ruby == '3.0'"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
