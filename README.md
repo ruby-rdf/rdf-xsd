@@ -22,11 +22,11 @@ This gem adds additional RDF::Literal subclasses for extended [XSD datatypes][]
     require 'rdf/xsd'
 
 ## Dependencies
-* [Ruby](https://ruby-lang.org/) (>= 2.4)
-* [RDF.rb](https://rubygems.org/gems/rdf) (~> 3.1)
-* Soft dependency on [Nokogiri](https://rubygems.org/gems/nokogiri) (>= 1.10)
-* Soft dependency on [EquivalentXML](https://rubygems.org/gems/equivalent-xml) (>= 0.6.0)
-* Soft dependency on [ActiveSupport](https://rubygems.org/gems/activesupport) (>= 3.0.0)
+* [Ruby](https://ruby-lang.org/) (>= 2.6)
+* [RDF.rb](https://rubygems.org/gems/rdf) (~> 3.2)
+* Soft dependency on [Nokogiri](https://rubygems.org/gems/nokogiri) (>= 1.12)
+* Soft dependency on [EquivalentXML](https://rubygems.org/gems/equivalent-xml) (~> 0.6)
+* Soft dependency on [ActiveSupport](https://rubygems.org/gems/activesupport) (~> 6.2)
 
 ## Documentation
 Full documentation available on [Rubydoc.info][XSD doc]
