@@ -10,6 +10,13 @@ Gem::Specification.new do |gem|
   gem.license               = 'Unlicense'
   gem.summary               = "Extended XSD Datatypes for RDF.rb."
   gem.description           = "Adds RDF::Literal subclasses for extended XSD datatypes."
+  gem.metadata           = {
+    "documentation_uri" => "https://ruby-rdf.github.io/rdf-xsd",
+    "bug_tracker_uri"   => "https://github.com/ruby-rdf/rdf-xsd/issues",
+    "homepage_uri"      => "https://github.com/ruby-rdf/rdf-xsd",
+    "mailing_list_uri"  => "https://lists.w3.org/Archives/Public/public-rdf-ruby/",
+    "source_code_uri"   => "https://github.com/ruby-rdf/rdf-xsd",
+  }
 
   gem.authors               = %w(Gregg Kellogg)
   gem.email                 = 'public-rdf-ruby@w3.org'
