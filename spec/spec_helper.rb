@@ -5,6 +5,7 @@ require "bundler/setup"
 require 'rspec'
 require 'rdf/spec'
 require 'rdf/spec/literal'
+require 'amazing_print'
 
 begin
   require 'simplecov'

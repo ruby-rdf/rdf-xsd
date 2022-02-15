@@ -12,42 +12,57 @@ describe RDF::Literal::Duration do
                    { described_class::DATATYPE => described_class }
 
   describe "initialize" do
-    it "creates given a Hash" do
-      expect(described_class.new({se: 10, mi: 1})).to eq described_class.new('PT70S')
+    {
+      'Hash with seconds components': {
+        value:  {se: 10, mi: 1},
+        string: 'PT1M10S',
+        object: [0, 70]
+      },
+      'Hash with negative seconds component': {
+        value:  {si: '-', se: 10, mi: 1},
+        string: '-PT1M10S',
+        object: [0, -70]
+      },
+      'Hash with months components': {
+        value:  {yr: 1, mo: 1},
+        string: 'P1Y1M',
+        object: [13, 0]
+      },
+      'Hash with negative months components': {
+        value:  {si: '-', yr: 1, mo: 1},
+        string: '-P1Y1M',
+        object: [-13, 0]
+      },
+      'Hash with negative seconds component': {
+        value:  {si: '-', se: 10, mi: 1},
+        string: '-PT1M10S',
+        object: [0, -70]
+      },
+      'Hash with seconds string': {
+        value:  'PT1M10S',
+        string: 'PT1M10S',
+        object: [0, 70]
+      },
+      'String with negative seconds': {
+        value:  '-PT1M10S',
+        string: '-PT1M10S',
+        object: [0, -70]
+      },
+      'Hash with duration': {
+        value: described_class.new('PT70S'),
+        string: 'PT1M10S',
+        object: [0, 70]
+      },
+    }.each do |title, param|
+      it title do
+        expect(described_class.new(param[:value]).to_s).to eq param[:string]
+        expect(described_class.new(param[:value]).object).to eq param[:object]
+      end
     end
   end
 
   it "finds #{described_class} for xsd:duration" do
     expect(RDF::Literal("0", datatype: RDF::XSD.duration).class).to eq described_class
-  end
-
-  describe "#to_f" do
-    {
-      "PT130S"                    => 130,
-      "PT130M"                    => 7800.0,
-      "PT130H"                    => 130*3600,
-      "P130D"                     => 130*24*3600,
-      "P130M"                     => 341884800.0,
-      "P130Y"                     => 4102444800.0,
-      "PT2M10S"                   => (2*60+10),
-      "P1DT2S"                    => (1*3600*24+2),
-      "P1DT2H"                    => 26*3600,
-      "P0Y20M0D"                  => 52617600.0,
-      "P0Y"                       => 0,
-      "-P60D"                     => -5184000.0,
-      "PT1M30.5S"                 => 60+30.5,
-      "P20M"                      => 52617600.0,
-      "PT20M"                     => 20*60,
-      "-P1Y"                      => (-365*3600*24),
-      "PT1004199059S"             => 1004199059,
-      "P1Y2M3DT5H20M30.123S"      => ((365+60+3)*3600*24+5*3600+20*60+30.123),
-      "-P1111Y11M23DT4H55M16.666S"=> -35086590283.334,
-      "P2Y6M5DT12H35M30S"         => 79274130.0,
-    }.each do |s, f|
-      it "parses #{s}" do
-        expect(described_class.new(s).to_f).to eq f
-      end
-    end
   end
 
   describe "#==" do
@@ -61,6 +76,8 @@ describe RDF::Literal::Duration do
       [RDF::Literal::DayTimeDuration.new("P10D"), RDF::Literal::DayTimeDuration.new("PT240H")] => true,
       [RDF::Literal::Duration.new("P2Y0M0DT0H0M0S"), RDF::Literal::YearMonthDuration.new("P24M")] => true,
       [RDF::Literal::Duration.new("P0Y0M10D"), RDF::Literal::DayTimeDuration.new("PT240H")] => true,
+      [RDF::Literal::Duration.new("P1Y"), "P1Y"] => true,
+      [RDF::Literal::Duration.new("P1Y"), "P12M"] => false,
     }.each do |(a, b), res|
       if res
         it "#{a} == #{b}" do
@@ -70,6 +87,75 @@ describe RDF::Literal::Duration do
         it "#{a} != #{b}" do
           expect(a).not_to eq b
         end
+      end
+    end
+  end
+
+  describe 'extraction' do
+    subject {described_class.new("P2Y6M5DT12H35M30S")}
+    its(:years) {is_expected.to eq 2}
+    its(:months) {is_expected.to eq 6}
+    its(:days) {is_expected.to eq 5}
+    its(:hours) {is_expected.to eq 12}
+    its(:minutes) {is_expected.to eq 35}
+    its(:seconds) {is_expected.to eq 30}
+
+    describe '#years' do
+      {
+        "P20Y15M" => 21,
+        "-P15M" => -1,
+        "-P2DT15H" => 0,
+      }.each do |s, v|
+        specify(s) {expect(described_class.new(s).years).to eq v}
+      end
+    end
+
+    describe '#months' do
+      {
+        "P20Y15M" => 3,
+        "-P20Y18M" => -6,
+        "-P2DT15H0M0S" => 0,
+      }.each do |s, v|
+        specify(s) {expect(described_class.new(s).months).to eq v}
+      end
+    end
+
+    describe '#days' do
+      {
+        "P3DT10H" => 3,
+        "P3DT55H" => 5,
+        "P3Y5M" => 0,
+      }.each do |s, v|
+        specify(s) {expect(described_class.new(s).days).to eq v}
+      end
+    end
+
+    describe '#hours' do
+      {
+        "P3DT10H" => 10,
+        "P3DT12H32M12S" => 12,
+        "PT123H" => 3,
+        "-P3DT10H" => -10,
+      }.each do |s, v|
+        specify(s) {expect(described_class.new(s).hours).to eq v}
+      end
+    end
+
+    describe '#minutes' do
+      {
+        "P3DT10H" => 0,
+        "-P5DT12H30M" => -30,
+      }.each do |s, v|
+        specify(s) {expect(described_class.new(s).minutes).to eq v}
+      end
+    end
+
+    describe '#seconds' do
+      {
+        "P3DT10H12.5S" => 12.5,
+        "-PT256S" => -16.0,
+      }.each do |s, v|
+        specify(s) {expect(described_class.new(s).seconds).to eq v}
       end
     end
   end
@@ -96,6 +182,66 @@ describe RDF::Literal::Duration do
         expect(described_class.new(s).humanize).to eq h
       end
     end
+  end
+
+  describe "#canonicalize" do
+    {
+      "PT1004199059S"             => "P11622DT16H10M59S",
+      "PT130S"                    => "PT2M10S",
+      "PT2M10S"                   => "PT2M10S",
+      "P1DT2S"                    => "P1DT2S",
+      "-P1Y"                      => "-P1Y",
+      "P1Y2M3DT5H20M30.123S"      => "P1Y2M3DT5H20M30.123S",
+      "-P1111Y11M23DT4H55M16.666S"=> "-P1111Y11M23DT4H55M16.666S",
+      "P2Y6M5DT12H35M30S"         => "P2Y6M5DT12H35M30S",
+      "P1DT2H"                    => "P1DT2H",
+      "P20M"                      => "P1Y8M",
+      "PT20M"                     => "PT20M",
+      "P0Y20M0D"                  => "P1Y8M",
+      "P0Y"                       => "PT0S",
+      "-P60D"                     => "-P60D",
+      "PT1M30.5S"                 => "PT1M30.5S",
+    }.each do |s, h|
+      it "produces #{h} from #{s.inspect}" do
+        expect(described_class.new(s, canonicalize: true).to_s).to eq h
+      end
+    end
+  end
+
+  context "validations" do
+    valid = %w(
+      PT130S
+      PT130M
+      PT130H
+      P130D
+      PT2M10S
+      P1DT2S
+      P1DT2H
+      -P60D
+      PT1004199059S
+      PT1M30.5S
+      PT20M
+
+      P130M
+      P130Y
+      P0Y20M0D
+      P0Y
+      P20M
+      -P1Y
+      P1Y2M3DT5H20M30.123S
+      -P1111Y11M23DT4H55M16.666S
+      P2Y6M5DT12H35M30S
+    )
+
+    invalid = %w(
+      PT1Y
+      PT1D
+      P1H
+      P1S
+      P1H1
+    )
+
+    include_examples 'RDF::Literal validation', described_class::DATATYPE, valid, invalid
   end
 end
 
@@ -136,6 +282,46 @@ describe RDF::Literal::DayTimeDuration do
 
     include_examples 'RDF::Literal validation', described_class::DATATYPE, valid, invalid
   end
+
+  describe "#<" do
+    {
+      ["P1D", "P2D"] => true,
+      ["PT1H", "P1D"] => true,
+      ["PT1M", "PT1H"] => true,
+      ["P1D", "P1D"] => false,
+      ["-P1D", "P1D"] => true,
+    }.each do |(a, b), res|
+      if res
+        it "#{a} < #{b}" do
+          expect(described_class.new(a)).to be < described_class.new(b)
+        end
+      else
+        it "#{a} !< #{b}" do
+          expect(described_class.new(a)).not_to be < described_class.new(b)
+        end
+      end
+    end
+  end
+
+  describe "#>" do
+    {
+      ["P2D", "P1D"] => true,
+      ["P1D", "PT1H"] => true,
+      ["PT1H", "PT1M"] => true,
+      ["P1D", "P1D"] => false,
+      ["P1D", "-P1D"] => true,
+    }.each do |(a, b), res|
+      if res
+        it "#{a} > #{b}" do
+          expect(described_class.new(a)).to be > described_class.new(b)
+        end
+      else
+        it "#{a} !> #{b}" do
+          expect(described_class.new(a)).not_to be > described_class.new(b)
+        end
+      end
+    end
+  end
 end
 
 describe RDF::Literal::YearMonthDuration do
@@ -174,5 +360,45 @@ describe RDF::Literal::YearMonthDuration do
     )
 
     include_examples 'RDF::Literal validation', described_class::DATATYPE, valid, invalid
+  end
+
+  describe "#<" do
+    {
+      ["P1M", "P2M"] => true,
+      ["P1Y", "P1M"] => false,
+      ["P1Y", "P2Y"] => true,
+      ["P1Y", "P1Y"] => false,
+      ["-P1Y", "P1Y"] => true,
+    }.each do |(a, b), res|
+      if res
+        it "#{a} < #{b}" do
+          expect(described_class.new(a)).to be < described_class.new(b)
+        end
+      else
+        it "#{a} !< #{b}" do
+          expect(described_class.new(a)).not_to be < described_class.new(b)
+        end
+      end
+    end
+  end
+
+  describe "#>" do
+    {
+      ["P2M", "P1M"] => true,
+      ["P1Y", "P1M"] => true,
+      ["P2Y", "P1Y"] => true,
+      ["P1Y", "P1Y"] => false,
+      ["P1Y", "-P1Y"] => true,
+    }.each do |(a, b), res|
+      if res
+        it "#{a} > #{b}" do
+          expect(described_class.new(a)).to be > described_class.new(b)
+        end
+      else
+        it "#{a} !> #{b}" do
+          expect(described_class.new(a)).not_to be > described_class.new(b)
+        end
+      end
+    end
   end
 end

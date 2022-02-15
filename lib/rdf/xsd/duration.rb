@@ -55,8 +55,6 @@ module RDF; class Literal
         [months, seconds]
       when Duration
         value.object
-      when Numeric
-        [0, value]
       else
         parse(value.to_s)
       end
@@ -64,8 +62,6 @@ module RDF; class Literal
 
     ##
     # Converts this literal into its canonical lexical representation.
-    #
-    # Also normalizes elements
     #
     # @return [RDF::Literal] `self`
     # @see    https://www.w3.org/TR/xmlschema11-2/#dateTime
@@ -90,15 +86,15 @@ module RDF; class Literal
     # Returns a hash representation.
     #
     # @return [Hash]
-    def to_hash
+    def to_h
       @hash ||= {
-        si: ('-' if @object.compact.first < 0),
+        si: ('-' if (@object.first == 0 ? @object.last : @object.first) < 0),
         yr: (@object.first.abs / 12),
         mo: (@object.first.abs % 12),
         da: (@object.last.abs.to_i / (3600 * 24)),
-        hr: (@object.last.abs.to_i % (3600 * 24) / 3600),
-        mi: (@object.last.abs.to_i % 3600 / 60),
-        se: (@object.last % 60)
+        hr: ((@object.last.abs.to_i / 3600) % 24),
+        mi: ((@object.last.abs.to_i / 60) % 60),
+        se: sec_str.to_f
       }
     end
 
@@ -108,9 +104,9 @@ module RDF; class Literal
     # @return [String]
     def to_s
       @string ||= begin
-        hash = to_hash
-        str = @object.compact.first < 0 ? '-P' : 'P'
-        hash = to_hash
+        hash = to_h
+        str = (@object.first == 0 ? @object.last : @object.first) < 0 ? '-P' : 'P'
+        hash = to_h
         str << "%dY" % hash[:yr] if hash[:yr] > 0
         str << "%dM" % hash[:mo] if hash[:mo] > 0
         str << "%dD" % hash[:da] if hash[:da] > 0
@@ -118,6 +114,8 @@ module RDF; class Literal
         str << "%dH" % hash[:hr] if hash[:hr] > 0
         str << "%dM" % hash[:mi] if hash[:mi] > 0
         str << sec_str + 'S' if hash[:se] > 0
+        # Ensure some legal representation
+        str.end_with?('P') ? 'PT0S' : str
       end
     end
 
@@ -162,26 +160,35 @@ module RDF; class Literal
         @object == other.object
       when String
         self.to_s == other
-      when Numeric
-        self.to_f == other
-      when Literal::DateTime, Literal::Time, Literal::Date
-        false
       else
         super
       end
     end
 
-    # Return a floating point representation of this duration.
-    #
-    # Transformation is done by representing adding the seconds trait to `Time.new(0)`, transforming to `DateTime` and applying the months trait.
-    # @return [Float]
-    def to_f
-      ((TIME0 + @object.last).to_datetime >> @object.first).to_time - TIME0
-    end
-
+    # Years
     # @return [Integer]
-    def to_i; Integer(self.to_f); end
-    
+    def years; to_h[:yr] * (to_h[:si] ? -1 : 1); end
+
+    # Months
+    # @return [Integer]
+    def months; to_h[:mo] * (to_h[:si] ? -1 : 1); end
+
+    # Days
+    # @return [Integer]
+    def days; to_h[:da] * (to_h[:si] ? -1 : 1); end
+
+    # Hours
+    # @return [Integer]
+    def hours; to_h[:hr] * (to_h[:si] ? -1 : 1); end
+
+    # Minutes
+    # @return [Integer]
+    def minutes; to_h[:mi] * (to_h[:si] ? -1 : 1); end
+
+    # Seconds
+    # @return [Integer]
+    def seconds; to_h[:se] * (to_h[:si] ? -1 : 1); end
+
   private
     # Reverse convert from XSD version of duration
     # XSD allows -P1111Y22M33DT44H55M66.666S with any combination in regular order
@@ -211,7 +218,7 @@ module RDF; class Literal
     end
     
     def sec_str
-      sec = @object.last % 60
+      sec = @object.last.abs % 60
       ((sec.truncate == sec ? "%d" : "%2.3f") % sec).sub(/(\.[1-9]+)0+$/, '\1')
     end
   end # Duration
@@ -253,7 +260,7 @@ module RDF; class Literal
       when Duration
         return super unless other.valid?
         @object.last < other.object.last
-      when Numeric
+      when ::Numeric, Numeric
         self.last < other
       when Literal::DateTime, Literal::Time, Literal::Date
         false
@@ -273,8 +280,8 @@ module RDF; class Literal
       case other
       when Duration
         return super unless other.valid?
-        @object.last > other.object.first
-      when Numeric
+        @object.last > other.object.last
+      when ::Numeric, Numeric
         self.last > other
       when Literal::DateTime, Literal::Time, Literal::Date
         false
@@ -282,30 +289,6 @@ module RDF; class Literal
         super
       end
     end
-
-    # Years
-    # @return [Integer]
-    def years; to_hash[:yr].to_i * (to_hash[:si] ? -1 : 0); end
-
-    # Months
-    # @return [Integer]
-    def months; to_hash[:mo].to_i * (to_hash[:si] ? -1 : 0); end
-
-    # Days
-    # @return [Integer]
-    def days; to_hash[:da].to_i * (to_hash[:si] ? -1 : 0); end
-
-    # Hours
-    # @return [Integer]
-    def hours; to_hash[:hr].to_i * (to_hash[:si] ? -1 : 0); end
-
-    # Minutes
-    # @return [Integer]
-    def minutes; to_hash[:mi].to_i * (to_hash[:si] ? -1 : 0); end
-
-    # Seconds
-    # @return [Integer]
-    def seconds; to_hash[:se].to_i * (to_hash[:si] ? -1 : 0); end
   end # DayTimeDuration
 
   ##
@@ -336,7 +319,7 @@ module RDF; class Literal
       when Duration
         return super unless other.valid?
         @object.first < other.object.first
-      when Numeric
+      when ::Numeric, Numeric
         self.first < other
       when Literal::DateTime, Literal::Time, Literal::Date
         false
@@ -357,7 +340,7 @@ module RDF; class Literal
       when Duration
         return super unless other.valid?
         @object.first > other.object.first
-      when Numeric
+      when ::Numeric, Numeric
         self.first > other
       when Literal::DateTime, Literal::Time, Literal::Date
         false
