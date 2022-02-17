@@ -23,7 +23,8 @@ begin
   SimpleCov.start do
     add_filter "/spec/"
   end
-rescue LoadError
+rescue LoadError => e
+  STDERR.puts "Coverage Skipped: #{e.message}"
 end
 
 require 'rdf/xsd'

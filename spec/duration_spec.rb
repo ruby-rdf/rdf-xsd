@@ -1,5 +1,4 @@
-$:.unshift "."
-require 'spec_helper'
+require_relative 'spec_helper'
 
 describe RDF::Literal::Duration do
   include_examples 'RDF::Literal with datatype and grammar', "P2Y6M5DT12H35M30S",
@@ -11,7 +10,7 @@ describe RDF::Literal::Duration do
   include_examples 'RDF::Literal lookup',
                    { described_class::DATATYPE => described_class }
 
-  describe "initialize" do
+  describe "#initialize" do
     {
       'Hash with seconds components': {
         value:  {se: 10, mi: 1},
@@ -33,12 +32,17 @@ describe RDF::Literal::Duration do
         string: '-P1Y1M',
         object: [-13, 0]
       },
-      'Hash with negative seconds component': {
-        value:  {si: '-', se: 10, mi: 1},
-        string: '-PT1M10S',
-        object: [0, -70]
+      'Hash with mixed components': {
+        value:  {yr: 1, mo: 2, da: 3, hr: 4, mi: 5, se: 6},
+        string: 'P1Y2M3DT4H5M6S',
+        object: [14, 273906]
       },
-      'Hash with seconds string': {
+      'Hash with negative mixed components': {
+        value:  {si: '-', yr: 1, mo: 2, da: 3, hr: 4, mi: 5, se: 6},
+        string: '-P1Y2M3DT4H5M6S',
+        object: [-14, 273906]
+      },
+      'String with seconds': {
         value:  'PT1M10S',
         string: 'PT1M10S',
         object: [0, 70]
@@ -48,15 +52,60 @@ describe RDF::Literal::Duration do
         string: '-PT1M10S',
         object: [0, -70]
       },
-      'Hash with duration': {
+      'String with months': {
+        value:  'P1M',
+        string: 'P1M',
+        object: [1, 0]
+      },
+      'String with negative months': {
+        value:  '-P1M',
+        string: '-P1M',
+        object: [-1, 0]
+      },
+      'String with mixed components': {
+        value:  "P1Y2M3DT4H5M6S",
+        string: 'P1Y2M3DT4H5M6S',
+        object: [14, 273906]
+      },
+      'String with negative mixed components': {
+        value:  "-P1Y2M3DT4H5M6S",
+        string: '-P1Y2M3DT4H5M6S',
+        object: [-14, 273906]
+      },
+      'Duration with seconds': {
         value: described_class.new('PT70S'),
         string: 'PT1M10S',
         object: [0, 70]
       },
+      'Duration with months': {
+        value: described_class.new('P70M'),
+        string: 'P5Y10M',
+        object: [70, 0]
+      },
+      'Array with seconds': {
+        value: [0, 70],
+        string: 'PT1M10S',
+        object: [0, 70]
+      },
+      'Array with months': {
+        value: [4, 0],
+        string: 'P4M',
+        object: [4, 0]
+      },
+      'Array with mixed': {
+        value: [4, 2],
+        string: 'P4MT2S',
+        object: [4, 2]
+      },
     }.each do |title, param|
       it title do
-        expect(described_class.new(param[:value]).to_s).to eq param[:string]
-        expect(described_class.new(param[:value]).object).to eq param[:object]
+        if param[:string]
+          expect(described_class.new(param[:value])).to be_valid
+          expect(described_class.new(param[:value]).to_s).to eq param[:string]
+          expect(described_class.new(param[:value]).object).to eq param[:object]
+        else
+          expect(described_class.new(param[:value])).not_to be_valid
+        end
       end
     end
   end
@@ -245,85 +294,6 @@ describe RDF::Literal::Duration do
   end
 end
 
-describe RDF::Literal::DayTimeDuration do
-  include_examples 'RDF::Literal with datatype and grammar', "PT130S",
-                   described_class::DATATYPE.to_s
-  include_examples 'RDF::Literal lexical values', "PT130S"
-
-  include_examples 'RDF::Literal lookup',
-                   { described_class::DATATYPE => described_class }
-
-  context "validations" do
-    valid = %w(
-      PT130S
-      PT130M
-      PT130H
-      P130D
-      PT2M10S
-      P1DT2S
-      P1DT2H
-      -P60D
-      PT1004199059S
-      PT1M30.5S
-      PT20M
-    )
-
-    invalid = %w(
-      P130M
-      P130Y
-      P0Y20M0D
-      P0Y
-      P20M
-      -P1Y
-      P1Y2M3DT5H20M30.123S
-      -P1111Y11M23DT4H55M16.666S
-      P2Y6M5DT12H35M30S
-    )
-
-    include_examples 'RDF::Literal validation', described_class::DATATYPE, valid, invalid
-  end
-
-  describe "#<" do
-    {
-      ["P1D", "P2D"] => true,
-      ["PT1H", "P1D"] => true,
-      ["PT1M", "PT1H"] => true,
-      ["P1D", "P1D"] => false,
-      ["-P1D", "P1D"] => true,
-    }.each do |(a, b), res|
-      if res
-        it "#{a} < #{b}" do
-          expect(described_class.new(a)).to be < described_class.new(b)
-        end
-      else
-        it "#{a} !< #{b}" do
-          expect(described_class.new(a)).not_to be < described_class.new(b)
-        end
-      end
-    end
-  end
-
-  describe "#>" do
-    {
-      ["P2D", "P1D"] => true,
-      ["P1D", "PT1H"] => true,
-      ["PT1H", "PT1M"] => true,
-      ["P1D", "P1D"] => false,
-      ["P1D", "-P1D"] => true,
-    }.each do |(a, b), res|
-      if res
-        it "#{a} > #{b}" do
-          expect(described_class.new(a)).to be > described_class.new(b)
-        end
-      else
-        it "#{a} !> #{b}" do
-          expect(described_class.new(a)).not_to be > described_class.new(b)
-        end
-      end
-    end
-  end
-end
-
 describe RDF::Literal::YearMonthDuration do
   include_examples 'RDF::Literal with datatype and grammar', "P130M",
                    described_class::DATATYPE.to_s
@@ -331,6 +301,95 @@ describe RDF::Literal::YearMonthDuration do
 
   include_examples 'RDF::Literal lookup',
                    { described_class::DATATYPE => described_class }
+
+  describe "#initialize" do
+    {
+      'Hash with seconds components': {
+        value:  {se: 10, mi: 1},
+        valid: false
+      },
+      'Hash with negative seconds component': {
+        value:  {si: '-', se: 10, mi: 1},
+        valid: false
+      },
+      'Hash with months components': {
+        value:  {yr: 1, mo: 1},
+        string: 'P1Y1M',
+        object: [13, 0]
+      },
+      'Hash with negative months components': {
+        value:  {si: '-', yr: 1, mo: 1},
+        string: '-P1Y1M',
+        object: [-13, 0]
+      },
+      'Hash with mixed components': {
+        value:  {yr: 1, mo: 2, da: 3, hr: 4, mi: 5, se: 6},
+        valid: false
+      },
+      'Hash with negative mixed components': {
+        value:  {si: '-', yr: 1, mo: 2, da: 3, hr: 4, mi: 5, se: 6},
+        valid: false
+      },
+      'String with seconds': {
+        value:  'PT1M10S',
+        valid: false
+      },
+      'String with negative seconds': {
+        value:  '-PT1M10S',
+        valid: false
+      },
+      'String with months': {
+        value:  'P1M',
+        string: 'P1M',
+        object: [1, 0]
+      },
+      'String with negative months': {
+        value:  '-P1M',
+        string: '-P1M',
+        object: [-1, 0]
+      },
+      'String with mixed components': {
+        value:  "P1Y2M3DT4H5M6S",
+        valid: false
+      },
+      'String with negative mixed components': {
+        value:  "-P1Y2M3DT4H5M6S",
+        valid: false
+      },
+      'YearMonthDuration with seconds': {
+        value: described_class.new('PT70S'),
+        valid: false
+      },
+      'YearMonthDuration with months': {
+        value: described_class.new('P70M'),
+        string: 'P5Y10M',
+        object: [70, 0]
+      },
+      'Array with seconds': {
+        value: [0, 70],
+        valid: false
+      },
+      'Array with months': {
+        value: [4, 0],
+        string: 'P4M',
+        object: [4, 0]
+      },
+      'Array with mixed': {
+        value: [4, 2],
+        valid: false
+      },
+    }.each do |title, param|
+      it title do
+        if param[:string]
+          expect(described_class.new(param[:value])).to be_valid
+          expect(described_class.new(param[:value]).to_s).to eq param[:string]
+          expect(described_class.new(param[:value]).object).to eq param[:object]
+        else
+          expect(described_class.new(param[:value])).not_to be_valid
+        end
+      end
+    end
+  end
 
   context "validations" do
     valid = %w(
@@ -389,6 +448,174 @@ describe RDF::Literal::YearMonthDuration do
       ["P2Y", "P1Y"] => true,
       ["P1Y", "P1Y"] => false,
       ["P1Y", "-P1Y"] => true,
+    }.each do |(a, b), res|
+      if res
+        it "#{a} > #{b}" do
+          expect(described_class.new(a)).to be > described_class.new(b)
+        end
+      else
+        it "#{a} !> #{b}" do
+          expect(described_class.new(a)).not_to be > described_class.new(b)
+        end
+      end
+    end
+  end
+end
+
+describe RDF::Literal::DayTimeDuration do
+  include_examples 'RDF::Literal with datatype and grammar', "PT130S",
+                   described_class::DATATYPE.to_s
+  include_examples 'RDF::Literal lexical values', "PT130S"
+
+  include_examples 'RDF::Literal lookup',
+                   { described_class::DATATYPE => described_class }
+
+  describe "#initialize" do
+    {
+      'Hash with seconds components': {
+        value:  {se: 10, mi: 1},
+        string: 'PT1M10S',
+        object: [0, 70]
+      },
+      'Hash with negative seconds component': {
+        value:  {si: '-', se: 10, mi: 1},
+        string: '-PT1M10S',
+        object: [0, -70]
+      },
+      'Hash with months components': {
+        value:  {yr: 1, mo: 1},
+        valid: false
+      },
+      'Hash with negative months components': {
+        value:  {si: '-', yr: 1, mo: 1},
+        valid: false
+      },
+      'Hash with mixed components': {
+        value:  {yr: 1, mo: 2, da: 3, hr: 4, mi: 5, se: 6},
+        valid: false
+      },
+      'Hash with negative mixed components': {
+        value:  {si: '-', yr: 1, mo: 2, da: 3, hr: 4, mi: 5, se: 6},
+        valid: false
+      },
+      'String with seconds': {
+        value:  'PT1M10S',
+        string: 'PT1M10S',
+        object: [0, 70]
+      },
+      'String with negative seconds': {
+        value:  '-PT1M10S',
+        string: '-PT1M10S',
+        object: [0, -70]
+      },
+      'String with months': {
+        value:  'P1M',
+        valid: false
+      },
+      'String with negative months': {
+        value:  '-P1M',
+        valid: false
+      },
+      'String with mixed components': {
+        value:  "P1Y2M3DT4H5M6S",
+        valid: false
+      },
+      'String with negative mixed components': {
+        value:  "-P1Y2M3DT4H5M6S",
+        valid: false
+      },
+      'DayTimeDuration with seconds': {
+        value: described_class.new('PT70S'),
+        string: 'PT1M10S',
+        object: [0, 70]
+      },
+      'DayTimeDuration with months': {
+        value: described_class.new('P70M'),
+        valid: false
+      },
+      'Array with seconds': {
+        value: [0, 70],
+        string: 'PT1M10S',
+        object: [0, 70]
+      },
+      'Array with months': {
+        value: [4, 0],
+        valid: false
+      },
+      'Array with mixed': {
+        value: [4, 2],
+        valid: false
+      },
+    }.each do |title, param|
+      it title do
+        if param[:string]
+          expect(described_class.new(param[:value])).to be_valid
+          expect(described_class.new(param[:value]).to_s).to eq param[:string]
+          expect(described_class.new(param[:value]).object).to eq param[:object]
+        else
+          expect(described_class.new(param[:value])).not_to be_valid
+        end
+      end
+    end
+  end
+
+  context "validations" do
+    valid = %w(
+      PT130S
+      PT130M
+      PT130H
+      P130D
+      PT2M10S
+      P1DT2S
+      P1DT2H
+      -P60D
+      PT1004199059S
+      PT1M30.5S
+      PT20M
+    )
+
+    invalid = %w(
+      P130M
+      P130Y
+      P0Y20M0D
+      P0Y
+      P20M
+      -P1Y
+      P1Y2M3DT5H20M30.123S
+      -P1111Y11M23DT4H55M16.666S
+      P2Y6M5DT12H35M30S
+    )
+
+    include_examples 'RDF::Literal validation', described_class::DATATYPE, valid, invalid
+  end
+
+  describe "#<" do
+    {
+      ["P1D", "P2D"] => true,
+      ["PT1H", "P1D"] => true,
+      ["PT1M", "PT1H"] => true,
+      ["P1D", "P1D"] => false,
+      ["-P1D", "P1D"] => true,
+    }.each do |(a, b), res|
+      if res
+        it "#{a} < #{b}" do
+          expect(described_class.new(a)).to be < described_class.new(b)
+        end
+      else
+        it "#{a} !< #{b}" do
+          expect(described_class.new(a)).not_to be < described_class.new(b)
+        end
+      end
+    end
+  end
+
+  describe "#>" do
+    {
+      ["P2D", "P1D"] => true,
+      ["P1D", "PT1H"] => true,
+      ["PT1H", "PT1M"] => true,
+      ["P1D", "P1D"] => false,
+      ["P1D", "-P1D"] => true,
     }.each do |(a, b), res|
       if res
         it "#{a} > #{b}" do

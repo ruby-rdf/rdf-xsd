@@ -1,6 +1,6 @@
-# Extended XSD Datatypes for RDF.rb
+# Extended XSD Datatypes and XQuery functions for RDF.rb
 
-This gem adds additional RDF::Literal subclasses for extended [XSD datatypes][]
+This gem adds additional RDF::Literal subclasses for extended [XSD datatypes][] along with methods implementing many [XPath and XQuery Functions][]
 
 [![Gem Version](https://badge.fury.io/rb/rdf-xsd.png)](https://badge.fury.io/rb/rdf-xsd)
 [![Build Status](https://github.com/ruby-rdf/rdf-xsd/workflows/CI/badge.svg?branch=develop)](https://github.com/ruby-rdf/rdf-xsd/actions?query=workflow%3ACI)
@@ -11,10 +11,10 @@ This gem adds additional RDF::Literal subclasses for extended [XSD datatypes][]
 
 * Additional xsd:integer subtypes
 * xsd:float based on xsd:double
-* xsd:duration
+* xsd:duration, xsd:yearMonthDuration, and xsd:dayTimeDuration.
 * rdf:XMLLiteral
 * XML Exclusive Canonicalization (Nokogiri & REXML)
-* XML Literal comparisions (EquivalentXml, ActiveSupport or String)
+* XML Literal comparisons (EquivalentXml, ActiveSupport or String)
 
 ## Examples
 
@@ -29,25 +29,27 @@ This gem adds additional RDF::Literal subclasses for extended [XSD datatypes][]
 * Soft dependency on [ActiveSupport](https://rubygems.org/gems/activesupport) (~> 6.2)
 
 ## Documentation
-Full documentation available on [Rubydoc.info][XSD doc]
+Full documentation available on [GitHub][XSD doc]
 
 ### Principle Classes
 * {RDF::Literal::Base64Binary}
 * {RDF::Literal::Duration}
+    * {RDF::Literal::YearMonthDuration}
+    * {RDF::Literal::DayTimeDuration}
 * {RDF::Literal::Float}
 * {RDF::Literal::HexBinary}
 * {RDF::Literal::NonPositiveInteger}
-  * {RDF::Literal::NegativeInteger}
+    * {RDF::Literal::NegativeInteger}
 * {RDF::Literal::Long}
-  * {RDF::Literal::Int}
-    * {RDF::Literal::Short}
-      * {RDF::Literal::Byte}
+    * {RDF::Literal::Int}
+        * {RDF::Literal::Short}
+            * {RDF::Literal::Byte}
 * {RDF::Literal::NonNegativeInteger}
-  * {RDF::Literal::PositiveInteger}
-  * {RDF::Literal::UnsignedLong}
-    * {RDF::Literal::UnsignedInt}
-      * {RDF::Literal::UnsignedShort}
-        * {RDF::Literal::UnsignedByte}
+    * {RDF::Literal::PositiveInteger}
+    * {RDF::Literal::UnsignedLong}
+        * {RDF::Literal::UnsignedInt}
+            * {RDF::Literal::UnsignedShort}
+                * {RDF::Literal::UnsignedByte}
 * {RDF::Literal::YearMonth}
 * {RDF::Literal::Year}
 * {RDF::Literal::MonthDay}
@@ -101,3 +103,5 @@ Portions of tests are derived from [W3C DAWG tests](https://www.w3.org/2001/sw/D
 [PDD]:              https://unlicense.org/#unlicensing-contributions
 [Backports]:  https://rubygems.org/gems/backports
 [XSD Datatypes]: https://www.w3.org/TR/2004/REC-xmlschema-2-20041028/#built-in-datatypes
+[XPath and XQuery Functions]: https://www.w3.org/TR/xpath-functions/
+[XSD Doc]: https://ruby-rdf.github.io/rdf-xsd

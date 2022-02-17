@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.name                  = %q{rdf-xsd}
   gem.homepage              = "https://github.com/ruby-rdf/rdf-xsd"
   gem.license               = 'Unlicense'
-  gem.summary               = "Extended XSD Datatypes for RDF.rb."
-  gem.description           = "Adds RDF::Literal subclasses for extended XSD datatypes."
+  gem.summary               = "Extended XSD Datatypes and XPath and XQuery functions for RDF.rb."
+  gem.description           = "Adds RDF::Literal subclasses for extended XSD datatypes with methods for many XPath and XQuery functions."
   gem.metadata           = {
     "documentation_uri" => "https://ruby-rdf.github.io/rdf-xsd",
     "bug_tracker_uri"   => "https://github.com/ruby-rdf/rdf-xsd/issues",

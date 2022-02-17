@@ -5,9 +5,10 @@ module RDF; class Literal
   ##
   # A duration literal.
   #
+  # `duration` is a datatype that represents durations of time.  The concept of duration being captured is drawn from those of [ISO 8601](https://www.w3.org/TR/xmlschema11-2/#ISO8601), specifically durations without fixed endpoints.
+  #
   # @see   https://www.w3.org/TR/xmlschema11-2/#duration
   class Duration < Literal
-    TIME0 = ::Time.new(0)
     DATATYPE = RDF::XSD.duration
     GRAMMAR  = %r(\A
       (?<si>-)?
@@ -29,12 +30,21 @@ module RDF; class Literal
     \z)x.freeze
 
     ##
-    # * Given a Numeric, assumes that it is milliseconds with no month component.
-    # * Given a String, parse as xsd:duration into months and seconds
-    # * Given a Hash containing any of `:yr`, `:mo`, :da`, `:hr`, `:mi` or `:si`, it is transformed into months and seconds
-    # * Internal representation is the `tuple(months, secons)`
-    # @param  [Duration, Hash, Numeric, #to_s] value
-    # @option options [String] :lexical (nil)
+    # Creates a new Duration instance.
+    #
+    # * Given a `String`, parse as `xsd:duration` into months and seconds
+    # * Given a `Hash` containing any of `:yr`, `:mo`, :da`, `:hr`, `:mi` and `:si`, it is transformed into months and seconds
+    # * Object representation is the `Array(months, seconds)`
+    #
+    # @param  [Duration, Hash, Array, Numeric, #to_s] value
+    #   If provided an Array, it is the same as the object form of this literal, an array of two integers, the first of which may be negative.
+    # @param [String]  lexical (nil)
+    #   Supplied lexical representation of this literal,
+    #   otherwise it comes from transforming `value` to a string form..
+    # @param [URI]     datatype (nil)
+    # @param [Hash{Symbol => Object}] other options passed to `RDF::Literal#initialize`.
+    # @option options [Boolean] :validate (false)
+    # @option options [Boolean] :canonicalize (false)
     def initialize(value, datatype: nil, lexical: nil, **options)
       super
       @object   = case value
@@ -53,10 +63,9 @@ module RDF; class Literal
           end
         end
         [months, seconds]
-      when Duration
-        value.object
-      else
-        parse(value.to_s)
+      when Duration then value.object
+      when Array then    value
+      else               parse(value.to_s)
       end
     end
 
@@ -149,6 +158,8 @@ module RDF; class Literal
     ##
     # Returns `true` if `self` and `other` are durations of the same length.
     #
+    # From the XQuery function [op:duration-equal](https://www.w3.org/TR/xpath-functions-31/#func-duration-equal).
+    #
     # @see https://www.w3.org/TR/xpath-functions-31/#func-duration-equal
     def ==(other)
       # If lexically invalid, use regular literal testing
@@ -166,28 +177,52 @@ module RDF; class Literal
     end
 
     # Years
+    #
+    # From the XQuery function [fn:years-from-duration](https://www.w3.org/TR/xpath-functions-31/#func-years-from-duration).
+    #
     # @return [Integer]
-    def years; to_h[:yr] * (to_h[:si] ? -1 : 1); end
+    # @see https://www.w3.org/TR/xpath-functions-31/#func-years-from-duration
+    def years; Integer.new(to_h[:yr] * (to_h[:si] ? -1 : 1)); end
 
     # Months
+    #
+    # From the XQuery function [fn:months-from-duration](https://www.w3.org/TR/xpath-functions-31/#func-months-from-duration).
+    #
     # @return [Integer]
-    def months; to_h[:mo] * (to_h[:si] ? -1 : 1); end
+    # @see https://www.w3.org/TR/xpath-functions-31/#func-months-from-duration
+    def months; Integer.new(to_h[:mo] * (to_h[:si] ? -1 : 1)); end
 
     # Days
+    #
+    # From the XQuery function [fn:days-from-duration](https://www.w3.org/TR/xpath-functions-31/#func-days-from-duration).
+    #
     # @return [Integer]
-    def days; to_h[:da] * (to_h[:si] ? -1 : 1); end
+    # @see https://www.w3.org/TR/xpath-functions-31/#func-days-from-duration
+    def days; Integer.new(to_h[:da] * (to_h[:si] ? -1 : 1)); end
 
     # Hours
+    #
+    # From the XQuery function [fn:hours-from-duration](https://www.w3.org/TR/xpath-functions-31/#func-hours-from-duration).
+    #
     # @return [Integer]
-    def hours; to_h[:hr] * (to_h[:si] ? -1 : 1); end
+    # @see https://www.w3.org/TR/xpath-functions-31/#func-hours-from-duration
+    def hours; Integer.new(to_h[:hr] * (to_h[:si] ? -1 : 1)); end
 
     # Minutes
+    #
+    # From the XQuery function [fn:minutes-from-duration](https://www.w3.org/TR/xpath-functions-31/#func-minutes-from-duration).
+    #
     # @return [Integer]
-    def minutes; to_h[:mi] * (to_h[:si] ? -1 : 1); end
+    # @see https://www.w3.org/TR/xpath-functions-31/#func-minutes-from-duration
+    def minutes; Integer.new(to_h[:mi] * (to_h[:si] ? -1 : 1)); end
 
     # Seconds
-    # @return [Integer]
-    def seconds; to_h[:se] * (to_h[:si] ? -1 : 1); end
+    #
+    # From the XQuery function [fn:seconds-from-duration](https://www.w3.org/TR/xpath-functions-31/#func-seconds-from-duration).
+    #
+    # @return [Float]
+    # @see https://www.w3.org/TR/xpath-functions-31/#func-seconds-from-duration
+    def seconds; Decimal.new(to_h[:se] * (to_h[:si] ? -1 : 1)); end
 
   private
     # Reverse convert from XSD version of duration
@@ -224,9 +259,132 @@ module RDF; class Literal
   end # Duration
 
   ##
+  # A `YearMonthDuration` literal.
+  #
+  # `yearMonthDuration` is a datatype ·derived· from `xsd:duration` by restricting its ·lexical representations· to instances of `yearMonthDurationLexicalRep`.  The ·value space· of `yearMonthDuration` is therefore that of `duration` restricted to those whose ·seconds· property is 0.  This results in a `duration` datatype which is totally ordered.
+  #
+  # @see   https://www.w3.org/TR/xmlschema11-2/#yearMonthDuration
+  class YearMonthDuration < Duration
+    DATATYPE = RDF::XSD.yearMonthDuration
+    GRAMMAR  = %r(\A
+      (?<si>-)?
+      P(?:(?:(?:(?:(?<yr>\d+)Y)(?:(?<mo>\d+)M)?)
+          |  (?:(?:(?<mo>\d+)M))
+          )
+       )
+    \z)x.freeze
+
+    ##
+    # Returns the sum of two xs:yearMonthDuration values.
+    #
+    # From the XQuery function [op:add-yearMonthDurations](https://www.w3.org/TR/xpath-functions-31/#func-add-yearMonthDurations).
+    #
+    # @param [YearMonthDuration] other
+    # @return [YearMonthDuration] 
+    # @see https://www.w3.org/TR/xpath-functions-31/#func-add-yearMonthDurations
+    def +(other)
+      return super unless other.is_a?(YearMonthDuration) && other.valid?
+      self.class.new([object.first + other.object.first])
+    end
+
+    ##
+    # Returns the result of subtracting one xs:yearMonthDuration value from another.
+    #
+    # From the XQuery function [op:subtract-yearMonthDurations](https://www.w3.org/TR/xpath-functions-31/#func-subtract-yearMonthDurations).
+    #
+    # @param [YearMonthDuration] other
+    # @return [YearMonthDuration] 
+    # @see https://www.w3.org/TR/xpath-functions-31/#func-subtract-yearMonthDurations
+    def -(other)
+      return super unless other.is_a?(YearMonthDuration) && other.valid?
+      self.class.new([object.first - other.object.first])
+    end
+
+    ##
+    # Returns the result of multiplying the value of self by `other`. The result is rounded to the nearest month.
+    #
+    # From the XQuery function [op:multiply-yearMonthDuration](https://www.w3.org/TR/xpath-functions-31/#func-multiply-yearMonthDuration).
+    #
+    # @param [Numeric, ::Numeric, DayTimeDuration] other
+    # @return [YearMonthDuration] 
+    # @see https://www.w3.org/TR/xpath-functions-31/#func-multiply-yearMonthDuration
+    def *(other)
+      return super unless (other.is_a?(:Numeric) || other.is_a?(Numeric))
+      self.class.new([object.first * other.to_i])
+    end
+
+    ##
+    # Returns the result of dividing the value of self by `other`. The result is rounded to the nearest month.
+    #
+    # From the XQuery functions [op:divide-yearMonthDuration](https://www.w3.org/TR/xpath-functions-31/#func-divide-yearMonthDuration) and [op:divide-yearMonthDuration-by-yearMonthDuration](https://www.w3.org/TR/xpath-functions-31/#func-divide-yearMonthDuration-by-yearMonthDuration).
+    #
+    # @param [Numeric, ::Numeric, YearMonthDuration] other
+    # @return [YearMonthDuration, Decimal] 
+    # @see https://www.w3.org/TR/xpath-functions-31/#func-divide-yearMonthDuration
+    # @see https://www.w3.org/TR/xpath-functions-31/#func-divide-yearMonthDuration-by-yearMonthDuration
+    def /(other)
+      case other
+      when YearMonthDuration
+        return super unless other.valid?
+        Decimal.new([object.first / other.first.to_i])
+      when Numeric, ::Numeric
+        self.class.new([object.last / other.to_i])
+      else
+        super
+      end
+    end
+
+    ##
+    # Compares durations and selected other types.
+    #
+    # @param [Duration, Numeric, RDF::Literal::Numeric, Object] other
+    # @return [Boolean] `true` if less than other for defined datatypes
+    # @see https://www.w3.org/TR/xpath-functions-31/#func-dayTimeDuration-less-than
+    def <(other)
+      # If lexically invalid, use regular literal testing
+      return super unless self.valid?
+
+      case other
+      when Duration
+        return super unless other.valid?
+        @object.first < other.object.first
+      when ::Numeric, Numeric
+        self.first < other
+      when Literal::DateTime, Literal::Time, Literal::Date
+        false
+      else
+        super
+      end
+    end
+
+    ##
+    # Compares durations and selected other types.
+    #
+    # @param [Duration, Numeric, RDF::Literal::Numeric, Object] other
+    # @return [Boolean] `true` if greater than other for defined datatypes
+    # @see https://www.w3.org/TR/xpath-functions-31/#func-dayTimeDuration-greater-than
+    def >(other)
+      # If lexically invalid, use regular literal testing
+      return super unless self.valid?
+
+      case other
+      when Duration
+        return super unless other.valid?
+        @object.first > other.object.first
+      when ::Numeric, Numeric
+        self.first > other
+      when Literal::DateTime, Literal::Time, Literal::Date
+        false
+      else
+        super
+      end
+    end
+  end # YearMonthDuration
+
+  ##
   # A DayTimeDuration literal.
   #
-  # dayTimeDuration is a datatype ·derived· from duration by restricting its ·lexical representations· to instances of dayTimeDurationLexicalRep. The ·value space· of dayTimeDuration is therefore that of duration restricted to those whose ·months· property is 0.  This results in a duration datatype which is totally ordered.
+  # `dayTimeDuration` is a datatype ·derived· from `duration` by restricting its ·lexical representations· to instances of `dayTimeDurationLexicalRep`. The ·value space· of `dayTimeDuration` is therefore that of `duration` restricted to those whose ·months· property is 0.  This results in a duration datatype which is totally ordered.
   #
   # @see   https://www.w3.org/TR/xmlschema11-2/#dayTimeDuration
   class DayTimeDuration < Duration
@@ -249,8 +407,70 @@ module RDF; class Literal
     \z)x.freeze
 
     ##
-    # Returns `true` if less than other for defined datatypes
+    # Returns the sum of two xs:dayTimeDuration values.
     #
+    # From the XQuery function [op:add-dayTimeDurations](https://www.w3.org/TR/xpath-functions-31/#func-add-dayTimeDurations).
+    #
+    # @param [DayTimeDuration] other
+    # @return [DayTimeDuration] 
+    # @see https://www.w3.org/TR/xpath-functions-31/#func-add-dayTimeDuration
+    def +(other)
+      return super unless other.is_a?(DayTimeDuration) && other.valid?
+      self.class.new([object.last + other.object.last])
+    end
+
+    ##
+    # Returns the result of subtracting one xs:dayTimeDuration value from another.
+    #
+    # From the XQuery function [op:subtract-dayTimeDurationss](https://www.w3.org/TR/xpath-functions-31/#func-subtract-dayTimeDurationss).
+    #
+    # @param [DayTimeDuration] other
+    # @return [DayTimeDuration] 
+    # @see https://www.w3.org/TR/xpath-functions-31/#func-subtract-dayTimeDurations
+    def -(other)
+      return super unless other.is_a?(DayTimeDuration) && other.valid?
+      self.class.new([object.last - other.object.last])
+    end
+
+    ##
+    # Returns the result of multiplying the value of self by `other`. The result is rounded to the nearest month.
+    #
+    # From the XQuery function [op:multiply-dayTimeDuration](https://www.w3.org/TR/xpath-functions-31/#func-multiply-dayTimeDuration).
+    #
+    # @param [Numeric, ::Numeric] other
+    # @return [DayTimeDuration] 
+    # @see https://www.w3.org/TR/xpath-functions-31/#func-multiply-dayTimeDuration
+    def *(other)
+      return super unless (other.is_a?(:Numeric) || other.is_a?(Numeric))
+      self.class.new([object.last * other.to_f])
+    end
+
+    ##
+    # Returns the result of dividing the value of self by `other`. The result is rounded to the nearest month.
+    #
+    # From the XQuery functions [op:divide-yearMonthDuration](https://www.w3.org/TR/xpath-functions-31/#func-divide-dayTimeDuration) and [op:divide-yearMonthDuration-by-yearMonthDuration](https://www.w3.org/TR/xpath-functions-31/#func-divide-dayTimeDuration-by-dayTimeDuration).
+    #
+    # @param [Numeric, ::Numeric, DayTimeDuration] other
+    # @return [DayTimeDuration, Decimal] 
+    # @see https://www.w3.org/TR/xpath-functions-31/#func-divide-dayTimeDuration
+    # @see https://www.w3.org/TR/xpath-functions-31/#func-divide-dayTimeDuration-by-dayTimeDuration
+    def /(other)
+      case other
+      when DayTimeDuration
+        return super unless other.valid?
+        Decimal.new(self.class.new([object.last / other.last.to_f]))
+      when Numeric, ::Numeric
+        self.class.new([object.last / other.to_f])
+      else
+        super
+      end
+    end
+
+    ##
+    # Compares durations and selected other types.
+    #
+    # @param [Duration, Numeric, RDF::Literal::Numeric, Object] other
+    # @return [Boolean] `true` if less than other for defined datatypes
     # @see https://www.w3.org/TR/xpath-functions-31/#func-dayTimeDuration-less-than
     def <(other)
       # If lexically invalid, use regular literal testing
@@ -270,9 +490,11 @@ module RDF; class Literal
     end
 
     ##
-    # Returns `true` if greater than other for defined datatypes
+    # Compares durations and selected other types.
     #
-    # @see https://www.w3.org/TR/xpath-functions-31/#func-yearMonthDuration-less-than
+    # @param [Duration, Numeric, RDF::Literal::Numeric, Object] other
+    # @return [Boolean] `true` if greater than other for defined datatypes
+    # @see https://www.w3.org/TR/xpath-functions-31/#func-dayTimeDuration-greater-than
     def >(other)
       # If lexically invalid, use regular literal testing
       return super unless self.valid?
@@ -290,63 +512,4 @@ module RDF; class Literal
       end
     end
   end # DayTimeDuration
-
-  ##
-  # A YearMonthDuration literal.
-  #
-  # yearMonthDuration is a datatype ·derived· from duration by restricting its ·lexical representations· to instances of yearMonthDurationLexicalRep.  The ·value space· of yearMonthDuration is therefore that of duration restricted to those whose ·seconds· property is 0.  This results in a duration datatype which is totally ordered.
-  #
-  # @see   https://www.w3.org/TR/xmlschema11-2/#yearMonthDuration
-  class YearMonthDuration < Duration
-    DATATYPE = RDF::XSD.yearMonthDuration
-    GRAMMAR  = %r(\A
-      (?<si>-)?
-      P(?:(?:(?:(?:(?<yr>\d+)Y)(?:(?<mo>\d+)M)?)
-          |  (?:(?:(?<mo>\d+)M))
-          )
-       )
-    \z)x.freeze
-
-    ##
-    # Returns `true` if less than other for defined datatypes
-    #
-    # @see https://www.w3.org/TR/xpath-functions-31/#func-yearMonthDuration-less-than
-    def <(other)
-      # If lexically invalid, use regular literal testing
-      return super unless self.valid?
-
-      case other
-      when Duration
-        return super unless other.valid?
-        @object.first < other.object.first
-      when ::Numeric, Numeric
-        self.first < other
-      when Literal::DateTime, Literal::Time, Literal::Date
-        false
-      else
-        super
-      end
-    end
-
-    ##
-    # Returns `true` if greater than other for defined datatypes
-    #
-    # @see https://www.w3.org/TR/xpath-functions-31/#func-yearMonthDuration-less-than
-    def >(other)
-      # If lexically invalid, use regular literal testing
-      return super unless self.valid?
-
-      case other
-      when Duration
-        return super unless other.valid?
-        @object.first > other.object.first
-      when ::Numeric, Numeric
-        self.first > other
-      when Literal::DateTime, Literal::Time, Literal::Date
-        false
-      else
-        super
-      end
-    end
-  end # YearMonthDuration
 end; end # RDF::Literal

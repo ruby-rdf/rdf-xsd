@@ -1,5 +1,4 @@
-$:.unshift "."
-require 'spec_helper'
+require_relative 'spec_helper'
 begin
   require 'nokogiri'
 rescue LoadError
