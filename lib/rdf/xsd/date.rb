@@ -11,7 +11,7 @@ module RDF; class Literal
   class DateTimeStamp < RDF::Literal::DateTime
     DATATYPE = RDF::XSD.dateTimeStamp
     GRAMMAR  = %r(\A(-?\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?)((?:[\+\-]\d{2}:\d{2})|UTC|GMT|Z)\Z).freeze
-    FORMAT   = '%Y-%m-%dT%H:%M:%SZ'.freeze
+    FORMAT   = '%Y-%m-%dT%H:%M:%S'.freeze
   end
 
   ##
@@ -24,7 +24,7 @@ module RDF; class Literal
   class YearMonth < RDF::Literal::Date
     DATATYPE = RDF::XSD.gYearMonth
     GRAMMAR  = %r(\A(-?\d{4,}-\d{2})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
-    FORMAT   = '%Y-%m%Z'.freeze
+    FORMAT   = '%Y-%m'.freeze
     
     def initialize(value, datatype: nil, lexical: nil, **options)
       @string = lexical || value.to_s
@@ -42,7 +42,7 @@ module RDF; class Literal
   class Year < RDF::Literal::Date
     DATATYPE = RDF::XSD.gYear
     GRAMMAR  = %r(\A(-?\d{4,})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
-    FORMAT   = '%Y%Z'.freeze
+    FORMAT   = '%Y'.freeze
 
     def initialize(value, datatype: nil, lexical: nil, **options)
       @string = lexical || value.to_s
@@ -60,7 +60,7 @@ module RDF; class Literal
   class MonthDay < RDF::Literal::Date
     DATATYPE = RDF::XSD.gMonthDay
     GRAMMAR  = %r(\A--(\d{2}-\d{2})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
-    FORMAT   = '%m-%d%Z'.freeze
+    FORMAT   = '%m-%d'.freeze
 
     def initialize(value, datatype: nil, lexical: nil, **options)
       @string = lexical || value.to_s
@@ -78,7 +78,7 @@ module RDF; class Literal
   class Day < RDF::Literal::Date
     DATATYPE = RDF::XSD.gDay
     GRAMMAR  = %r(\A---(\d{2})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
-    FORMAT   = '%d%Z'.freeze
+    FORMAT   = '%d'.freeze
 
     def initialize(value, datatype: nil, lexical: nil, **options)
       @string = lexical || value.to_s
@@ -95,7 +95,7 @@ module RDF; class Literal
   class Month < RDF::Literal::Date
     DATATYPE = RDF::XSD.gMonth
     GRAMMAR  = %r(\A--(\d{2})((?:[\+\-]\d{2}:\d{2})|UTC|Z)?\Z).freeze
-    FORMAT   = '%m%Z'.freeze
+    FORMAT   = '%m'.freeze
 
     def initialize(value, datatype: nil, lexical: nil, **options)
       @string = lexical || value.to_s

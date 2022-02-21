@@ -125,7 +125,7 @@ describe RDF::Literal::Duration do
       [RDF::Literal::DayTimeDuration.new("P10D"), RDF::Literal::DayTimeDuration.new("PT240H")] => true,
       [RDF::Literal::Duration.new("P2Y0M0DT0H0M0S"), RDF::Literal::YearMonthDuration.new("P24M")] => true,
       [RDF::Literal::Duration.new("P0Y0M10D"), RDF::Literal::DayTimeDuration.new("PT240H")] => true,
-      [RDF::Literal::Duration.new("P1Y"), "P1Y"] => true,
+      [RDF::Literal::Duration.new("P1Y"), "P1Y"] => false,
       [RDF::Literal::Duration.new("P1Y"), "P12M"] => false,
     }.each do |(a, b), res|
       if res
@@ -142,12 +142,12 @@ describe RDF::Literal::Duration do
 
   describe 'extraction' do
     subject {described_class.new("P2Y6M5DT12H35M30S")}
-    its(:years) {is_expected.to eq 2}
-    its(:months) {is_expected.to eq 6}
-    its(:days) {is_expected.to eq 5}
-    its(:hours) {is_expected.to eq 12}
-    its(:minutes) {is_expected.to eq 35}
-    its(:seconds) {is_expected.to eq 30}
+    its(:years) {is_expected.to eq RDF::Literal(2)}
+    its(:months) {is_expected.to eq RDF::Literal(6)}
+    its(:days) {is_expected.to eq RDF::Literal(5)}
+    its(:hours) {is_expected.to eq RDF::Literal(12)}
+    its(:minutes) {is_expected.to eq RDF::Literal(35)}
+    its(:seconds) {is_expected.to eq RDF::Literal(30)}
 
     describe '#years' do
       {
@@ -155,7 +155,7 @@ describe RDF::Literal::Duration do
         "-P15M" => -1,
         "-P2DT15H" => 0,
       }.each do |s, v|
-        specify(s) {expect(described_class.new(s).years).to eq v}
+        specify(s) {expect(described_class.new(s).years).to eq RDF::Literal(v)}
       end
     end
 
@@ -165,7 +165,7 @@ describe RDF::Literal::Duration do
         "-P20Y18M" => -6,
         "-P2DT15H0M0S" => 0,
       }.each do |s, v|
-        specify(s) {expect(described_class.new(s).months).to eq v}
+        specify(s) {expect(described_class.new(s).months).to eq RDF::Literal(v)}
       end
     end
 
@@ -175,7 +175,7 @@ describe RDF::Literal::Duration do
         "P3DT55H" => 5,
         "P3Y5M" => 0,
       }.each do |s, v|
-        specify(s) {expect(described_class.new(s).days).to eq v}
+        specify(s) {expect(described_class.new(s).days).to eq RDF::Literal(v)}
       end
     end
 
@@ -186,7 +186,7 @@ describe RDF::Literal::Duration do
         "PT123H" => 3,
         "-P3DT10H" => -10,
       }.each do |s, v|
-        specify(s) {expect(described_class.new(s).hours).to eq v}
+        specify(s) {expect(described_class.new(s).hours).to eq RDF::Literal(v)}
       end
     end
 
@@ -195,7 +195,7 @@ describe RDF::Literal::Duration do
         "P3DT10H" => 0,
         "-P5DT12H30M" => -30,
       }.each do |s, v|
-        specify(s) {expect(described_class.new(s).minutes).to eq v}
+        specify(s) {expect(described_class.new(s).minutes).to eq RDF::Literal(v)}
       end
     end
 
@@ -204,7 +204,7 @@ describe RDF::Literal::Duration do
         "P3DT10H12.5S" => 12.5,
         "-PT256S" => -16.0,
       }.each do |s, v|
-        specify(s) {expect(described_class.new(s).seconds).to eq v}
+        specify(s) {expect(described_class.new(s).seconds).to eq RDF::Literal(v)}
       end
     end
   end
@@ -421,6 +421,125 @@ describe RDF::Literal::YearMonthDuration do
     include_examples 'RDF::Literal validation', described_class::DATATYPE, valid, invalid
   end
 
+  describe "#+" do
+    {
+      ["P1M", "P2M"] => "P3M",
+      ["P1Y", "P1M"] => "P1Y1M",
+      ["P1Y", "P2Y"] => "P3Y",
+      ["P1Y", "P1Y"] => "P2Y",
+      ["-P1Y", "P1Y"] => "P0M",
+      ["P2Y11M", "P3Y3M"] => "P6Y2M",
+    }.each do |(a, b), res|
+      it "#{a} + #{b} #=> #{res}" do
+        expect(described_class.new(a) + described_class.new(b)).to eql described_class.new(res)
+      end
+    end
+
+    it "raises TypeError for other types" do
+      subj = described_class.new("P1M").extend(RDF::TypeCheck)
+      [
+        1,
+        true,
+        RDF::Literal('lit'),
+        RDF::Literal::Date.new('2022-02-07')
+      ].each do |other|
+        expect {subj + other}.to raise_error(TypeError)
+      end
+    end
+  end
+
+  describe "#-" do
+    {
+      ["P1M", "P2M"] => "-P1M",
+      ["P1Y", "P1M"] => "P11M",
+      ["P1Y", "P2Y"] => "-P1Y",
+      ["P1Y", "P1Y"] => "P0M",
+      ["-P1Y", "P1Y"] => "-P2Y",
+      ["P2Y11M", "P3Y3M"] => "-P4M",
+    }.each do |(a, b), res|
+      it "#{a} - #{b} #=> #{res}" do
+        expect(described_class.new(a) - described_class.new(b)).to eql described_class.new(res)
+      end
+    end
+
+    it "raises TypeError for other types" do
+      subj = described_class.new("P1M").extend(RDF::TypeCheck)
+      [
+        1,
+        true,
+        RDF::Literal('lit'),
+        RDF::Literal::Date.new('2022-02-07')
+      ].each do |other|
+        expect {subj - other}.to raise_error(TypeError)
+      end
+    end
+  end
+
+  describe "#*" do
+    {
+      ["P1M", RDF::Literal(1)] => "P1M",
+      ["P1Y", RDF::Literal(2)] => "P2Y",
+      ["P1Y", RDF::Literal(-1)] => "-P1Y",
+      ["P1Y", RDF::Literal(5.5)] => "P5Y6M",
+      ["-P1Y", RDF::Literal(-2.3)] => "P2Y4M",
+      ["P2Y11M", 2.3] => "P6Y9M",
+    }.each do |(a, b), res|
+      it "#{a} * #{b} #=> #{res}" do
+        expect(described_class.new(a) * b).to eql described_class.new(res)
+      end
+    end
+
+    it "raises TypeError for other types" do
+      subj = described_class.new("P1M").extend(RDF::TypeCheck)
+      [
+        true,
+        RDF::Literal('lit'),
+        RDF::Literal::Date.new('2022-02-07')
+      ].each do |other|
+        expect {subj * other}.to raise_error(TypeError)
+      end
+    end
+  end
+
+  describe "#/" do
+    {
+      ["P1M", RDF::Literal(1)] => "P1M",
+      ["P1Y", RDF::Literal(2)] => "P6M",
+      ["P1Y", RDF::Literal(-1)] => "-P1Y",
+      ["P1Y", RDF::Literal(5.5)] => "P2M",
+      ["-P1Y", RDF::Literal(-2.3)] => "P5M",
+      ["P2Y11M", 2.3] => "P1Y3M",
+    }.each do |(a, b), res|
+      it "#{a} / #{b} #=> #{res}" do
+        expect(described_class.new(a) / b).to eql described_class.new(res)
+      end
+    end
+    {
+      ["P1M", "P2M"] => 0.5,
+      ["P1Y", "P1M"] => 12,
+      ["P1Y", "P2Y"] => 0.5,
+      ["P1Y", "P1Y"] => 1,
+      ["-P1Y", "P1Y"] => -1,
+      ["P3Y4M", "-P1Y4M"] => -2.5,
+      ["P3Y4M", "P1M"] => 40,
+    }.each do |(a, b), res|
+      it "#{a} / #{b} #=> #{res}" do
+        expect(described_class.new(a) / described_class.new(b)).to eql RDF::Literal::Decimal.new(res)
+      end
+    end
+
+    it "raises TypeError for other types" do
+      subj = described_class.new("P1M").extend(RDF::TypeCheck)
+      [
+        true,
+        RDF::Literal('lit'),
+        RDF::Literal::Date.new('2022-02-07')
+      ].each do |other|
+        expect {subj / other}.to raise_error(TypeError)
+      end
+    end
+  end
+
   describe "#<" do
     {
       ["P1M", "P2M"] => true,
@@ -432,11 +551,25 @@ describe RDF::Literal::YearMonthDuration do
       if res
         it "#{a} < #{b}" do
           expect(described_class.new(a)).to be < described_class.new(b)
+          expect(described_class.new(a)).not_to be >= described_class.new(b)
         end
       else
         it "#{a} !< #{b}" do
           expect(described_class.new(a)).not_to be < described_class.new(b)
+          expect(described_class.new(a)).to be >= described_class.new(b)
         end
+      end
+    end
+
+    it "raises TypeError for other types" do
+      subj = described_class.new("P1M").extend(RDF::TypeCheck)
+      [
+        1,
+        true,
+        RDF::Literal('lit'),
+        RDF::Literal::Date.new('2022-02-07')
+      ].each do |other|
+        expect {subj < other}.to raise_error(TypeError)
       end
     end
   end
@@ -452,10 +585,12 @@ describe RDF::Literal::YearMonthDuration do
       if res
         it "#{a} > #{b}" do
           expect(described_class.new(a)).to be > described_class.new(b)
+          expect(described_class.new(a)).not_to be <= described_class.new(b)
         end
       else
         it "#{a} !> #{b}" do
           expect(described_class.new(a)).not_to be > described_class.new(b)
+          expect(described_class.new(a)).to be <= described_class.new(b)
         end
       end
     end
@@ -589,6 +724,153 @@ describe RDF::Literal::DayTimeDuration do
     include_examples 'RDF::Literal validation', described_class::DATATYPE, valid, invalid
   end
 
+  describe "#+" do
+    {
+      ["PT130S", "PT1H"] => "PT1H2M10S",
+      ["PT130M", "PT1S"] => "PT2H10M1S",
+      ["PT130H", "PT1H"] => "P5DT11H",
+      ["P130D", "PT1H1M1S"] => "P130DT1H1M1S",
+      ["PT2M10S", "-PT1M"] => "PT1M10S",
+      ["-P60D", "PT1H"] => "-P59DT23H",
+      ["PT1M30.5S", "PT1H"] => "PT1H1M30.5S",
+      ["P2DT12H5M", "P5DT12H"] => "P8DT5M",
+    }.each do |(a, b), res|
+      it "#{a} + #{b} #=> #{res}" do
+        expect(described_class.new(a) + described_class.new(b)).to eql described_class.new(res)
+      end
+    end
+
+    it "raises TypeError for other types" do
+      subj = described_class.new("P1M").extend(RDF::TypeCheck)
+      [
+        1,
+        true,
+        RDF::Literal('lit'),
+        RDF::Literal::Date.new('2022-02-07')
+      ].each do |other|
+        expect {subj + other}.to raise_error(TypeError)
+      end
+    end
+  end
+
+  describe "#-" do
+    {
+      ["PT130S", "PT1H"] => "-PT57M50S",
+      ["PT130M", "PT1S"] => "PT2H9M59S",
+      ["PT130H", "PT1H"] => "P5DT9H",
+      ["P130D", "PT1H1M1S"] => "P129DT22H58M59S",
+      ["PT2M10S", "-PT1M"] => "PT3M10S",
+      ["-P60D", "PT1H"] => "-P60DT1H",
+      ["PT1M30.5S", "PT1H"] => "-PT58M29.5S",
+      ["P2DT12H", "P1DT10H30M"] => "P1DT1H30M",
+    }.each do |(a, b), res|
+      it "#{a} - #{b} #=> #{res}" do
+        expect(described_class.new(a) - described_class.new(b)).to eql described_class.new(res)
+      end
+    end
+
+    it "raises TypeError for other types" do
+      subj = described_class.new("P1M").extend(RDF::TypeCheck)
+      [
+        1,
+        true,
+        RDF::Literal('lit'),
+        RDF::Literal::Date.new('2022-02-07')
+      ].each do |other|
+        expect {subj - other}.to raise_error(TypeError)
+      end
+    end
+  end
+
+  describe "#*" do
+    {
+      ["PT1S", RDF::Literal(1)] => "PT1S",
+      ["P1D", RDF::Literal(2)] => "P2D",
+      ["P1D", RDF::Literal(-1)] => "-P1D",
+      ["P1D", RDF::Literal(5.5)] => "P5DT12H",
+      ["-PT1H", RDF::Literal(-2.3)] => "PT2H18M",
+      ["PT2H10M", 2.1] => "PT4H33M",
+    }.each do |(a, b), res|
+      it "#{a} * #{b} #=> #{res}" do
+        expect(described_class.new(a) * b).to eql described_class.new(res)
+      end
+    end
+
+    it "raises TypeError for other types" do
+      subj = described_class.new("P1M").extend(RDF::TypeCheck)
+      [
+        true,
+        RDF::Literal('lit'),
+        RDF::Literal::Date.new('2022-02-07')
+      ].each do |other|
+        expect {subj * other}.to raise_error(TypeError)
+      end
+    end
+  end
+
+  describe "#*" do
+    {
+      ["PT1S", RDF::Literal(1)] => "PT1S",
+      ["P1D", RDF::Literal(2)] => "P2D",
+      ["P1D", RDF::Literal(-1)] => "-P1D",
+      ["P1D", RDF::Literal(5.5)] => "P5DT12H",
+      ["-PT1H", RDF::Literal(-2.3)] => "PT2H18M",
+      ["PT2H10M", 2.1] => "PT4H33M",
+    }.each do |(a, b), res|
+      it "#{a} * #{b} #=> #{res}" do
+        expect(described_class.new(a) * b).to eql described_class.new(res)
+      end
+    end
+
+    it "raises TypeError for other types" do
+      subj = described_class.new("P1M").extend(RDF::TypeCheck)
+      [
+        true,
+        RDF::Literal('lit'),
+        RDF::Literal::Date.new('2022-02-07')
+      ].each do |other|
+        expect {subj * other}.to raise_error(TypeError)
+      end
+    end
+  end
+
+  describe "#/" do
+    {
+      ["PT1S", RDF::Literal(1)] => "PT1S",
+      ["P1D", RDF::Literal(2)] => "PT12H",
+      ["P1D", RDF::Literal(-1)] => "-P1D",
+      ["P5DT1H", RDF::Literal(5.5)] => "PT22H",
+      ["-PT1H", RDF::Literal(-2)] => "PT30M",
+      ["P1DT2H30M10.5S", 1.5] => "PT17H40M7S",
+    }.each do |(a, b), res|
+      it "#{a} / #{b} #=> #{res}" do
+        expect(described_class.new(a) / b).to eql described_class.new(res)
+      end
+    end
+    {
+      ["PT1S", "PT1S"] => 1,
+      ["P1D", "PT1M"] => 1440,
+      ["P1D", "PT2H"] => 12,
+      ["P5D", "P1D"] => 5,
+      ["-PT1H", "PT1M"] => -60,
+    }.each do |(a, b), res|
+      it "#{a} / #{b} #=> #{res}" do
+        expect(described_class.new(a) / described_class.new(b)).to eql RDF::Literal::Decimal.new(res)
+      end
+    end
+
+    it "raises TypeError for other types" do
+      subj = described_class.new("P1M").extend(RDF::TypeCheck)
+      [
+        true,
+        RDF::Literal('lit'),
+        RDF::Literal::Date.new('2022-02-07')
+      ].each do |other|
+        expect {subj / other}.to raise_error(TypeError)
+      end
+    end
+  end
+
   describe "#<" do
     {
       ["P1D", "P2D"] => true,
@@ -600,10 +882,12 @@ describe RDF::Literal::DayTimeDuration do
       if res
         it "#{a} < #{b}" do
           expect(described_class.new(a)).to be < described_class.new(b)
+          expect(described_class.new(a)).not_to be >= described_class.new(b)
         end
       else
         it "#{a} !< #{b}" do
           expect(described_class.new(a)).not_to be < described_class.new(b)
+          expect(described_class.new(a)).to be >= described_class.new(b)
         end
       end
     end
@@ -620,10 +904,12 @@ describe RDF::Literal::DayTimeDuration do
       if res
         it "#{a} > #{b}" do
           expect(described_class.new(a)).to be > described_class.new(b)
+          expect(described_class.new(a)).not_to be <= described_class.new(b)
         end
       else
         it "#{a} !> #{b}" do
           expect(described_class.new(a)).not_to be > described_class.new(b)
+          expect(described_class.new(a)).to be <= described_class.new(b)
         end
       end
     end
