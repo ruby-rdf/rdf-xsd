@@ -34,6 +34,8 @@ module RDF; class Literal
     #
     # * Given a `String`, parse as `xsd:duration` into months and seconds
     # * Given a `Hash` containing any of `:yr`, `:mo`, :da`, `:hr`, `:mi` and `:si`, it is transformed into months and seconds
+    # * Given a Rational, the result is interpreted as days, hours, minutes, and seconds.
+    # * Given an Integer, the result is interpreted as years and months.
     # * Object representation is the `Array(months, seconds)`
     #
     # @param  [Literal::Duration, Hash, Array, Literal::Numeric, #to_s] value
@@ -63,6 +65,10 @@ module RDF; class Literal
           end
         end
         [months, seconds]
+      when Rational
+        [0, value * 24 * 3600]
+      when Integer, ::Integer
+        [value.to_i, 0]
       when Literal::Duration then value.object
       when Array then    value
       else               parse(value.to_s)
@@ -343,6 +349,14 @@ module RDF; class Literal
       return type_error("#{other.inspect} is not a valid YearMonthDuration") unless other.is_a?(Literal::YearMonthDuration) && other.valid?
       @object.first <=> other.object.first
     end
+
+    ##
+    # Converts the dayTimeDuration into rational seconds.
+    #
+    # @return [Rational]
+    def to_i
+      object.first.to_i
+    end
   end # YearMonthDuration
 
   ##
@@ -442,6 +456,14 @@ module RDF; class Literal
     def <=>(other)
       return type_error("#{other.inspect} is not a valid DayTimeDuration") unless other.is_a?(Literal::DayTimeDuration) && other.valid?
       @object.last <=> other.object.last
+    end
+
+    ##
+    # Converts the dayTimeDuration into rational seconds.
+    #
+    # @return [Rational]
+    def to_r
+      Rational(object.last) / (24 * 3600)
     end
   end # DayTimeDuration
 end; end # RDF::Literal

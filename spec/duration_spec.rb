@@ -365,6 +365,16 @@ describe RDF::Literal::YearMonthDuration do
         string: 'P5Y10M',
         object: [70, 0]
       },
+      'Integer': {
+        value: 14,
+        string: 'P1Y2M',
+        object: [14, 0],
+      },
+      'Integer literal': {
+        value: RDF::Literal(14),
+        string: 'P1Y2M',
+        object: [14, 0],
+      },
       'Array with seconds': {
         value: [0, 70],
         valid: false
@@ -595,6 +605,19 @@ describe RDF::Literal::YearMonthDuration do
       end
     end
   end
+
+  describe "#to_i" do
+    {
+      "P1M" => 1,
+      "P1Y" => 12,
+      "-P1Y" => -12,
+      "P3Y4M" => (3*12+4),
+    }.each do |a, res|
+      it "#{a}.to_i #=> #{res.inspect}" do
+        expect(described_class.new(a).to_i).to eq res
+      end
+    end
+  end
 end
 
 describe RDF::Literal::DayTimeDuration do
@@ -808,32 +831,6 @@ describe RDF::Literal::DayTimeDuration do
     end
   end
 
-  describe "#*" do
-    {
-      ["PT1S", RDF::Literal(1)] => "PT1S",
-      ["P1D", RDF::Literal(2)] => "P2D",
-      ["P1D", RDF::Literal(-1)] => "-P1D",
-      ["P1D", RDF::Literal(5.5)] => "P5DT12H",
-      ["-PT1H", RDF::Literal(-2.3)] => "PT2H18M",
-      ["PT2H10M", 2.1] => "PT4H33M",
-    }.each do |(a, b), res|
-      it "#{a} * #{b} #=> #{res}" do
-        expect(described_class.new(a) * b).to eql described_class.new(res)
-      end
-    end
-
-    it "raises TypeError for other types" do
-      subj = described_class.new("P1M").extend(RDF::TypeCheck)
-      [
-        true,
-        RDF::Literal('lit'),
-        RDF::Literal::Date.new('2022-02-07')
-      ].each do |other|
-        expect {subj * other}.to raise_error(TypeError)
-      end
-    end
-  end
-
   describe "#/" do
     {
       ["PT1S", RDF::Literal(1)] => "PT1S",
@@ -911,6 +908,23 @@ describe RDF::Literal::DayTimeDuration do
           expect(described_class.new(a)).not_to be > described_class.new(b)
           expect(described_class.new(a)).to be <= described_class.new(b)
         end
+      end
+    end
+  end
+
+  describe "#to_r" do
+    {
+      "P2D"     => Rational(2),
+      "-P2D"    => Rational(-2),
+      "PT2H"    => Rational(2) / 24,
+      "-PT2H"   => Rational(-2) / 24,
+      "PT2M"    => Rational(2) / (24*60),
+      "-PT2M"   => Rational(-2) / (24*60),
+      "PT2S"    => Rational(2) / (24*3600),
+      "-PT2S"   => Rational(-2) / (24*3600),
+    }.each do |a, res|
+      it "#{a}.to_r #=> #{res.inspect}" do
+        expect(described_class.new(a).to_r).to eq res
       end
     end
   end
