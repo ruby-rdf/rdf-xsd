@@ -44,7 +44,7 @@ module RDF; class Literal
     #   Supplied lexical representation of this literal,
     #   otherwise it comes from transforming `value` to a string form..
     # @param [URI]     datatype (nil)
-    # @param [Hash{Symbol => Object}] other options passed to `RDF::Literal#initialize`.
+    # @param [Hash{Symbol => Object}] options other options passed to `RDF::Literal#initialize`.
     # @option options [Boolean] :validate (false)
     # @option options [Boolean] :canonicalize (false)
     def initialize(value, datatype: nil, lexical: nil, **options)
