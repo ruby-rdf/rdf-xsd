@@ -5,6 +5,7 @@ require "bundler/setup"
 require 'rspec'
 require 'rdf/spec'
 require 'rdf/spec/literal'
+require 'amazing_print'
 
 begin
   require 'simplecov'
@@ -22,7 +23,8 @@ begin
   SimpleCov.start do
     add_filter "/spec/"
   end
-rescue LoadError
+rescue LoadError => e
+  STDERR.puts "Coverage Skipped: #{e.message}"
 end
 
 require 'rdf/xsd'
