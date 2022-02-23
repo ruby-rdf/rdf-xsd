@@ -58,9 +58,9 @@
       </div>
 
       <div id="content"><div id='filecontents'>
-<h1 id="label-Extended+XSD+Datatypes+for+RDF.rb">Extended XSD Datatypes for RDF.rb</h1>
+<h1 id="label-Extended+XSD+Datatypes+and+XQuery+functions+for+RDF.rb">Extended XSD Datatypes and XQuery functions for RDF.rb</h1>
 
-<p>This gem adds additional RDF::Literal subclasses for extended [XSD datatypes][]</p>
+<p>This gem adds additional RDF::Literal subclasses for extended [XSD datatypes][] along with methods implementing many <a href="https://www.w3.org/TR/xpath-functions/">XPath and XQuery Functions</a></p>
 
 <p><a href="https://badge.fury.io/rb/rdf-xsd"><img src="https://badge.fury.io/rb/rdf-xsd.png"></a> <a href="https://github.com/ruby-rdf/rdf-xsd/actions?query=workflow%3ACI"><img src="https://github.com/ruby-rdf/rdf-xsd/workflows/CI/badge.svg?branch=develop"></a> <a href="https://coveralls.io/github/ruby-rdf/rdf-xsd?branch=develop"><img src="https://coveralls.io/repos/ruby-rdf/rdf-xsd/badge.svg"></a> <a href="https://gitter.im/ruby-rdf/rdf"><img src="https://badges.gitter.im/ruby-rdf/rdf.png"></a></p>
 
@@ -70,13 +70,13 @@
 </li><li>
 <p>xsd:float based on xsd:double</p>
 </li><li>
-<p>xsd:duration</p>
+<p>xsd:duration, xsd:yearMonthDuration, and xsd:dayTimeDuration.</p>
 </li><li>
 <p>rdf:XMLLiteral</p>
 </li><li>
 <p>XML Exclusive Canonicalization (Nokogiri &amp; REXML)</p>
 </li><li>
-<p>XML Literal comparisions (EquivalentXml, ActiveSupport or String)</p>
+<p>XML Literal comparisons (EquivalentXml, ActiveSupport or String)</p>
 </li></ul>
 
 <h2 id="label-Examples">Examples</h2>
@@ -100,42 +100,52 @@
 
 <h2 id="label-Documentation">Documentation</h2>
 
-<p>Full documentation available on [Rubydoc.info][XSD doc]</p>
+<p>Full documentation available on [GitHub][XSD doc]</p>
 
 <h3 id="label-Principle+Classes">Principle Classes</h3>
 <ul><li>
 <p><span class='object_link'><a href="RDF/Literal/Base64Binary.html" title="RDF::Literal::Base64Binary (class)">RDF::Literal::Base64Binary</a></span></p>
 </li><li>
 <p><span class='object_link'><a href="RDF/Literal/Duration.html" title="RDF::Literal::Duration (class)">RDF::Literal::Duration</a></span></p>
+<ul><li>
+<p><span class='object_link'><a href="RDF/Literal/YearMonthDuration.html" title="RDF::Literal::YearMonthDuration (class)">RDF::Literal::YearMonthDuration</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="RDF/Literal/DayTimeDuration.html" title="RDF::Literal::DayTimeDuration (class)">RDF::Literal::DayTimeDuration</a></span></p>
+</li></ul>
 </li><li>
 <p><span class='object_link'><a href="RDF/Literal/Float.html" title="RDF::Literal::Float (class)">RDF::Literal::Float</a></span></p>
 </li><li>
 <p><span class='object_link'><a href="RDF/Literal/HexBinary.html" title="RDF::Literal::HexBinary (class)">RDF::Literal::HexBinary</a></span></p>
 </li><li>
 <p><span class='object_link'><a href="RDF/Literal/NonPositiveInteger.html" title="RDF::Literal::NonPositiveInteger (class)">RDF::Literal::NonPositiveInteger</a></span></p>
-</li><li>
+<ul><li>
 <p><span class='object_link'><a href="RDF/Literal/NegativeInteger.html" title="RDF::Literal::NegativeInteger (class)">RDF::Literal::NegativeInteger</a></span></p>
+</li></ul>
 </li><li>
 <p><span class='object_link'><a href="RDF/Literal/Long.html" title="RDF::Literal::Long (class)">RDF::Literal::Long</a></span></p>
-</li><li>
+<ul><li>
 <p><span class='object_link'><a href="RDF/Literal/Int.html" title="RDF::Literal::Int (class)">RDF::Literal::Int</a></span></p>
 <ul><li>
 <p><span class='object_link'><a href="RDF/Literal/Short.html" title="RDF::Literal::Short (class)">RDF::Literal::Short</a></span></p>
-</li><li>
+<ul><li>
 <p><span class='object_link'><a href="RDF/Literal/Byte.html" title="RDF::Literal::Byte (class)">RDF::Literal::Byte</a></span></p>
+</li></ul>
+</li></ul>
 </li></ul>
 </li><li>
 <p><span class='object_link'><a href="RDF/Literal/NonNegativeInteger.html" title="RDF::Literal::NonNegativeInteger (class)">RDF::Literal::NonNegativeInteger</a></span></p>
-</li><li>
+<ul><li>
 <p><span class='object_link'><a href="RDF/Literal/PositiveInteger.html" title="RDF::Literal::PositiveInteger (class)">RDF::Literal::PositiveInteger</a></span></p>
 </li><li>
 <p><span class='object_link'><a href="RDF/Literal/UnsignedLong.html" title="RDF::Literal::UnsignedLong (class)">RDF::Literal::UnsignedLong</a></span></p>
 <ul><li>
 <p><span class='object_link'><a href="RDF/Literal/UnsignedInt.html" title="RDF::Literal::UnsignedInt (class)">RDF::Literal::UnsignedInt</a></span></p>
-</li><li>
+<ul><li>
 <p><span class='object_link'><a href="RDF/Literal/UnsignedShort.html" title="RDF::Literal::UnsignedShort (class)">RDF::Literal::UnsignedShort</a></span></p>
 <ul><li>
 <p><span class='object_link'><a href="RDF/Literal/UnsignedByte.html" title="RDF::Literal::UnsignedByte (class)">RDF::Literal::UnsignedByte</a></span></p>
+</li></ul>
+</li></ul>
 </li></ul>
 </li></ul>
 </li><li>
@@ -194,9 +204,9 @@
 </div></div>
 
       <div id="footer">
-  Generated on Fri Jan 28 20:37:27 2022 by
+  Generated on Wed Feb 23 01:15:36 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.27 (ruby-3.1.0).
+  0.9.27 (ruby-3.1.1).
 </div>
 
     </div>

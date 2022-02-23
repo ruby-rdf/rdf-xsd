@@ -69,12 +69,14 @@
   <dl>
     <dt>Inherits:</dt>
     <dd>
-      <span class="inheritName"><span class='object_link'><a href="../Literal.html" title="RDF::Literal (class)">RDF::Literal</a></span></span>
+      <span class="inheritName"><span class='object_link'><a href="Duration.html" title="RDF::Literal::Duration (class)">Duration</a></span></span>
       
         <ul class="fullTree">
           <li>Object</li>
           
             <li class="next"><span class='object_link'><a href="../Literal.html" title="RDF::Literal (class)">RDF::Literal</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="Duration.html" title="RDF::Literal::Duration (class)">Duration</a></span></li>
           
             <li class="next">RDF::Literal::YearMonthDuration</li>
           
@@ -104,9 +106,9 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>A YearMonthDuration literal.</p>
+<p>A <code>YearMonthDuration</code> literal.</p>
 
-<p>yearMonthDuration is a datatype ·derived· from duration by restricting its ·lexical representations· to instances of yearMonthDurationLexicalRep. The ·value space· of yearMonthDuration is therefore that of duration restricted to those whose ·seconds· property is 0. This results in a duration datatype which is totally ordered.</p>
+<p><code>yearMonthDuration</code> is a datatype ·derived· from <code>xsd:duration</code> by restricting its ·lexical representations· to instances of <code>yearMonthDurationLexicalRep</code>. The ·value space· of <code>yearMonthDuration</code> is therefore that of <code>duration</code> restricted to those whose ·seconds· property is 0. This results in a <code>duration</code> datatype which is totally ordered.</p>
 
 
   </div>
@@ -155,6 +157,161 @@
 
 
 
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#*-instance_method" title="#* (instance method)">#<strong>*</strong>(other)  &#x21d2; YearMonthDuration </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the result of multiplying the value of self by <code>other</code>.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#%2B-instance_method" title="#+ (instance method)">#<strong>+</strong>(other)  &#x21d2; YearMonthDuration </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the sum of two xs:yearMonthDuration values.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#--instance_method" title="#- (instance method)">#<strong>-</strong>(other)  &#x21d2; YearMonthDuration </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the result of subtracting one xs:yearMonthDuration value from another.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#%2F-instance_method" title="#/ (instance method)">#<strong>/</strong>(other)  &#x21d2; YearMonthDuration, Decimal </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the result of dividing the value of self by <code>other</code>.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#<=>-instance_method" title="#&lt;=&gt; (instance method)">#<strong>&lt;=&gt;</strong>(other)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Compares this literal to <code>other</code> for sorting purposes.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_i-instance_method" title="#to_i (instance method)">#<strong>to_i</strong>  &#x21d2; Rational </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Converts the dayTimeDuration into rational seconds.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
 
   
   
@@ -162,13 +319,513 @@
   
   
   
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Duration.html" title="RDF::Literal::Duration (class)">Duration</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Duration.html#==-instance_method" title="RDF::Literal::Duration#== (method)">#==</a></span>, <span class='object_link'><a href="Duration.html#canonicalize!-instance_method" title="RDF::Literal::Duration#canonicalize! (method)">#canonicalize!</a></span>, <span class='object_link'><a href="Duration.html#days-instance_method" title="RDF::Literal::Duration#days (method)">#days</a></span>, <span class='object_link'><a href="Duration.html#hours-instance_method" title="RDF::Literal::Duration#hours (method)">#hours</a></span>, <span class='object_link'><a href="Duration.html#humanize-instance_method" title="RDF::Literal::Duration#humanize (method)">#humanize</a></span>, <span class='object_link'><a href="Duration.html#initialize-instance_method" title="RDF::Literal::Duration#initialize (method)">#initialize</a></span>, <span class='object_link'><a href="Duration.html#minutes-instance_method" title="RDF::Literal::Duration#minutes (method)">#minutes</a></span>, <span class='object_link'><a href="Duration.html#months-instance_method" title="RDF::Literal::Duration#months (method)">#months</a></span>, <span class='object_link'><a href="Duration.html#plural-instance_method" title="RDF::Literal::Duration#plural (method)">#plural</a></span>, <span class='object_link'><a href="Duration.html#seconds-instance_method" title="RDF::Literal::Duration#seconds (method)">#seconds</a></span>, <span class='object_link'><a href="Duration.html#to_h-instance_method" title="RDF::Literal::Duration#to_h (method)">#to_h</a></span>, <span class='object_link'><a href="Duration.html#to_s-instance_method" title="RDF::Literal::Duration#to_s (method)">#to_s</a></span>, <span class='object_link'><a href="Duration.html#valid%3F-instance_method" title="RDF::Literal::Duration#valid? (method)">#valid?</a></span>, <span class='object_link'><a href="Duration.html#years-instance_method" title="RDF::Literal::Duration#years (method)">#years</a></span></p>
+
+  
+  
+  
+  
+  
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <p class="notice">This class inherits a constructor from <span class='object_link'><a href="Duration.html#initialize-instance_method" title="RDF::Literal::Duration#initialize (method)">RDF::Literal::Duration</a></span></p>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="*-instance_method">
+  
+    #<strong>*</strong>(other)  &#x21d2; <tt><span class='object_link'><a href="" title="RDF::Literal::YearMonthDuration (class)">YearMonthDuration</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the result of multiplying the value of self by <code>other</code>. The result is rounded to the nearest month.</p>
+
+<p>From the XQuery function <a href="https://www.w3.org/TR/xpath-functions/#func-multiply-yearMonthDuration">op:multiply-yearMonthDuration</a>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>other</span>
+      
+      
+        <span class='type'>(<tt>Literal::Numeric</tt>, <tt>::Numeric</tt>, <tt><span class='object_link'><a href="DayTimeDuration.html" title="RDF::Literal::DayTimeDuration (class)">DayTimeDuration</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="RDF::Literal::YearMonthDuration (class)">YearMonthDuration</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://www.w3.org/TR/xpath-functions/#func-multiply-yearMonthDuration" target="_parent" title="https://www.w3.org/TR/xpath-functions/#func-multiply-yearMonthDuration">https://www.w3.org/TR/xpath-functions/#func-multiply-yearMonthDuration</a></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+313
+314
+315
+316</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rdf/xsd/duration.rb', line 313</span>
+
+<span class='kw'>def</span> <span class='op'>*</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_type_error'>type_error</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'> is not a valid Numeric</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Numeric</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Literal.html" title="RDF::Literal (class)">Literal</a></span></span><span class='op'>::</span><span class='const'>Numeric</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='lparen'>(</span><span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span> <span class='op'>*</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='comma'>,</span> <span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="+-instance_method">
+  
+    #<strong>+</strong>(other)  &#x21d2; <tt><span class='object_link'><a href="" title="RDF::Literal::YearMonthDuration (class)">YearMonthDuration</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the sum of two xs:yearMonthDuration values.</p>
+
+<p>From the XQuery function <a href="https://www.w3.org/TR/xpath-functions/#func-add-yearMonthDurations">op:add-yearMonthDurations</a>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>other</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="RDF::Literal::YearMonthDuration (class)">YearMonthDuration</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="RDF::Literal::YearMonthDuration (class)">YearMonthDuration</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://www.w3.org/TR/xpath-functions/#func-add-yearMonthDurations" target="_parent" title="https://www.w3.org/TR/xpath-functions/#func-add-yearMonthDurations">https://www.w3.org/TR/xpath-functions/#func-add-yearMonthDurations</a></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+287
+288
+289
+290</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rdf/xsd/duration.rb', line 287</span>
+
+<span class='kw'>def</span> <span class='op'>+</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_type_error'>type_error</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'> is not a valid YearMonthDuration</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Literal.html" title="RDF::Literal (class)">Literal</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="RDF::Literal::YearMonthDuration (class)">YearMonthDuration</a></span></span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_valid?'>valid?</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span> <span class='op'>+</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='comma'>,</span> <span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="--instance_method">
+  
+    #<strong>-</strong>(other)  &#x21d2; <tt><span class='object_link'><a href="" title="RDF::Literal::YearMonthDuration (class)">YearMonthDuration</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the result of subtracting one xs:yearMonthDuration value from another.</p>
+
+<p>From the XQuery function <a href="https://www.w3.org/TR/xpath-functions/#func-subtract-yearMonthDurations">op:subtract-yearMonthDurations</a>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>other</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="RDF::Literal::YearMonthDuration (class)">YearMonthDuration</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="RDF::Literal::YearMonthDuration (class)">YearMonthDuration</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://www.w3.org/TR/xpath-functions/#func-subtract-yearMonthDurations" target="_parent" title="https://www.w3.org/TR/xpath-functions/#func-subtract-yearMonthDurations">https://www.w3.org/TR/xpath-functions/#func-subtract-yearMonthDurations</a></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+300
+301
+302
+303</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rdf/xsd/duration.rb', line 300</span>
+
+<span class='kw'>def</span> <span class='op'>-</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_type_error'>type_error</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'> is not a valid YearMonthDuration</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Literal.html" title="RDF::Literal (class)">Literal</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="RDF::Literal::YearMonthDuration (class)">YearMonthDuration</a></span></span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_valid?'>valid?</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span> <span class='op'>-</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='comma'>,</span> <span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="/-instance_method">
+  
+    #<strong>/</strong>(other)  &#x21d2; <tt><span class='object_link'><a href="" title="RDF::Literal::YearMonthDuration (class)">YearMonthDuration</a></span></tt>, <tt>Decimal</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the result of dividing the value of self by <code>other</code>. The result is rounded to the nearest month.</p>
+
+<p>From the XQuery functions <a href="https://www.w3.org/TR/xpath-functions/#func-divide-yearMonthDuration">op:divide-yearMonthDuration</a> and <a href="https://www.w3.org/TR/xpath-functions/#func-divide-yearMonthDuration-by-yearMonthDuration">op:divide-yearMonthDuration-by-yearMonthDuration</a>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>other</span>
+      
+      
+        <span class='type'>(<tt>Literal::Numeric</tt>, <tt>::Numeric</tt>, <tt><span class='object_link'><a href="" title="RDF::Literal::YearMonthDuration (class)">YearMonthDuration</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="RDF::Literal::YearMonthDuration (class)">YearMonthDuration</a></span></tt>, <tt>Decimal</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://www.w3.org/TR/xpath-functions/#func-divide-yearMonthDuration" target="_parent" title="https://www.w3.org/TR/xpath-functions/#func-divide-yearMonthDuration">https://www.w3.org/TR/xpath-functions/#func-divide-yearMonthDuration</a></li>
+    
+      <li><a href="https://www.w3.org/TR/xpath-functions/#func-divide-yearMonthDuration-by-yearMonthDuration" target="_parent" title="https://www.w3.org/TR/xpath-functions/#func-divide-yearMonthDuration-by-yearMonthDuration">https://www.w3.org/TR/xpath-functions/#func-divide-yearMonthDuration-by-yearMonthDuration</a></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rdf/xsd/duration.rb', line 327</span>
+
+<span class='kw'>def</span> <span class='op'>/</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span>
+  <span class='kw'>case</span> <span class='id identifier rubyid_other'>other</span>
+  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="../Literal.html" title="RDF::Literal (class)">Literal</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="RDF::Literal::YearMonthDuration (class)">YearMonthDuration</a></span></span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_type_error'>type_error</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'> is not a valid YearMonthDuration or Numeric</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_valid?'>valid?</span>
+    <span class='const'>Decimal</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span> <span class='op'>/</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span><span class='rparen'>)</span>
+  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="../Literal.html" title="RDF::Literal (class)">Literal</a></span></span><span class='op'>::</span><span class='const'>Numeric</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Numeric</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='lparen'>(</span><span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span> <span class='op'>/</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='comma'>,</span> <span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_type_error'>type_error</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'> is not a valid YearMonthDuration or Numeric</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="<=>-instance_method">
+  
+    #<strong>&lt;=&gt;</strong>(other)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Compares this literal to <code>other</code> for sorting purposes.</p>
+
+<p>From the XQuery function <a href="https://www.w3.org/TR/xpath-functions/#func-yearMonthDuration-less-than">op:yearMonthDuration-greater-than</a>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>other</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="RDF::Literal::YearMonthDuration (class)">Literal::YearMonthDuration</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p><code>true</code> if less than other for defined datatypes</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://www.w3.org/TR/xpath-functions/#func-yearMonthDuration-less-than" target="_parent" title="https://www.w3.org/TR/xpath-functions/#func-yearMonthDuration-less-than">https://www.w3.org/TR/xpath-functions/#func-yearMonthDuration-less-than</a></li>
+    
+      <li><a href="https://www.w3.org/TR/xpath-functions/#func-yearMonthDuration-greater-than" target="_parent" title="https://www.w3.org/TR/xpath-functions/#func-yearMonthDuration-greater-than">https://www.w3.org/TR/xpath-functions/#func-yearMonthDuration-greater-than</a></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+348
+349
+350
+351</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rdf/xsd/duration.rb', line 348</span>
+
+<span class='kw'>def</span> <span class='op'>&lt;=&gt;</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_type_error'>type_error</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'> is not a valid YearMonthDuration</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Literal.html" title="RDF::Literal (class)">Literal</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="RDF::Literal::YearMonthDuration (class)">YearMonthDuration</a></span></span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_valid?'>valid?</span>
+  <span class='ivar'>@object</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span> <span class='op'>&lt;=&gt;</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_i-instance_method">
+  
+    #<strong>to_i</strong>  &#x21d2; <tt>Rational</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Converts the dayTimeDuration into rational seconds.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Rational</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+357
+358
+359</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rdf/xsd/duration.rb', line 357</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_i'>to_i</span>
+  <span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
 
 </div>
 
       <div id="footer">
-  Generated on Fri Jan 28 20:37:28 2022 by
+  Generated on Wed Feb 23 01:15:37 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.27 (ruby-3.1.0).
+  0.9.27 (ruby-3.1.1).
 </div>
 
     </div>
