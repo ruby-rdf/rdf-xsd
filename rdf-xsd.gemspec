@@ -31,7 +31,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency     'rdf',             '~> 3.2'
   gem.add_runtime_dependency     'rexml',           '~> 3.2'
 
-  #gem.add_development_dependency 'nokogiri' ,       '>= 1.10' # conditionally done in Gemfile
+  #gem.add_development_dependency 'nokogiri'  # conditionally done in Gemfile
   #gem.add_development_dependency 'equivalent-xml' , '~> 0.6'
   gem.add_development_dependency 'activesupport',   '~> 6.1'
   gem.add_development_dependency 'rspec',           '~> 3.10'
