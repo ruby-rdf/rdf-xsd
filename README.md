@@ -2,7 +2,7 @@
 
 This gem adds additional RDF::Literal subclasses for extended [XSD datatypes][] along with methods implementing many [XPath and XQuery Functions][]
 
-[![Gem Version](https://badge.fury.io/rb/rdf-xsd.png)](https://badge.fury.io/rb/rdf-xsd)
+[![Gem Version](https://badge.fury.io/rb/rdf-xsd.svg)](https://badge.fury.io/rb/rdf-xsd)
 [![Build Status](https://github.com/ruby-rdf/rdf-xsd/workflows/CI/badge.svg?branch=develop)](https://github.com/ruby-rdf/rdf-xsd/actions?query=workflow%3ACI)
 [![Coverage Status](https://coveralls.io/repos/ruby-rdf/rdf-xsd/badge.svg)](https://coveralls.io/github/ruby-rdf/rdf-xsd?branch=develop)
 [![Gitter chat](https://badges.gitter.im/ruby-rdf/rdf.png)](https://gitter.im/ruby-rdf/rdf)
