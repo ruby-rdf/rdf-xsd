@@ -1,6 +1,6 @@
 begin
   require 'nokogiri'
-rescue LoadError => e
+rescue LoadError
 end
 require 'rexml/document'
 

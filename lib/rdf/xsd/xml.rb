@@ -3,10 +3,10 @@ begin
   require 'nokogiri'
   begin
     require 'equivalent-xml'
-  rescue LoadError => e
+  rescue LoadError
     :rexml # Uses Rexml for equivalent, even with Nokogiri if equivalent-xml is not present.
   end
-rescue LoadError => e
+rescue LoadError
   :rexml
 end
 
@@ -123,7 +123,7 @@ module RDF; class Literal
       begin
         require 'active_support'
         require 'active_support/core_ext'
-      rescue LoadError => e
+      rescue LoadError
         # string equivalence
       end
 
