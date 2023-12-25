@@ -57,6 +57,10 @@ Full documentation available on [GitHub][XSD doc]
 * {RDF::Literal::Day}
 * {RDF::Literal::XML}
 
+## Change Log
+
+See [Release Notes on GitHub](https://github.com/ruby-rdf/rdf-xsd/releases)
+
 ## Installation
 
 The recommended installation method is via [RubyGems](https://rubygems.org/).
