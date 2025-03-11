@@ -30,7 +30,7 @@ Gem::Specification.new do |gem|
 
   gem.add_runtime_dependency     'base64',      '~> 0.2'
   gem.add_runtime_dependency     'rdf',             '~> 3.3'
-  gem.add_runtime_dependency     'rexml',           '~> 3.2'
+  gem.add_runtime_dependency     'rexml',           '~> 3.4'
 
   #gem.add_development_dependency 'nokogiri'  # conditionally done in Gemfile
   #gem.add_development_dependency 'equivalent-xml' , '~> 0.6'
