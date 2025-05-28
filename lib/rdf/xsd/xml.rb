@@ -10,6 +10,8 @@ rescue LoadError
   :rexml
 end
 
+require 'rdf/model/uri'
+
 module RDF; class Literal
   ##
   # An XML literal.
@@ -37,7 +39,7 @@ module RDF; class Literal
     # @option options [:nokogiri, :rexml] :library
     #   Library to use, defaults to :nokogiri if available, :rexml otherwise
     def initialize(value, datatype: nil, lexical: nil, **options)
-      @datatype = datatype || DATATYPE
+      @datatype = RDF::URI(datatype) || DATATYPE
       @string   = lexical if lexical
       if value.is_a?(String)
         @string ||= value
